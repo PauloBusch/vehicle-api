@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Questor.Vehicle.Domain.Mutations
+namespace Questor.Vehicle.Domain.Queries
 {
-    public class VehicleMutationsDbContext : DbContext
+    public class VehicleQueriesDbContext : DbContext
     {
     }
 }
