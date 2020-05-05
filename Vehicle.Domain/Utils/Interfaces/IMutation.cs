@@ -9,7 +9,7 @@ namespace Questor.Vehicle.Domain.Utils.Interfaces
 {
     public interface IMutation
     {
-        Task<MutationResult> Validate(VehicleMutationsHandler handler);
-        Task<MutationResult> Execute(VehicleMutationsHandler handler);
+        Task<MutationResult> ValidateAsync(VehicleMutationsHandler handler);
+        Task<MutationResult> ExecuteAsync(VehicleMutationsHandler handler);
     }
 }

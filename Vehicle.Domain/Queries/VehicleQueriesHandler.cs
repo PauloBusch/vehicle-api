@@ -18,9 +18,9 @@ namespace Questor.Vehicle.Domain.Queries
 
         public async Task<QueryResult<TData>> Handle<TData>(IQuery<TData> query) where TData : class
         {
-            var validResult = await query.Validate(this);
+            var validResult = await query.ValidateAsync(this);
             if (validResult.Status != EStatusCode.Success) return validResult;
-            return await query.Execute(this);
+            return await query.ExecuteAsync(this);
         }
     }
 }
