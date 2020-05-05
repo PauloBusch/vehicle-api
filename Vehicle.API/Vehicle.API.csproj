@@ -11,4 +11,8 @@
     <Folder Include="Filters\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Vehicle.Domain\Vehicle.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
