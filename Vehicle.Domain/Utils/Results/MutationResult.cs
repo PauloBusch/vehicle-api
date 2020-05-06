@@ -21,7 +21,7 @@ namespace Questor.Vehicle.Domain.Utils.Results
 
         public MutationResult(
             EStatusCode status,
-            string message,
+            string message = null,
             dynamic data = null
         ) {
             this.Data = data;

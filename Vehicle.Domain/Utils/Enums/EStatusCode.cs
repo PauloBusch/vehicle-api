@@ -10,7 +10,7 @@ namespace Questor.Vehicle.Domain.Utils.Enums
         Unauthorized = 401,
         Forbidden = 403,
         NotFound = 404,
-        NotAllowed = 405,
+        InvalidData = 405,
         Conflict = 409,
         Error = 500
     }

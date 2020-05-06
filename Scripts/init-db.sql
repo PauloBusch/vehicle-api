@@ -31,9 +31,9 @@ create table models (
 );
 alter table models add unique index UQ_models_name(name);
 
--- Cores
+-- Cores: Enum
 create table colors (
-	id char(8) not null,
+	id int not null auto_increment,
 	name varchar(50) not null,
 	hex char(7) not null,
 	
@@ -41,18 +41,18 @@ create table colors (
 );
 alter table colors add unique index UQ_colors_name(name);
 
--- Combustíveis
+-- Combustíveis: Enum
 create table fuels(
-	id char(8) not null,
+	id int not null auto_increment,
 	name varchar(50) not null,
 	
 	constraint PK_fuels primary key(id)
 );
 alter table fuels add unique index UQ_fuels_name(name);
 
--- Tipos de veículos
+-- Tipos de veículos: Enum
 create table vehicles_types (
-	id char(8) not null,
+	id int not null auto_increment,
 	name varchar(50) not null,
 	
 	constraint PK_vehicles_types primary key(id)
@@ -62,15 +62,13 @@ alter table vehicles_types add unique index UQ_vehicles_types_name(name);
 -- Veículos
 create table vehicles(
 	id char(8) not null,
-	year int not null,    
-	id_type char(8) not null,
+	year int not null,   
+	id_fuel int not null,
+	id_color int not null,
 	id_brand char(8) not null,
 	id_model char(8) not null,
-	id_color char(8) not null,
-	id_fuel char(8) not null,
 	
 	constraint PK_vehicles primary key(id),
-	constraint FK_vehicles_id_type foreign key(id_type) references vehicles_types(id),
 	constraint FK_vehicles_id_brand foreign key(id_brand) references brands(id),
 	constraint FK_vehicles_id_model foreign key(id_model) references models(id),
 	constraint FK_vehicles_id_color foreign key(id_color) references colors(id),
@@ -92,19 +90,19 @@ alter table announcements add index IDX_announcements_date_sale(date_sale);
 
 -- DEFAULT VALUES ------------------------------------
 insert into colors(id, name, hex) values
-(new_id(), 'Branco', '#ffffff'),
-(new_id(), 'Prata', '#bdbec0'),
-(new_id(), 'Preto', '#000000'),
-(new_id(), 'Cinza', '#939598'),
-(new_id(), 'Marrom', '#b18457'),
-(new_id(), 'Vermelho', '#cc1e2b'),
-(new_id(), 'Azul', '#264599'),
-(new_id(), 'Verde', '#00a651');
+(1, 'Branco', '#ffffff'),
+(2, 'Prata', '#bdbec0'),
+(3, 'Preto', '#000000'),
+(4, 'Cinza', '#939598'),
+(5, 'Marrom', '#b18457'),
+(6, 'Vermelho', '#cc1e2b'),
+(7, 'Azul', '#264599'),
+(8, 'Verde', '#00a651');
 
 insert into fuels(id, name) values
-(new_id(), 'Álcool'),
-(new_id(), 'Gasolina'),
-(new_id(), 'Álcool / Gasolina');
+(1, 'Álcool'),
+(2, 'Gasolina'),
+(3, 'Álcool / Gasolina');
 
 -- VIEWS ---------------------------------------------
 
