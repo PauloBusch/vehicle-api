@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Questor.Vehicle.Domain;
 using Questor.Vehicle.Domain.Mutations;
 using Questor.Vehicle.Domain.Queries;
 
@@ -58,6 +59,7 @@ namespace Vehicle.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             Environment = env.EnvironmentName;
+            VehicleStartup.Configure();
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
             else
