@@ -6,12 +6,12 @@ using Xunit;
 
 namespace Vehicle.UnitTests.Tests
 {
-    public abstract class BaseTests : IClassFixture<VehicleFixture>
+    public abstract class TestsBase : IClassFixture<VehicleFixture>
     {
         protected readonly VehicleMutationsDbContext MutationsDbContext;
         protected readonly VehicleMutationsHandler MutationsHandler;
         protected readonly EntitiesFactory EntitiesFactory;
-        protected BaseTests(VehicleFixture fixture)
+        protected TestsBase(VehicleFixture fixture)
         {
             MutationsDbContext = fixture.MutationsHandler.DbContext;
             MutationsHandler = fixture.MutationsHandler;
