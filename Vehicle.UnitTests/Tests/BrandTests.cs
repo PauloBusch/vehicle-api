@@ -36,7 +36,8 @@ namespace Vehicle.UnitTests.Tests
             var create = new CreateBrand { Id = id, Name = name };
             if (expectedResult.Status == EStatusCode.Conflict) { 
                 var brand = new Brand { Id = RandomId.NewId(), Name = name };
-                await MutationsDbContext.Brands.AddAsync(brand);   
+                await MutationsDbContext.Brands.AddAsync(brand);
+                await MutationsDbContext.SaveChangesAsync();
             }
             var result = await MutationsHandler.Handle(create);
             Assert.Equal(expectedResult.Status, result.Status);

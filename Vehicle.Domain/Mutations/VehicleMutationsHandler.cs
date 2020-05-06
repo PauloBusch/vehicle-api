@@ -19,7 +19,7 @@ namespace Questor.Vehicle.Domain.Mutations
         public async Task<MutationResult> Handle(IMutation mutation)
         {
             var validResult = await mutation.ValidateAsync(this);
-            if (validResult.Status != EStatusCode.Success) return validResult;
+            if (validResult != null && validResult.Status != EStatusCode.Success) return validResult;
             return await mutation.ExecuteAsync(this);
         }
     }
