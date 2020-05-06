@@ -10,7 +10,7 @@ namespace Questor.Vehicle.Domain.Mutations
 {
     public class VehicleMutationsHandler
     {
-        public VehicleMutationsDbContext DbContext { get; private set; }
+        public readonly VehicleMutationsDbContext DbContext;
 
         public VehicleMutationsHandler(VehicleMutationsDbContext dbContext) { 
             DbContext = dbContext;

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,6 +19,10 @@ namespace Questor.Vehicle.Domain.Utils.Database
                 if (!canConnect) return (false, null);
                 Database.GetDbConnection().Open();
                 Database.GetDbConnection().Close();
+            }
+            catch (MySqlException ex)
+            {
+                return (false, ex.Message);
             }
             catch (SqlException ex)
             {

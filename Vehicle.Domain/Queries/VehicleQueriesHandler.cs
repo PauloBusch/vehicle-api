@@ -10,7 +10,7 @@ namespace Questor.Vehicle.Domain.Queries
 {
     public class VehicleQueriesHandler
     {
-        public VehicleQueriesDbContext DbContext { get; set; }
+        public readonly VehicleQueriesDbContext DbContext;
         public VehicleQueriesHandler(VehicleQueriesDbContext dbContext)
         {
             DbContext = dbContext;
