@@ -10,12 +10,10 @@ namespace Vehicle.UnitTests.Tests
     {
         protected readonly VehicleMutationsDbContext MutationsDbContext;
         protected readonly VehicleMutationsHandler MutationsHandler;
-        protected readonly EntitiesFactory EntitiesFactory;
         protected TestsBase(VehicleFixture fixture)
         {
             MutationsDbContext = fixture.MutationsHandler.DbContext;
             MutationsHandler = fixture.MutationsHandler;
-            EntitiesFactory = fixture.EntitiesFactory;
         }
     }
 }

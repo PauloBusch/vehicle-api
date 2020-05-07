@@ -11,7 +11,6 @@ namespace Vehicle.UnitTests
     public class VehicleFixture : IDisposable
     {
         public readonly VehicleMutationsHandler MutationsHandler;
-        public readonly EntitiesFactory EntitiesFactory;
         public VehicleFixture()
         {
             var builder = new DbContextOptionsBuilder<VehicleMutationsDbContext>()
@@ -19,7 +18,6 @@ namespace Vehicle.UnitTests
                 .EnableDetailedErrors();
             var mutationsDbContext = new VehicleMutationsDbContext(builder.Options);
             MutationsHandler = new VehicleMutationsHandler(mutationsDbContext);
-            EntitiesFactory = new EntitiesFactory();
 
             VehicleStartup.Configure();
         }
