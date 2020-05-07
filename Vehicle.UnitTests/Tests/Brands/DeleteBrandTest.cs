@@ -31,8 +31,8 @@ namespace Vehicle.UnitTests.Tests.Brands
             string id
         ) {
             if (expectedResult.Status != EStatusCode.NotFound) { 
-                var brand = new Brand { Id = id, Name = RandomId.NewId(200) };
-                await MutationsDbContext.AddAsync(brand);
+                var brand = new Brand { Id = id ?? RandomId.NewId(), Name = RandomId.NewId(200) };
+                await MutationsDbContext.Brands.AddAsync(brand);
                 await MutationsDbContext.SaveChangesAsync();
             }
 
