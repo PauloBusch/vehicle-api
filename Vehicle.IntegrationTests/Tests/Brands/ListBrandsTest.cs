@@ -10,13 +10,13 @@ using Xunit;
 
 namespace Vehicle.IntegrationTests.Tests.Brands
 {
-    public class ListBrandTest : BaseTests
+    public class ListBrandsTest : BaseTests
     {
-        public ListBrandTest(VehicleFixture fixture) 
+        public ListBrandsTest(VehicleFixture fixture) 
             : base(fixture, "/brands") { }
 
         [Fact]
-        public async void ListBrand()
+        public async void ListBrands()
         {
             var query = new ListBrands();
             var (status, result) = await Request.Get<QueryResult<Brand>>(Uri, query);

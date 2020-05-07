@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Vehicle.UnitTests\Vehicle.UnitTests.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Tests\Models\" />
-  </ItemGroup>
-
 </Project>
