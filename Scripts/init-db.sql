@@ -50,15 +50,6 @@ create table fuels(
 );
 alter table fuels add unique index UQ_fuels_name(name);
 
--- Tipos de veículos: Enum
-create table vehicles_types (
-	id int not null auto_increment,
-	name varchar(50) not null,
-	
-	constraint PK_vehicles_types primary key(id)
-);
-alter table vehicles_types add unique index UQ_vehicles_types_name(name);
-
 -- Veículos
 create table vehicles(
 	id char(8) not null,

@@ -32,8 +32,8 @@ namespace Vehicle.API
                 .EnableDetailedErrors()
             );
 
-            services.AddDbContext<VehicleQueriesDbContext>(options =>
-                options.UseMySql(Configuration.GetConnectionString("VehicleQueries"))
+            services.AddDbContext<VehicleQueriesDbContext>(options => options
+                .UseMySql(Configuration.GetConnectionString("VehicleQueries"))
                 .EnableDetailedErrors()
             );
 
