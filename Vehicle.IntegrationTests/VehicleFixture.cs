@@ -16,15 +16,19 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using Vehicle.API;
+using Vehicle.IntegrationTests.Utils;
+using Vehicle.UnitTests;
 
 namespace Vehicle.IntegrationTests
 {
     public class VehicleFixture : IDisposable
     {
-        public HttpClient Client { get; }
-        public TestServer Server { get; }
-        public VehicleMutationsDbContext MutationsDbContext { get; set; }
-        public VehicleMutationsHandler MutationsHandler { get; set; }
+        public Request Request { get; private set; }
+        public HttpClient Client { get; private set; }
+        public TestServer Server { get; private set; }
+        public EntitiesFactory EntitiesFactory { get; private set; }
+        public VehicleMutationsDbContext MutationsDbContext { get; private set; }
+        public VehicleMutationsHandler MutationsHandler { get; private set; }
 
         private IConfiguration Configuration { get; }
         public VehicleFixture()
@@ -48,6 +52,7 @@ namespace Vehicle.IntegrationTests
             Client.BaseAddress = new Uri("https://localhost:44349/api/vehicle");
             Client.DefaultRequestHeaders.Accept.Clear();
             Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            Request = new Request(Client);
         }
 
         public void Dispose()
@@ -89,6 +94,7 @@ namespace Vehicle.IntegrationTests
             var scopedServices = scope.ServiceProvider;
             MutationsDbContext = scopedServices.GetRequiredService<VehicleMutationsDbContext>();
             MutationsHandler = new VehicleMutationsHandler(MutationsDbContext);
+            EntitiesFactory = new EntitiesFactory(MutationsDbContext);
             MutationsDbContext.Database.EnsureCreated();
             services.AddSingleton(manager);
         }

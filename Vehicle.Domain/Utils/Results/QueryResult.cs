@@ -16,6 +16,8 @@ namespace Questor.Vehicle.Domain.Utils.Results
         public dynamic Data { get; private set; }
         public int TotalRows { get; private set; }
 
+        private QueryResult() { }
+
         public QueryResult(T row)
         {
             this.Data = row;
@@ -34,6 +36,10 @@ namespace Questor.Vehicle.Domain.Utils.Results
         {
             this.Status = status;
             this.Message = message;
+        }
+
+        public TResult GetData<TResult>() where TResult : class {
+            return Data as TResult;
         }
     }
 }

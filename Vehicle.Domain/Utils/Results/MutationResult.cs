@@ -13,6 +13,8 @@ namespace Questor.Vehicle.Domain.Utils.Results
         public dynamic Data { get; private set; }
         public string Message { get; private set; }
 
+        public MutationResult() { }
+
         public MutationResult (int totalRows)
         {
             this.Status = EStatusCode.Success;

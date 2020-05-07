@@ -16,10 +16,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Vehicle.API\Vehicle.API.csproj" />
+    <ProjectReference Include="..\Vehicle.UnitTests\Vehicle.UnitTests.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Utils\" />
     <Folder Include="Tests\Models\" />
   </ItemGroup>
 

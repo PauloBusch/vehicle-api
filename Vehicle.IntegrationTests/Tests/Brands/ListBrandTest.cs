@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Questor.Vehicle.Domain.Queries.Brands;
+using Questor.Vehicle.Domain.Queries.Brands.ViewModels;
+using Questor.Vehicle.Domain.Utils.Enums;
+using Questor.Vehicle.Domain.Utils.Results;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -14,14 +18,9 @@ namespace Vehicle.IntegrationTests.Tests.Brands
         [Fact]
         public async void ListBrand()
         {
-            var request = new HttpRequestMessage
-            {
-                RequestUri = Uri,
-                Method = HttpMethod.Get
-            };
-
-            var response = await Client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
+            var query = new ListBrands();
+            var (status, result) = await Request.Get<QueryResult<Brand>>(Uri, query);
+            Assert.Equal(EStatusCode.Success, status);
         }
     }
 }
