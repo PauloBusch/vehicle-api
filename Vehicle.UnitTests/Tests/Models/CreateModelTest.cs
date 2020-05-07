@@ -36,7 +36,7 @@ namespace Vehicle.UnitTests.Tests.Models
         ) { 
             if (expectedResult.Status == EStatusCode.Conflict) { 
                 var model = new Model { Id = RandomId.NewId(), Name = name };
-                await MutationsDbContext.AddAsync(model);
+                await MutationsDbContext.Models.AddAsync(model);
                 await MutationsDbContext.SaveChangesAsync();
             }
 
@@ -44,7 +44,7 @@ namespace Vehicle.UnitTests.Tests.Models
             var result = await MutationsHandler.Handle(create);
             Assert.Equal(expectedResult.Status, result.Status);
             if (expectedResult.Status == EStatusCode.Success) { 
-                var modelDb = await MutationsDbContext.Models.Where(m => m.Id == create.Id).FirstOrDefaultAsync();
+                var modelDb = await MutationsDbContext.Models.FindAsync(create.Id);
                 Assert.NotNull(modelDb);
                 Assert.Equal(create.Name, modelDb.Name);
             }
