@@ -16,8 +16,7 @@ namespace Vehicle.UnitTests.Tests.Brands
     public class UpdateBrandTest : TestsBase
     {
         public UpdateBrandTest(VehicleFixture fixture) : base(fixture) { }
-
-
+        
         public static IEnumerable<object[]> UpdateBrandData()
         {
             yield return new object[] { new MutationResult(EStatusCode.InvalidData), null, null };
@@ -36,7 +35,13 @@ namespace Vehicle.UnitTests.Tests.Brands
             string name
         ) {
             if (expectedResult.Status != EStatusCode.NotFound) { 
-                var brand = new Brand { Id = id, Name = name };
+                var brand = new Brand { Id = id ?? RandomId.NewId(), Name = name };
+                await MutationsDbContext.Brands.AddAsync(brand);
+                await MutationsDbContext.SaveChangesAsync();
+            }
+            if (expectedResult.Status == EStatusCode.Conflict)
+            {
+                var brand = new Brand { Id = RandomId.NewId(), Name = name };
                 await MutationsDbContext.Brands.AddAsync(brand);
                 await MutationsDbContext.SaveChangesAsync();
             }
