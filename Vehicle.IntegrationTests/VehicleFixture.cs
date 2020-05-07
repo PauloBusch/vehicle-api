@@ -29,8 +29,7 @@ namespace Vehicle.IntegrationTests
         private IConfiguration Configuration { get; }
         public VehicleFixture()
         {
-            var startupAssembly = typeof(Startup).GetTypeInfo().Assembly;
-            var contentRoot = GetProjectPath(startupAssembly);
+            var contentRoot = GetProjectPath();
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(contentRoot)
                 .AddJsonFile("appsettings.Test.json")
@@ -58,14 +57,13 @@ namespace Vehicle.IntegrationTests
         }
 
         private void ConfigureServices(IServiceCollection services) {
-            var startupAssembly = typeof(Startup).GetTypeInfo().Assembly;
-            var contentRoot = GetProjectPath(startupAssembly);
+            var contentRoot = GetProjectPath();
 
             var manager = new ApplicationPartManager
             {
                 ApplicationParts =
                 {
-                    new AssemblyPart(startupAssembly)
+                    new AssemblyPart(typeof(Startup).GetTypeInfo().Assembly)
                 },
                 FeatureProviders =
                 {
@@ -89,15 +87,15 @@ namespace Vehicle.IntegrationTests
                 .CreateScope();
 
             var scopedServices = scope.ServiceProvider;
-            MutationsHandler = scopedServices.GetRequiredService<VehicleMutationsHandler>();
             MutationsDbContext = scopedServices.GetRequiredService<VehicleMutationsDbContext>();
+            MutationsHandler = new VehicleMutationsHandler(MutationsDbContext);
             MutationsDbContext.Database.EnsureCreated();
             services.AddSingleton(manager);
         }
 
-        private static string GetProjectPath(Assembly startupAssembly)
+        private static string GetProjectPath()
         {
-            var projectName = startupAssembly.GetName().Name;
+            var projectName = "Vehicle.API";
             var applicationBasePath = AppContext.BaseDirectory;
             var directoryInfo = new DirectoryInfo(applicationBasePath);
 
