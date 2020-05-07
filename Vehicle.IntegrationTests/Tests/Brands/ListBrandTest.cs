@@ -9,7 +9,7 @@ namespace Vehicle.IntegrationTests.Tests.Brands
     public class ListBrandTest : BaseTests
     {
         public ListBrandTest(VehicleFixture fixture) 
-            : base(fixture, "brands") { }
+            : base(fixture, "/brands") { }
 
         [Fact]
         public async void ListBrand()

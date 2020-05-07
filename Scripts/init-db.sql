@@ -13,6 +13,16 @@ DELIMITER $$
 end$$
 
 -- TABLES --------------------------------------------
+-- Usuários
+create table users(
+	id char(8) not null, 
+	login varchar(50) not null,
+    password varchar(80) not null,
+    
+    constraint PK_users primary key(id)
+);
+alter table users add unique index UQ_users_login(login);
+
 -- Marcas
 create table brands(
 	id char(8) not null,
@@ -80,6 +90,11 @@ create table announcements(
 alter table announcements add index IDX_announcements_date_sale(date_sale);
 
 -- DEFAULT VALUES ------------------------------------
+/*
+insert into users(id, login, password) values
+(new_id(), 'questor', '');
+*/
+
 insert into colors(id, name, hex) values
 (1, 'Branco', '#ffffff'),
 (2, 'Prata', '#bdbec0'),
