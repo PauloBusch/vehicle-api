@@ -19,32 +19,28 @@ namespace Vehicle.UnitTests.Tests.Brands
 
         public static IEnumerable<object[]> CreateBrandData()
         {
-            yield return new object[] { new MutationResult(EStatusCode.InvalidData), null, null };
-            yield return new object[] { new MutationResult(EStatusCode.InvalidData), RandomId.NewId(), null };
-            yield return new object[] { new MutationResult(EStatusCode.InvalidData), RandomId.NewId(), RandomId.NewId(250) };
-            yield return new object[] { new MutationResult(EStatusCode.Conflict), RandomId.NewId(), RandomId.NewId(200) };
-            yield return new object[] { new MutationResult(EStatusCode.Success), RandomId.NewId(), RandomId.NewId(200) };
+            yield return new object[] { EStatusCode.InvalidData, new CreateBrand {  } };
+            yield return new object[] { EStatusCode.InvalidData, new CreateBrand { Id = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.InvalidData, new CreateBrand { Id = RandomId.NewId(), Name = RandomId.NewId(250) } };
+            yield return new object[] { EStatusCode.Conflict,    new CreateBrand { Id = RandomId.NewId(), Name = RandomId.NewId(200) } };
+            yield return new object[] { EStatusCode.Success,     new CreateBrand { Id = RandomId.NewId(), Name = RandomId.NewId(200) } };
         }
 
         [Theory]
         [MemberData(nameof(CreateBrandData))]
         public async Task CreateBrand(
-            MutationResult expectedResult,
-            string id,
-            string name
+            EStatusCode expectedStatus,
+            CreateBrand mutation
         ) {
-            var create = new CreateBrand { Id = id, Name = name };
-            if (expectedResult.Status == EStatusCode.Conflict) { 
-                var brand = new Brand { Id = RandomId.NewId(), Name = name };
-                await MutationsDbContext.Brands.AddAsync(brand);
-                await MutationsDbContext.SaveChangesAsync();
-            }
-            var result = await MutationsHandler.Handle(create);
-            Assert.Equal(expectedResult.Status, result.Status);
-            if (expectedResult.Status == EStatusCode.Success) { 
-                var brandDb = await MutationsDbContext.Brands.Where(b => b.Id == create.Id).FirstOrDefaultAsync();
+            if (expectedStatus == EStatusCode.Conflict) 
+                EntitiesFactory.NewBrand(name: mutation.Name).Save();
+
+            var result = await MutationsHandler.Handle(mutation);
+            Assert.Equal(expectedStatus, result.Status);
+            if (expectedStatus == EStatusCode.Success) { 
+                var brandDb = await MutationsDbContext.Brands.Where(b => b.Id == mutation.Id).FirstOrDefaultAsync();
                 Assert.NotNull(brandDb);
-                Assert.Equal(create.Name, brandDb.Name);
+                Assert.Equal(mutation.Name, brandDb.Name);
             }
         }
     }

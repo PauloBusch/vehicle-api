@@ -19,19 +19,25 @@ namespace Vehicle.UnitTests
             DbContext = dbContext;
         }
 
-        public BuilderFactory<Brand> NewBrand() { 
+        public BuilderFactory<Brand> NewBrand(
+            string id = null,
+            string name = null
+        ) { 
             var brand = new Brand {
-                Id = RandomId.NewId(),
-                Name = RandomId.NewId(150)
+                Id = id ?? RandomId.NewId(),
+                Name = name ?? RandomId.NewId(150)
             };
 
             return new BuilderFactory<Brand>(brand, DbContext);
         }
 
-        public BuilderFactory<Model> NewModel() { 
+        public BuilderFactory<Model> NewModel(
+            string id = null,
+            string name = null
+        ) { 
             var model = new Model { 
-                Id = RandomId.NewId(),
-                Name = RandomId.NewId(200)
+                Id = id ?? RandomId.NewId(),
+                Name = name ?? RandomId.NewId(200)
             };
 
             return new BuilderFactory<Model>(model, DbContext);

@@ -19,33 +19,27 @@ namespace Vehicle.UnitTests.Tests.Models
 
         public static IEnumerable<object[]> CreateModelData()
         {
-            yield return new object[] { new MutationResult(EStatusCode.InvalidData), null, null };
-            yield return new object[] { new MutationResult(EStatusCode.InvalidData), RandomId.NewId(), null };
-            yield return new object[] { new MutationResult(EStatusCode.InvalidData), RandomId.NewId(), RandomId.NewId(250) };
-            yield return new object[] { new MutationResult(EStatusCode.Conflict), RandomId.NewId(), RandomId.NewId(200) };
-            yield return new object[] { new MutationResult(EStatusCode.Success), RandomId.NewId(), RandomId.NewId(200) };
+            yield return new object[] { EStatusCode.InvalidData, new CreateModel { } };
+            yield return new object[] { EStatusCode.InvalidData, new CreateModel { Id = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.InvalidData, new CreateModel { Id = RandomId.NewId(), Name = RandomId.NewId(250) } };
+            yield return new object[] { EStatusCode.Conflict,    new CreateModel { Id = RandomId.NewId(), Name = RandomId.NewId(200) } };
+            yield return new object[] { EStatusCode.Success,     new CreateModel { Id = RandomId.NewId(), Name = RandomId.NewId(200) } };
         }
-
 
         [Theory]
         [MemberData(nameof(CreateModelData))]
         public async Task CreateModel(
-            MutationResult expectedResult,
-            string id,
-            string name
+            EStatusCode expectedStatus,
+            CreateModel mutation
         ) { 
-            if (expectedResult.Status == EStatusCode.Conflict) { 
-                var model = new Model { Id = RandomId.NewId(), Name = name };
-                await MutationsDbContext.Models.AddAsync(model);
-                await MutationsDbContext.SaveChangesAsync();
-            }
+            if (expectedStatus == EStatusCode.Conflict) 
+                EntitiesFactory.NewModel(name: mutation.Name).Save();
 
-            var create = new CreateModel { Id = id, Name = name };
-            var result = await MutationsHandler.Handle(create);
-            Assert.Equal(expectedResult.Status, result.Status);
-            if (expectedResult.Status == EStatusCode.Success) { 
-                var modelDb = await MutationsDbContext.Models.FindAsync(create.Id);
-                Assert.Equal(create.Name, modelDb.Name);
+            var result = await MutationsHandler.Handle(mutation);
+            Assert.Equal(expectedStatus, result.Status);
+            if (expectedStatus == EStatusCode.Success) { 
+                var modelDb = await MutationsDbContext.Models.FindAsync(mutation.Id);
+                Assert.Equal(mutation.Name, modelDb.Name);
             }
         }
     }

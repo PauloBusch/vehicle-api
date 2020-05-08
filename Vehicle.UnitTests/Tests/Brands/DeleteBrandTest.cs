@@ -19,28 +19,24 @@ namespace Vehicle.UnitTests.Tests.Brands
 
         public static IEnumerable<object[]> DeleteBrandData()
         {
-            yield return new object[] { new MutationResult(EStatusCode.InvalidData), null };
-            yield return new object[] { new MutationResult(EStatusCode.NotFound), RandomId.NewId() };
-            yield return new object[] { new MutationResult(EStatusCode.Success), RandomId.NewId() };
+            yield return new object[] { EStatusCode.InvalidData, new DeleteBrand { } };
+            yield return new object[] { EStatusCode.NotFound,    new DeleteBrand { Id = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.Success,     new DeleteBrand { Id = RandomId.NewId() } };
         }
 
         [Theory]
         [MemberData(nameof(DeleteBrandData))]
         public async Task DeleteBrand(
-            MutationResult expectedResult,
-            string id
+            EStatusCode expectedStatus,
+            DeleteBrand mutation
         ) {
-            if (expectedResult.Status != EStatusCode.NotFound) { 
-                var brand = new Brand { Id = id ?? RandomId.NewId(), Name = RandomId.NewId(200) };
-                await MutationsDbContext.Brands.AddAsync(brand);
-                await MutationsDbContext.SaveChangesAsync();
-            }
+            if (expectedStatus != EStatusCode.NotFound)
+                EntitiesFactory.NewBrand(id: mutation.Id).Save();
 
-            var delete = new DeleteBrand { Id = id };
-            var result = await MutationsHandler.Handle(delete);
-            Assert.Equal(expectedResult.Status, result.Status);
-            if (expectedResult.Status == EStatusCode.Success) { 
-                var exists = await MutationsDbContext.Brands.AnyAsync(b => b.Id == delete.Id);    
+            var result = await MutationsHandler.Handle(mutation);
+            Assert.Equal(expectedStatus, result.Status);
+            if (expectedStatus == EStatusCode.Success) { 
+                var exists = await MutationsDbContext.Brands.AnyAsync(b => b.Id == mutation.Id);    
                 Assert.False(exists);  
             }
         }

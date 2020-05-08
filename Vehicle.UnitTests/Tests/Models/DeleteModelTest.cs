@@ -18,28 +18,25 @@ namespace Vehicle.UnitTests.Tests.Models
 
         public static IEnumerable<object[]> DeleteModelData()
         {
-            yield return new object[] { new MutationResult(EStatusCode.InvalidData), null };
-            yield return new object[] { new MutationResult(EStatusCode.NotFound), RandomId.NewId() };
-            yield return new object[] { new MutationResult(EStatusCode.Success), RandomId.NewId() };
+            yield return new object[] { EStatusCode.InvalidData, new DeleteModel { } };
+            yield return new object[] { EStatusCode.NotFound,    new DeleteModel { Id = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.Success,     new DeleteModel { Id = RandomId.NewId() } };
         }
 
         [Theory]
         [MemberData(nameof(DeleteModelData))]
         public async Task DeleteModel(
-            MutationResult expectedResult,
-            string id
+            EStatusCode expectedStatus,
+            DeleteModel mutation
         )
         {
-            if (expectedResult.Status != EStatusCode.NotFound) { 
-                var model = new Model { Id = id ?? RandomId.NewId(), Name = RandomId.NewId(200) };
-                await MutationsDbContext.AddAsync(model);
-                await MutationsDbContext.SaveChangesAsync();
-            }
-            var delete = new DeleteModel { Id = id };
-            var result = await MutationsHandler.Handle(delete);
-            Assert.Equal(expectedResult.Status, result.Status);
-            if (expectedResult.Status == EStatusCode.Success) { 
-                var exists = await MutationsDbContext.Models.AnyAsync(m => m.Id == delete.Id);
+            if (expectedStatus != EStatusCode.NotFound)
+                EntitiesFactory.NewModel(id: mutation.Id).Save();
+
+            var result = await MutationsHandler.Handle(mutation);
+            Assert.Equal(expectedStatus, result.Status);
+            if (expectedStatus == EStatusCode.Success) { 
+                var exists = await MutationsDbContext.Models.AnyAsync(m => m.Id == mutation.Id);
                 Assert.False(exists);
             }
         }

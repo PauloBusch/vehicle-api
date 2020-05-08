@@ -17,38 +17,31 @@ namespace Vehicle.UnitTests.Tests.Models
 
         public static IEnumerable<object[]> UpdateModelData()
         {
-            yield return new object[] { new MutationResult(EStatusCode.InvalidData), null, null };
-            yield return new object[] { new MutationResult(EStatusCode.InvalidData), RandomId.NewId(), null };
-            yield return new object[] { new MutationResult(EStatusCode.InvalidData), RandomId.NewId(), RandomId.NewId(250) };
-            yield return new object[] { new MutationResult(EStatusCode.NotFound), RandomId.NewId(), RandomId.NewId(200) };
-            yield return new object[] { new MutationResult(EStatusCode.Conflict), RandomId.NewId(), RandomId.NewId(200) };
-            yield return new object[] { new MutationResult(EStatusCode.Success), RandomId.NewId(), RandomId.NewId(200) };
+            yield return new object[] { EStatusCode.InvalidData, new UpdateModel { } };
+            yield return new object[] { EStatusCode.InvalidData, new UpdateModel { Id = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.InvalidData, new UpdateModel { Id = RandomId.NewId(), Name = RandomId.NewId(250) } };
+            yield return new object[] { EStatusCode.NotFound,    new UpdateModel { Id = RandomId.NewId(), Name = RandomId.NewId(200) } };
+            yield return new object[] { EStatusCode.Conflict,    new UpdateModel { Id = RandomId.NewId(), Name = RandomId.NewId(200) } };
+            yield return new object[] { EStatusCode.Success,     new UpdateModel { Id = RandomId.NewId(), Name = RandomId.NewId(200) } };
         }
 
 
         [Theory]
         [MemberData(nameof(UpdateModelData))]
         public async Task UpdateModel(
-            MutationResult expectedResult,
-            string id,
-            string name
+            EStatusCode expectedStatus,
+            UpdateModel mutation
         ) {
-            if (expectedResult.Status != EStatusCode.NotFound) { 
-                var model = new Model { Id = id ?? RandomId.NewId(), Name = name };
-                await MutationsDbContext.AddAsync(model);
-                await MutationsDbContext.SaveChangesAsync();
-            }
-            if (expectedResult.Status == EStatusCode.Conflict) {
-                var model = new Model { Id = RandomId.NewId(), Name = name };
-                await MutationsDbContext.AddAsync(model);
-                await MutationsDbContext.SaveChangesAsync();
-            }
-            var update = new UpdateModel { Id = id, Name = name };
-            var result = await MutationsHandler.Handle(update);
-            Assert.Equal(expectedResult.Status, result.Status);
-            if (expectedResult.Status == EStatusCode.Success) { 
-                var modelDb = await MutationsDbContext.Models.FindAsync(update.Id);
-                Assert.Equal(update.Name, modelDb.Name);
+            if (expectedStatus != EStatusCode.NotFound)
+                EntitiesFactory.NewModel(id: mutation.Id, name: mutation.Name).Save();
+            if (expectedStatus == EStatusCode.Conflict)
+                EntitiesFactory.NewModel(name: mutation.Name).Save();
+
+            var result = await MutationsHandler.Handle(mutation);
+            Assert.Equal(expectedStatus, result.Status);
+            if (expectedStatus == EStatusCode.Success) { 
+                var modelDb = await MutationsDbContext.Models.FindAsync(mutation.Id);
+                Assert.Equal(mutation.Name, modelDb.Name);
             }
         }
     }
