@@ -19,8 +19,11 @@ namespace Vehicle.IntegrationTests.Tests.Brands
         public async void ListBrands()
         {
             var query = new ListBrands();
-            var (status, result) = await Request.Get<QueryResult<Brand>>(Uri, query);
+            var brand = EntitiesFactory.NewBrand().Save();
+            var (status, result) = await Request.Get<QueryResultList<Brand>>(Uri, query);
             Assert.Equal(EStatusCode.Success, status);
+            Assert.NotEmpty(result.Data);
+            Assert.Contains(result.Data, d => d.Id == brand.Id);
         }
     }
 }

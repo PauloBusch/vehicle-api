@@ -24,7 +24,7 @@ namespace Questor.Vehicle.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<QueryResult<Model>>> ListAsync([FromQuery] ListModels query)
+        public async Task<ActionResult<QueryResultList<Model>>> ListAsync([FromQuery] ListModels query)
         {
             return GetResult(await _queriesHanlder.Handle(query));
         }

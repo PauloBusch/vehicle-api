@@ -9,14 +9,14 @@ using Dapper;
 
 namespace Questor.Vehicle.Domain.Queries.Models
 {
-    public class ListModels : IQuery<Model>
+    public class ListModels : IQueryList<Model>
     {
-        public async Task<QueryResult<Model>> ValidateAsync(VehicleQueriesHandler handler)
+        public async Task<QueryResultList<Model>> ValidateAsync(VehicleQueriesHandler handler)
         {
-            return await Task.FromResult<QueryResult<Model>>(null);
+            return await Task.FromResult<QueryResultList<Model>>(null);
         }
 
-        public async Task<QueryResult<Model>> ExecuteAsync(VehicleQueriesHandler handler)
+        public async Task<QueryResultList<Model>> ExecuteAsync(VehicleQueriesHandler handler)
         {
             var sql = @"
                 select id, name
@@ -24,7 +24,7 @@ namespace Questor.Vehicle.Domain.Queries.Models
                 order by name asc;
             ";
             var models = await handler.DbConnection.QueryAsync<Model>(sql);
-            return new QueryResult<Model>(models);
+            return new QueryResultList<Model>(models);
         }
     }
 }

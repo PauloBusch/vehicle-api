@@ -28,7 +28,7 @@ namespace Vehicle.IntegrationTests.Utils
                 var result = JsonConvert.DeserializeObject<TResult>(json);
                 return ((EStatusCode)response.StatusCode, result);
             }
-            catch(Exception)
+            catch(Exception e)
             {
                 return (EStatusCode.Error, null);
             }

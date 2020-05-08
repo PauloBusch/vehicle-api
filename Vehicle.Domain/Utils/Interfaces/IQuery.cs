@@ -2,16 +2,18 @@
 using Questor.Vehicle.Domain.Utils.Results;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Questor.Vehicle.Domain.Utils.Interfaces
 {
-    public interface IQuery<TData>
-        where TData : IViewModel
+    public interface IQuery<TResult>
+        where TResult : QueryResult
     {
-        Task<QueryResult<TData>> ValidateAsync(VehicleQueriesHandler handler);
-        Task<QueryResult<TData>> ExecuteAsync(VehicleQueriesHandler handler);
+        Task<TResult> ValidateAsync(VehicleQueriesHandler handler);
+        Task<TResult> ExecuteAsync(VehicleQueriesHandler handler);
     }
+
+    public interface IQueryOne<T> : IQuery<QueryResultOne<T>> where T : IViewModel { }
+    public interface IQueryList<T> : IQuery<QueryResultList<T>> where T : IViewModel { }
 }

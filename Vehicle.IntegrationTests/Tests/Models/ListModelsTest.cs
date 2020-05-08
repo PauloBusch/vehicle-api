@@ -14,8 +14,11 @@ namespace Vehicle.IntegrationTests.Tests.Models
         public async void ListModels()
         {
             var query = new ListModels();
-            var (status, result) = await Request.Get<QueryResult<Model>>(Uri, query);
+            var model = EntitiesFactory.NewModel().Save();
+            var (status, result) = await Request.Get<QueryResultList<Model>>(Uri, query);
             Assert.Equal(EStatusCode.Success, status);
+            Assert.NotEmpty(result.Data);
+            Assert.Contains(result.Data, d => d.Id == model.Id);
         }
     }
 }

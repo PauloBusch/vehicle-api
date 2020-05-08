@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace Questor.Vehicle.Domain.Queries.Brands
 {
-    public class ListBrands : IQuery<Brand>
+    public class ListBrands : IQueryList<Brand>
     {
-        public async Task<QueryResult<Brand>> ValidateAsync(VehicleQueriesHandler handler)
+
+        public async Task<QueryResultList<Brand>> ValidateAsync(VehicleQueriesHandler handler)
         {
-            return await Task.FromResult<QueryResult<Brand>>(null);
+            return await Task.FromResult<QueryResultList<Brand>>(null);
         }
 
-        public async Task<QueryResult<Brand>> ExecuteAsync(VehicleQueriesHandler handler)
+        public async Task<QueryResultList<Brand>> ExecuteAsync(VehicleQueriesHandler handler)
         {
             var sql = @"
                 select id, name
@@ -21,7 +22,7 @@ namespace Questor.Vehicle.Domain.Queries.Brands
                 order by name;
             ";
             var brands = await handler.DbConnection.QueryAsync<Brand>(sql);
-            return new QueryResult<Brand>(brands);
+            return new QueryResultList<Brand>(brands);
         }
     }
 }

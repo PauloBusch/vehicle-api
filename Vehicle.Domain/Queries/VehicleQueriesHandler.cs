@@ -20,7 +20,7 @@ namespace Questor.Vehicle.Domain.Queries
             DbConnection = dbContext.Database.GetDbConnection();
         }
 
-        public async Task<QueryResult<TData>> Handle<TData>(IQuery<TData> query) where TData : IViewModel
+        public async Task<TData> Handle<TData>(IQuery<TData> query) where TData : QueryResult
         {
             var validResult = await query.ValidateAsync(this);
             if (validResult != null && validResult.Status != EStatusCode.Success) return validResult;

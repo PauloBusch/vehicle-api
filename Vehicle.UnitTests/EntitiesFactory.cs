@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Questor.Vehicle.Domain.Mutations;
 using Questor.Vehicle.Domain.Mutations.Brands.Entities;
+using Questor.Vehicle.Domain.Mutations.Models.Entities;
 using Questor.Vehicle.Domain.Utils.Random;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,15 @@ namespace Vehicle.UnitTests
             };
 
             return new BuilderFactory<Brand>(brand, DbContext);
+        }
+
+        public BuilderFactory<Model> NewModel() { 
+            var model = new Model { 
+                Id = RandomId.NewId(),
+                Name = RandomId.NewId(200)
+            };
+
+            return new BuilderFactory<Model>(model, DbContext);
         }
     }
 

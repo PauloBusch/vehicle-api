@@ -8,38 +8,15 @@ using System.Text;
 
 namespace Questor.Vehicle.Domain.Utils.Results
 {
-    public class QueryResult<T>
-        where T : IViewModel
-    {
-        [JsonIgnore] public EStatusCode Status { get; private set; }
-        public string Message { get; private set; }
-        public dynamic Data { get; private set; }
-        public int TotalRows { get; private set; }
+    public abstract class QueryResult {
+        [JsonIgnore] public EStatusCode Status { get; protected set; }
+        public string Message { get; protected set; }
 
-        private QueryResult() { }
-
-        public QueryResult(T row)
-        {
-            this.Data = row;
-            this.TotalRows = 1;
-            this.Status = EStatusCode.Success;
-        }
-
-        public QueryResult(IEnumerable<T> list, int? totalRows = null)
-        {
-            this.Data = list;
-            this.TotalRows = totalRows ?? 1;
-            this.Status = EStatusCode.Success;
-        }
-
+        protected QueryResult() {}
         public QueryResult(EStatusCode status, string message)
         {
             this.Status = status;
             this.Message = message;
-        }
-
-        public TResult GetData<TResult>() where TResult : class {
-            return Data as TResult;
         }
     }
 }
