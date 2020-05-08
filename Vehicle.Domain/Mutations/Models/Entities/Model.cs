@@ -9,10 +9,10 @@ namespace Questor.Vehicle.Domain.Mutations.Models.Entities
     [Table("models")]
     public class Model
     {
-        [Requered] [Key]
+        [Required] [Key]
         public string Id { get; set; }
 
-        [Requered] [MaxLength(200)] [Index("UQ_models_name", IsUnique = true)]
+        [Required] [MaxLength(200)] [Index("UQ_models_name", IsUnique = true)]
         public string Name { get; set; }
     }
 }
