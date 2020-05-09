@@ -16,7 +16,7 @@ namespace Questor.Vehicle.Domain.Utils.Results
         public QueryResultList(IEnumerable<T> data, int? totalRows = null)
         {
             Data = data.ToArray();
-            TotalRows = totalRows ?? 1;
+            TotalRows = totalRows ?? data?.Count() ?? 1;
             Status = EStatusCode.Success;
         }
     }
