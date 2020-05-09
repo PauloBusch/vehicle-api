@@ -1,9 +1,9 @@
-﻿using Questor.Vehicle.Domain.Mutations.Announcements.Mutations;
+﻿using Microsoft.EntityFrameworkCore;
+using Questor.Vehicle.Domain.Mutations.Announcements.Mutations;
 using Questor.Vehicle.Domain.Utils.Enums;
 using Questor.Vehicle.Domain.Utils.Random;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Text;
 using Xunit;
 
