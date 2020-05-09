@@ -68,8 +68,11 @@ namespace Vehicle.UnitTests
             return new BuilderFactory<Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Vehicle>(vehicle, DbContext);
         }
 
-        public BuilderFactory<Announcement> NewAnnouncement(string id = null) {
-            var vehicle = NewVehicle().Get();
+        public BuilderFactory<Announcement> NewAnnouncement(
+            string id = null,
+            string vehicleId = null
+        ) {
+            var vehicle = NewVehicle(id: vehicleId).Get();
             var announcement = new Announcement(
                 id: id,
                 pricePurchase: StaticRandom.Next(10000, 50000),
