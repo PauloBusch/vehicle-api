@@ -16,15 +16,15 @@ namespace Vehicle.UnitTests.Tests.Announcements
 
         public static IEnumerable<object[]> UpdateAnnouncementData()
         {
-            yield return new object[] { EStatusCode.InvalidData, new CreateAnnouncement { } };
-            yield return new object[] { EStatusCode.InvalidData, new CreateAnnouncement { Id = RandomId.NewId() } };
-            yield return new object[] { EStatusCode.InvalidData, new CreateAnnouncement { Id = RandomId.NewId(), PricePurchase = 30000 } };
-            yield return new object[] { EStatusCode.InvalidData, new CreateAnnouncement { Id = RandomId.NewId(), PricePurchase = 30000, PriceSale = 35000 } };
-            yield return new object[] { EStatusCode.NotFound,    new CreateAnnouncement { Id = RandomId.NewId(), PricePurchase = 30000, PriceSale = 35000, VehicleId = RandomId.NewId() }, false, true };
-            yield return new object[] { EStatusCode.Success,     new CreateAnnouncement { Id = RandomId.NewId(), PricePurchase = 30000, PriceSale = 35000, VehicleId = RandomId.NewId() }, true, true };
-            yield return new object[] { EStatusCode.NotFound,    new CreateAnnouncement { Id = RandomId.NewId(), PricePurchase = 30000, PriceSale = 35000, VehicleId = RandomId.NewId() }, true, false };
-            yield return new object[] { EStatusCode.InvalidData, new CreateAnnouncement { Id = RandomId.NewId(), PricePurchase = 0, PriceSale = 35000, VehicleId = RandomId.NewId() }, true, true };
-            yield return new object[] { EStatusCode.InvalidData, new CreateAnnouncement { Id = RandomId.NewId(), PricePurchase = 30000, PriceSale = 0, VehicleId = RandomId.NewId() }, true, true };
+            yield return new object[] { EStatusCode.InvalidData, new UpdateAnnouncement { } };
+            yield return new object[] { EStatusCode.InvalidData, new UpdateAnnouncement { Id = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.InvalidData, new UpdateAnnouncement { Id = RandomId.NewId(), PricePurchase = 30000 } };
+            yield return new object[] { EStatusCode.InvalidData, new UpdateAnnouncement { Id = RandomId.NewId(), PricePurchase = 30000, PriceSale = 35000 } };
+            yield return new object[] { EStatusCode.NotFound,    new UpdateAnnouncement { Id = RandomId.NewId(), PricePurchase = 30000, PriceSale = 35000, VehicleId = RandomId.NewId() }, false, true };
+            yield return new object[] { EStatusCode.Success,     new UpdateAnnouncement { Id = RandomId.NewId(), PricePurchase = 30000, PriceSale = 35000, VehicleId = RandomId.NewId() }, true, true };
+            yield return new object[] { EStatusCode.NotFound,    new UpdateAnnouncement { Id = RandomId.NewId(), PricePurchase = 30000, PriceSale = 35000, VehicleId = RandomId.NewId() }, true, false };
+            yield return new object[] { EStatusCode.InvalidData, new UpdateAnnouncement { Id = RandomId.NewId(), PricePurchase = 0, PriceSale = 35000, VehicleId = RandomId.NewId() }, true, true };
+            yield return new object[] { EStatusCode.InvalidData, new UpdateAnnouncement { Id = RandomId.NewId(), PricePurchase = 30000, PriceSale = 0, VehicleId = RandomId.NewId() }, true, true };
         }
 
         [Theory]
