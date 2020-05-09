@@ -34,6 +34,22 @@ namespace Vehicle.IntegrationTests.Utils
             }
         }
 
+        public async Task<(EStatusCode status, TResult result)> Post<TResult>(Uri uri, dynamic data) where TResult : class {
+            var content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.Default, "application/json");
+
+            try
+            {
+                var response = await Client.PostAsync(uri, content);
+                var json = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<TResult>(json);
+                return ((EStatusCode)response.StatusCode, result);
+            }
+            catch (Exception e)
+            {
+                return (EStatusCode.Error, null);
+            }
+        }
+
         private string GetUrlString(object data = null)
         {
             if (data == null) return string.Empty;

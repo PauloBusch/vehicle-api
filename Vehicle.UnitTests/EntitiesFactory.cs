@@ -3,6 +3,7 @@ using Questor.Vehicle.Domain.Mutations;
 using Questor.Vehicle.Domain.Mutations.Announcements.Entities;
 using Questor.Vehicle.Domain.Mutations.Brands.Entities;
 using Questor.Vehicle.Domain.Mutations.Models.Entities;
+using Questor.Vehicle.Domain.Mutations.Users.Entities;
 using Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Enums;
 using Questor.Vehicle.Domain.Utils.Random;
 using System;
@@ -86,6 +87,21 @@ namespace Vehicle.UnitTests
             );
 
             return new BuilderFactory<Announcement>(announcement, DbContext);
+        }
+
+        public BuilderFactory<User> NewUser(
+            string name = null,
+            string login = null,
+            string password = null
+        ) {
+            var user = new User(
+                id: RandomId.NewId(),
+                name: name,
+                login: login ?? RandomId.NewId(50),
+                password: password ?? RandomId.NewId(50)
+            );
+
+            return new BuilderFactory<User>(user, DbContext);
         }
     }
 

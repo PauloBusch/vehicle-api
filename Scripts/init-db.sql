@@ -16,6 +16,7 @@ end$$
 -- Usuários
 create table users(
 	id char(8) not null, 
+    name varchar(150) not null,
 	login varchar(50) not null,
     password varchar(80) not null,
     
@@ -91,8 +92,8 @@ alter table announcements add index IDX_announcements_date_sale(date_sale);
 
 -- DEFAULT VALUES ------------------------------------
 /*
-insert into users(id, login, password) values
-(new_id(), 'questor', '');
+insert into users(id, login, name, password) values
+(new_id(), 'joão', 'João', 'goviAebTZ16ecrxAN3pG+g==');
 */
 
 insert into colors(id, name, hex) values

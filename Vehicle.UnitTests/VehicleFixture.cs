@@ -20,7 +20,9 @@ namespace Vehicle.UnitTests
             var mutationsDbContext = new VehicleMutationsDbContext(builder.Options);
             MutationsHandler = new VehicleMutationsHandler(mutationsDbContext);
 
-            VehicleStartup.Configure();
+            VehicleStartup.Configure(
+                secret: String.Empty
+            );
         }
 
         public void Dispose()
