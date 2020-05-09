@@ -6,6 +6,7 @@ using Questor.Vehicle.Domain.Utils.Random;
 using Questor.Vehicle.Domain.Utils.Results;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xunit;
 
@@ -27,12 +28,24 @@ namespace Vehicle.IntegrationTests.Tests.Vehicles
             EStatusCode expectedStatus,
             ListVehicles query
         ) {
-            var vehicle = EntitiesFactory.NewVehicle(brandId: query.BrandId, modelId: query.ModelId).Save();
+            var vehicle = EntitiesFactory.NewVehicle(
+                brandId: query.BrandId, 
+                modelId: query.ModelId,
+                fuel: query.FuelId,
+                color: query.ColorId
+            ).Save();
             var (status, result) = await Request.Get<QueryResultList<VechicleList>>(Uri, query);
             Assert.Equal(expectedStatus, status);
             if (expectedStatus == EStatusCode.Success) { 
                 Assert.NotNull(result.Data);
-                Assert.Contains(result.Data, v => v.Id == vehicle.Id);
+                var vehicleResult = result.Data.FirstOrDefault(v => v.Id == vehicle.Id);
+                Assert.NotNull(vehicleResult);
+                Assert.Equal(vehicle.Year, vehicleResult.Year);
+                Assert.Equal(vehicle.Brand.Name, vehicleResult.BrandName);
+                Assert.Equal(vehicle.Model.Name, vehicleResult.ModelName);
+                Assert.NotNull(vehicleResult.ColorHex);
+                Assert.NotNull(vehicleResult.ColorName);
+                Assert.NotNull(vehicleResult.FuelName);
             }
         }
     }

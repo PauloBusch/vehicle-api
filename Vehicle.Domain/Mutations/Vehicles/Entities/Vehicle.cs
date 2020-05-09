@@ -16,17 +16,17 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
         [Required]
         public int Year { get; private set; }
 
-        [Required] [ForeignKey("id_fuel")]
+        [Required] [Column("id_fuel")] [ForeignKey("Fuel")]
         public EFuel Fuel { get; private set; }
 
-        [Required] [ForeignKey("id_color")]
+        [Required] [Column("id_color")] [ForeignKey("Color")]
         public EColor Color { get; private set; }
 
-        [Required] [ForeignKey("id_brand")]
+        [Required] [Column("id_brand")] [ForeignKey("Brand")]
         public string BrandId { get; private set; }
         public virtual Brand Brand { get; private set; }
 
-        [Required] [ForeignKey("id_model")]
+        [Required] [Column("id_model")] [ForeignKey("Model")]
         public string ModelId { get; private set; }
         public virtual Model Model { get; private set; }
 

@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace Questor.Vehicle.API.Controllers
 {
-    public class VehicleController : BaseController
+    public class VehiclesController : BaseController
     {
         private readonly VehicleMutationsHandler _mutationsHanlder;
         private readonly VehicleQueriesHandler _queriesHanlder;
 
-        public VehicleController(VehicleMutationsHandler mutationsHandler, VehicleQueriesHandler queriesHandler)
+        public VehiclesController(VehicleMutationsHandler mutationsHandler, VehicleQueriesHandler queriesHandler)
         {
             _mutationsHanlder = mutationsHandler;
             _queriesHanlder = queriesHandler;

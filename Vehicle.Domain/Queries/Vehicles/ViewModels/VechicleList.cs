@@ -13,5 +13,6 @@ namespace Questor.Vehicle.Domain.Queries.Vehicles.ViewModels
         public string ColorHex { get; set; }
         public string BrandName { get; set; }
         public string ModelName { get; set; }
+        public string FuelName { get; set; }
     }
 }
