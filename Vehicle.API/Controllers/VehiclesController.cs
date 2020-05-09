@@ -35,6 +35,12 @@ namespace Questor.Vehicle.API.Controllers
             return GetResult(await _queriesHanlder.Handle(query));
         }
 
+        [HttpGet("fuels")]
+        public async Task<ActionResult<QueryResultList<FuelList>>> ListFuelsAsync([FromQuery] ListFuels query)
+        {
+            return GetResult(await _queriesHanlder.Handle(query));
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<QueryResultOne<VehicleDetail>>> GetAsync(string id, [FromQuery] GetVehicle query)
         {
