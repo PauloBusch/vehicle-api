@@ -1,10 +1,10 @@
-﻿using Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Enums;
+﻿using Microsoft.EntityFrameworkCore;
+using Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Enums;
 using Questor.Vehicle.Domain.Mutations.Vehicles.Mutations;
 using Questor.Vehicle.Domain.Utils.Enums;
 using Questor.Vehicle.Domain.Utils.Random;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using Xunit;
@@ -21,7 +21,9 @@ namespace Vehicle.UnitTests.Tests.Vehicles
             yield return new object[] { EStatusCode.InvalidData, new CreateVehicle { Id = RandomId.NewId() } };
             yield return new object[] { EStatusCode.InvalidData, new CreateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex } };
             yield return new object[] { EStatusCode.InvalidData, new CreateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black } };
-            yield return new object[] { EStatusCode.Success,     new CreateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, BrandId = RandomId.NewId(), ModelId = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.InvalidData, new CreateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010 } };
+            yield return new object[] { EStatusCode.NotFound,    new CreateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, BrandId = RandomId.NewId(), ModelId = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.Success,     new CreateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, BrandId = RandomId.NewId(), ModelId = RandomId.NewId() } };
         }   
         
         [Theory]
@@ -31,9 +33,9 @@ namespace Vehicle.UnitTests.Tests.Vehicles
             CreateVehicle mutation
         ) {
             if (expectedStatus != EStatusCode.NotFound) { 
-                EntitiesFactory.NewModel(id: mutation.ModelId).Save(); 
                 EntitiesFactory.NewBrand(id: mutation.BrandId).Save();
-            }
+                EntitiesFactory.NewModel(id: mutation.ModelId).Save();
+            } 
 
             var result = await MutationsHandler.Handle(mutation);
             Assert.Equal(expectedStatus, result.Status);

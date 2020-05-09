@@ -15,6 +15,7 @@ namespace Vehicle.UnitTests
         {
             var builder = new DbContextOptionsBuilder<VehicleMutationsDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+                .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
             var mutationsDbContext = new VehicleMutationsDbContext(builder.Options);
             MutationsHandler = new VehicleMutationsHandler(mutationsDbContext);

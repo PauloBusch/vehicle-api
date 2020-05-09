@@ -26,10 +26,10 @@ namespace Questor.Vehicle.Domain.Mutations.Models.Mutations
 
         public async Task<MutationResult> ExecuteAsync(VehicleMutationsHandler handler)
         {
-            var model = new Model {
-                Id = Id,
-                Name = Name
-            };
+            var model = new Model(
+                id: Id,
+                name: Name
+            );
 
             await handler.DbContext.Models.AddAsync(model);
             var rows = await handler.DbContext.SaveChangesAsync();

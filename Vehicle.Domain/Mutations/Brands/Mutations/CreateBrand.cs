@@ -26,10 +26,10 @@ namespace Questor.Vehicle.Domain.Mutations.Brands.Mutations
         }
         public async Task<MutationResult> ExecuteAsync(VehicleMutationsHandler handler)
         {
-            var brand = new Brand { 
-                Id = Id,
-                Name = Name
-            };
+            var brand = new Brand(
+                id: Id,
+                name: Name
+            );
             await handler.DbContext.Brands.AddAsync(brand);
             var rows = await handler.DbContext.SaveChangesAsync();
             return new MutationResult(rows);

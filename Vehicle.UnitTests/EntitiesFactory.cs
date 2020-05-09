@@ -23,10 +23,10 @@ namespace Vehicle.UnitTests
             string id = null,
             string name = null
         ) { 
-            var brand = new Brand {
-                Id = id ?? RandomId.NewId(),
-                Name = name ?? RandomId.NewId(150)
-            };
+            var brand = new Brand(
+                id: id,
+                name: name ?? RandomId.NewId(150)
+            );
 
             return new BuilderFactory<Brand>(brand, DbContext);
         }
@@ -35,10 +35,10 @@ namespace Vehicle.UnitTests
             string id = null,
             string name = null
         ) { 
-            var model = new Model { 
-                Id = id ?? RandomId.NewId(),
-                Name = name ?? RandomId.NewId(200)
-            };
+            var model = new Model(
+                id: id,
+                name: name ?? RandomId.NewId(150)
+            );
 
             return new BuilderFactory<Model>(model, DbContext);
         }

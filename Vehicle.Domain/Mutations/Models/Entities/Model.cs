@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Questor.Vehicle.Domain.Utils.Random;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,9 +11,27 @@ namespace Questor.Vehicle.Domain.Mutations.Models.Entities
     public class Model
     {
         [Required] [Key]
-        public string Id { get; set; }
+        public string Id { get; private set; }
 
         [Required] [MaxLength(200)] [Index("UQ_models_name", IsUnique = true)]
-        public string Name { get; set; }
+        public string Name { get; private set; }
+
+        public Model() { }
+
+        public Model(string id) { 
+            this.Id = string.IsNullOrWhiteSpace(id) ? RandomId.NewId() : id;
+        }
+
+        public Model(
+            string id,
+            string name
+        ) : this(id) {
+            this.SetData(name: name);
+        }
+
+        public void SetData(string name)
+        {
+            this.Name = name;
+        }
     }
 }

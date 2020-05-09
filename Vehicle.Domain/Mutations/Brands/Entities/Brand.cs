@@ -12,9 +12,28 @@ namespace Questor.Vehicle.Domain.Mutations.Brands.Entities
     public class Brand 
     {
         [Required] [Key]
-        public string Id { get; set; }
+        public string Id { get; private set; }
 
         [Required] [MaxLength(200)] [Index("UQ_brands_name", IsUnique = true)]
-        public string Name { get; set; }
+        public string Name { get; private set; }
+
+        public Brand() { }
+
+        public Brand(string id) { 
+            this.Id = string.IsNullOrWhiteSpace(id) ? RandomId.NewId() : id;
+        }
+
+        public Brand(
+            string id,
+            string name
+        ) : this(id)
+        {
+            this.SetData(name: name);
+        }
+
+        public void SetData(string name)
+        {
+            this.Name = name;
+        }
     }
 }
