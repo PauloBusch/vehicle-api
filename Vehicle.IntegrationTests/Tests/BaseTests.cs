@@ -1,4 +1,5 @@
 ﻿using Questor.Vehicle.Domain.Mutations;
+using Questor.Vehicle.Domain.Queries;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -16,11 +17,13 @@ namespace Vehicle.IntegrationTests.Tests
         protected readonly EntitiesFactory EntitiesFactory;
         protected readonly VehicleMutationsDbContext MutationsDbContext;
         protected readonly VehicleMutationsHandler MutationsHandler;
+        protected readonly VehicleQueriesHandler QueriesHandler;
         public BaseTests(VehicleFixture fixture, string url) {
             Request = fixture.Request;
             EntitiesFactory = fixture.EntitiesFactory;
             MutationsDbContext = fixture.MutationsHandler.DbContext;
             MutationsHandler = fixture.MutationsHandler;
+            QueriesHandler = fixture.QueriesHandler;
             Uri = new Uri($"{fixture.Client.BaseAddress}{url}");
         }
     }

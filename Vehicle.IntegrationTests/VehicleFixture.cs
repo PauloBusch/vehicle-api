@@ -28,7 +28,9 @@ namespace Vehicle.IntegrationTests
         public TestServer Server { get; private set; }
         public EntitiesFactory EntitiesFactory { get; private set; }
         public VehicleMutationsDbContext MutationsDbContext { get; private set; }
+        public VehicleQueriesDbContext QueriesDbContext { get; private set; }
         public VehicleMutationsHandler MutationsHandler { get; private set; }
+        public VehicleQueriesHandler QueriesHandler { get; private set; }
 
         private IConfiguration Configuration { get; }
         public VehicleFixture()
@@ -93,7 +95,9 @@ namespace Vehicle.IntegrationTests
 
             var scopedServices = scope.ServiceProvider;
             MutationsDbContext = scopedServices.GetRequiredService<VehicleMutationsDbContext>();
+            QueriesDbContext = scopedServices.GetRequiredService<VehicleQueriesDbContext>();
             MutationsHandler = new VehicleMutationsHandler(MutationsDbContext);
+            QueriesHandler = new VehicleQueriesHandler(QueriesDbContext);
             EntitiesFactory = new EntitiesFactory(MutationsDbContext);
             MutationsDbContext.Database.EnsureCreated();
             services.AddSingleton(manager);
