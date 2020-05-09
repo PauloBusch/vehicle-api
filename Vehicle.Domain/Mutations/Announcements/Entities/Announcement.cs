@@ -18,6 +18,8 @@ namespace Questor.Vehicle.Domain.Mutations.Announcements.Entities
 
         [Required]
         public decimal PriceSale { get; private set; }
+
+        [Index("IDX_announcements_date_sale")]
         public DateTime? DateSale { get; private set; }
 
         [Required] [Column("id_vehicle")] [ForeignKey("Vehicle")]
