@@ -11,6 +11,7 @@ namespace Questor.Vehicle.Domain.Mutations
         public DbSet<Brands.Entities.Brand> Brands { get; set; }
         public DbSet<Models.Entities.Model> Models { get; set; }
         public DbSet<Vehicles.Entities.Vehicle> Vehicles { get; set; }
+        public DbSet<Announcements.Entities.Announcement> Announcements { get; set; }
         public VehicleMutationsDbContext(DbContextOptions<VehicleMutationsDbContext> options) : base(options) { }
     }
 }
