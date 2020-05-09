@@ -22,6 +22,12 @@ namespace Questor.Vehicle.API.Controllers
             _mutationsHanlder = mutationsHandler;
             _queriesHanlder = queriesHandler;
         }
+        
+        [HttpGet]
+        public async Task<ActionResult<QueryResultList<AnnouncementList>>> GetAsync([FromQuery] ListAnnouncement query)
+        {
+            return GetResult(await _queriesHanlder.Handle(query));
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<QueryResultOne<AnnouncementDetail>>> GetAsync(string id, [FromQuery] GetAnnouncement query) { 

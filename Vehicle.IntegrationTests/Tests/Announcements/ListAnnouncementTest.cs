@@ -17,13 +17,14 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
 
         public static IEnumerable<object[]> ListAnnouncementData()
         {
-            yield return new object[] { EStatusCode.Success, new ListAnnouncement { } };
-            yield return new object[] { EStatusCode.InvalidData, new ListAnnouncement { Page = -1, Limit = 0 } };
-            yield return new object[] { EStatusCode.InvalidData, new ListAnnouncement { Page = 0, Limit = 10, SortAsc = EOrder.Desc, SortColumn = RandomId.NewId() } };
-            yield return new object[] { EStatusCode.Success, new ListAnnouncement { Page = 0, Limit = 10, SortAsc = EOrder.Asc, SortColumn = "date_sale" } };
-            yield return new object[] { EStatusCode.Success, new ListAnnouncement { Page = 0, Limit = 10, SortAsc = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010 } };
-            yield return new object[] { EStatusCode.Success, new ListAnnouncement { Page = 0, Limit = 10, SortAsc = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, OnlyUnsold = true } };
-            yield return new object[] { EStatusCode.Success, new ListAnnouncement { Page = 0, Limit = 10, SortAsc = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, OnlyUnsold = true }, true };
+            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { } };
+            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10 } };
+            yield return new object[] { EStatusCode.InvalidData, new ListAnnouncement { Page = 0, Limit = 0 } };
+            yield return new object[] { EStatusCode.InvalidData, new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Desc, SortColumn = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale" } };
+            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010 } };
+            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, OnlyUnsold = true } };
+            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, OnlyUnsold = true }, true };
         }
 
         [Theory]
@@ -42,12 +43,12 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
                 vehicle: vehicle, 
                 dateSale: query.OnlyUnsold ? null : query.DataSale
             ).Save();
-
+                
             var (status, result) = await Request.Get<QueryResultList<AnnouncementList>>(Uri, query);
             Assert.Equal(expectedStatus, status);
             if (expectedStatus == EStatusCode.Success) { 
                 Assert.True(result.TotalRows > 0); 
-                Assert.True(result.TotalRows <= query.Limit); 
+                Assert.True(result.Data.Length <= query.Limit); 
             }
             if (exactlyAnnouncement.Value)
             {

@@ -39,7 +39,8 @@ namespace Vehicle.IntegrationTests.Utils
             if (data == null) return string.Empty;
             var props = data
                 .GetType().GetProperties()
-                .Select(p => $"{p.Name}={p.GetValue(data)}");
+                .Where(p => p.GetValue(data) != null)
+                .Select(p => $"{p.Name}={JsonConvert.SerializeObject(p.GetValue(data)).Replace(@"""", "")}");
             return string.Join("&", props);
         }
     }
