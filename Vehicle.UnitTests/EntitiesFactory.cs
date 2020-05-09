@@ -45,7 +45,7 @@ namespace Vehicle.UnitTests
         }
 
         public BuilderFactory<Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Vehicle> NewVehicle(
-            string id    
+            string id = null
         ) {
             var model = NewModel();
             var brand = NewBrand();
