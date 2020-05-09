@@ -15,15 +15,24 @@ namespace Vehicle.IntegrationTests.Tests.Brands
         public ListBrandsTest(VehicleFixture fixture) 
             : base(fixture, "/brands") { }
 
-        [Fact]
-        public async void ListBrands()
+        public static IEnumerable<object[]> ListBrandsData()
         {
-            var query = new ListBrands();
+            yield return new object[] { EStatusCode.Success, new ListBrands { } };
+        }
+
+        [Theory]
+        [MemberData(nameof(ListBrandsData))]
+        public async void ListBrands(
+            EStatusCode expectedStatus,
+            ListBrands query
+        ) {
             var brand = EntitiesFactory.NewBrand().Save();
             var (status, result) = await Request.Get<QueryResultList<Brand>>(Uri, query);
-            Assert.Equal(EStatusCode.Success, status);
-            Assert.NotEmpty(result.Data);
-            Assert.Contains(result.Data, d => d.Id == brand.Id);
+            Assert.Equal(expectedStatus, status);
+            if (expectedStatus == EStatusCode.Success) { 
+                Assert.NotEmpty(result.Data);
+                Assert.Contains(result.Data, d => d.Id == brand.Id);
+            }
         }
     }
 }
