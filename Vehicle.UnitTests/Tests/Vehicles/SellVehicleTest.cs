@@ -32,10 +32,8 @@ namespace Vehicle.UnitTests.Tests.Vehicles
             bool? withVehicle = false,
             bool? withAnnouncement = false
         ) {
-            if (withVehicle.Value)
-                EntitiesFactory.NewVehicle(id: mutation.Id).Save();
             if (withAnnouncement.Value)
-                EntitiesFactory.NewAnnouncement(vehicleId: mutation.Id).Save();
+                EntitiesFactory.NewAnnouncement(vehicleId: withVehicle.Value ? mutation.Id : null).Save();
 
             var result = await MutationsHandler.Handle(mutation);
             Assert.Equal(expectedStatus, result.Status);

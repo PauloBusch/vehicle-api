@@ -60,6 +60,13 @@ namespace Questor.Vehicle.API.Controllers
             return GetResult(await _mutationsHanlder.Handle(mutation));
         }
 
+        [HttpPatch("{id}/sell")]
+        public async Task<ActionResult<MutationResult>> SellAsync(string id, [FromBody] SellVehicle mutation)
+        {
+            mutation.Id = id;
+            return GetResult(await _mutationsHanlder.Handle(mutation));
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<MutationResult>> DeleteAsync(string id) { 
             var mutation = new DeleteVehicle { Id = id };

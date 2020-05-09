@@ -4,6 +4,8 @@ using Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Questor.Vehicle.Domain.Utils.Random;
+using Questor.Vehicle.Domain.Mutations.Announcements.Entities;
+using System;
 
 namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
 {
@@ -29,6 +31,8 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
         [Required] [Column("id_model")] [ForeignKey("Model")]
         public string ModelId { get; private set; }
         public virtual Model Model { get; private set; }
+        
+        public virtual Announcement Announcement { get; private set; }
 
         public Vehicle() { }
         public Vehicle(
@@ -69,6 +73,11 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
             this.ModelId = modelId;
             this.Model = model;
             this.Brand = brand;
+        }
+
+        public void Sell(DateTime dateSale) { 
+            if (Announcement == null) return;
+            Announcement.SetDateSale(dateSale);
         }
     }
 }
