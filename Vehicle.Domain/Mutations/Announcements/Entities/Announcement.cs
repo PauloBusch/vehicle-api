@@ -13,13 +13,13 @@ namespace Questor.Vehicle.Domain.Mutations.Announcements.Entities
         [Required] [Key]
         public string Id { get; private set; }
         
-        [Required]
+        [Required] [Column("price_purchase")]
         public decimal PricePurchase { get; private set; }
 
-        [Required]
+        [Required] [Column("price_sale")]
         public decimal PriceSale { get; private set; }
 
-        [Index("IDX_announcements_date_sale")]
+        [Column("date_sale")] [Index("IDX_announcements_date_sale")]
         public DateTime? DateSale { get; private set; }
 
         [Required] [Column("id_vehicle")] [ForeignKey("Vehicle")]

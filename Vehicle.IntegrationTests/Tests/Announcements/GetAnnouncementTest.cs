@@ -13,11 +13,10 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
 {
     public class GetAnnouncementTest : BaseTests
     {
-        public GetAnnouncementTest(VehicleFixture fixture) : base(fixture, "/announcement") { }
+        public GetAnnouncementTest(VehicleFixture fixture) : base(fixture, "/announcements") { }
 
         public static IEnumerable<object[]> GetAnnouncementData()
         {
-            yield return new object[] { EStatusCode.InvalidData, new GetAnnouncement { } };
             yield return new object[] { EStatusCode.NotFound, new GetAnnouncement { Id = RandomId.NewId() } };
             yield return new object[] { EStatusCode.Success, new GetAnnouncement { Id = RandomId.NewId() } };
         }
