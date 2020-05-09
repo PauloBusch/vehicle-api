@@ -9,12 +9,17 @@ namespace Questor.Vehicle.Domain.Utils.Results
     public class QueryResultOne<T> : QueryResult
         where T : IViewModel
     {
-        public T Data { get; private set; }
+        public T Data { get; set; }
+
+        public QueryResultOne() : base() { }
 
         public QueryResultOne(T data)
         {
             Data = data;
             Status = EStatusCode.Success;
         }
+
+        public QueryResultOne(EStatusCode status, string message) 
+            : base(status, message) { }
     }
 }

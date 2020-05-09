@@ -12,11 +12,10 @@ namespace Vehicle.IntegrationTests.Tests.Vehicles
 {
     public class GetVehicleTest : BaseTests
     {
-        public GetVehicleTest(VehicleFixture fixture, string url) : base(fixture, url) { }
+        public GetVehicleTest(VehicleFixture fixture) : base(fixture, "/vehicles") { }
 
         public static IEnumerable<object[]> GetVehicleData()
         {
-            yield return new object[] { EStatusCode.InvalidData, new GetVehicle { } };
             yield return new object[] { EStatusCode.NotFound, new GetVehicle { Id = RandomId.NewId() } };
             yield return new object[] { EStatusCode.Success, new GetVehicle { Id = RandomId.NewId() } };
         }
