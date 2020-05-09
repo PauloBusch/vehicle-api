@@ -23,23 +23,25 @@ namespace Vehicle.UnitTests.Tests.Vehicles
             yield return new object[] { EStatusCode.InvalidData, new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black } };
             yield return new object[] { EStatusCode.InvalidData, new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010 } };
             yield return new object[] { EStatusCode.NotFound,    new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, BrandId = RandomId.NewId(), ModelId = RandomId.NewId() } };
-            yield return new object[] { EStatusCode.Success,     new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, BrandId = RandomId.NewId(), ModelId = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.NotFound,    new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, BrandId = RandomId.NewId(), ModelId = RandomId.NewId() }, true, false };
+            yield return new object[] { EStatusCode.NotFound,    new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, BrandId = RandomId.NewId(), ModelId = RandomId.NewId() }, false, true };
+            yield return new object[] { EStatusCode.Success,     new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, BrandId = RandomId.NewId(), ModelId = RandomId.NewId() }, true, true };
         }
-
-
 
         [Theory]
         [MemberData(nameof(UpdateVehicleData))]
         public async void UpdateVehicle(
             EStatusCode expectedStatus,
-            CreateVehicle mutation
-        )
-        {
-            if (expectedStatus != EStatusCode.NotFound) {
-                EntitiesFactory.NewBrand(id: mutation.BrandId).Save();    
+            UpdateVehicle mutation,
+            bool? withModel = false,
+            bool? withBrand = false
+        ) {
+            if (expectedStatus != EStatusCode.NotFound)
+                EntitiesFactory.NewVehicle(id: mutation.Id).Save();
+            if (withModel.Value)
                 EntitiesFactory.NewModel(id: mutation.ModelId).Save();
-                EntitiesFactory.NewVehicle(id: mutation.BrandId).Save();
-            }
+            if (withBrand.Value)
+                EntitiesFactory.NewBrand(id: mutation.BrandId).Save();    
 
             var result = await MutationsHandler.Handle(mutation);
             Assert.Equal(expectedStatus, result.Status);

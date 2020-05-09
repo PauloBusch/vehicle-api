@@ -37,7 +37,9 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
             EFuel fuel,
             EColor color,
             string brandId,
-            string modelId
+            string modelId,
+            Brand brand = null,
+            Model model = null
         ) {
             this.Id = string.IsNullOrWhiteSpace(id) ? RandomId.NewId() : id;
             this.SetData(
@@ -45,7 +47,9 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
                 fuel: fuel,
                 color: color,
                 brandId: brandId,
-                modelId: modelId
+                modelId: modelId,
+                brand: brand,
+                model: model
             );
         }
 
@@ -54,13 +58,17 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
             EFuel fuel,
             EColor color,
             string brandId,
-            string modelId
+            string modelId,
+            Brand brand = null,
+            Model model = null
         ) {
             this.Year = year;
             this.Fuel = fuel;
             this.Color = color;
             this.BrandId = brandId;
             this.ModelId = modelId;
+            this.Model = model;
+            this.Brand = brand;
         }
     }
 }

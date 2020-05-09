@@ -28,7 +28,7 @@ namespace Vehicle.UnitTests.Tests.Vehicles
               DeleteVehicle mutation
         ) {
             if (expectedStatus != EStatusCode.NotFound)
-                EntitiesFactory.NewVehicle().Save();
+                EntitiesFactory.NewVehicle(id: mutation.Id).Save();
 
             var result = await MutationsHandler.Handle(mutation);
             Assert.Equal(expectedStatus, result.Status);

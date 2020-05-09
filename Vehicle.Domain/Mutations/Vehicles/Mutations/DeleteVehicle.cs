@@ -10,7 +10,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
     {
         public string Id { get; set; }
 
-        public async Task<MutationResult> ExecuteAsync(VehicleMutationsHandler handler)
+        public async Task<MutationResult> ValidateAsync(VehicleMutationsHandler handler)
         {
             if (string.IsNullOrWhiteSpace(Id)) return new MutationResult(EStatusCode.InvalidData, $"Parameter {nameof(Id)} is required");
             var exists = await handler.DbContext.Vehicles.AnyAsync(v => v.Id == Id);
@@ -18,7 +18,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
             return null;
         }
 
-        public async Task<MutationResult> ValidateAsync(VehicleMutationsHandler handler)
+        public async Task<MutationResult> ExecuteAsync(VehicleMutationsHandler handler)
         {
             var vehicle = await handler.DbContext.Vehicles.FindAsync(Id);
             handler.DbContext.Remove(vehicle);

@@ -47,15 +47,17 @@ namespace Vehicle.UnitTests
         public BuilderFactory<Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Vehicle> NewVehicle(
             string id = null
         ) {
-            var model = NewModel();
-            var brand = NewBrand();
+            var model = NewModel().Get();
+            var brand = NewBrand().Get();
             var vehicle = new Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Vehicle(
                 id: id ?? RandomId.NewId(),
                 year: 2010,
                 fuel: EFuel.Flex,
                 color: EColor.Blue,
                 modelId: model.Id,
-                brandId: brand.Id
+                brandId: brand.Id,
+                model: model,
+                brand: brand
             );
 
             return new BuilderFactory<Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Vehicle>(vehicle, DbContext);
