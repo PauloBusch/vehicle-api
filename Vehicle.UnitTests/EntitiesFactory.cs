@@ -49,6 +49,7 @@ namespace Vehicle.UnitTests
             string id = null,
             string modelId = null,
             string brandId = null,
+            int? year = null,
             EFuel? fuel = null,
             EColor? color = null
         ) {
@@ -56,7 +57,7 @@ namespace Vehicle.UnitTests
             var brand = NewBrand(id: brandId).Get();
             var vehicle = new Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Vehicle(
                 id: id ?? RandomId.NewId(),
-                year: 2010,
+                year: year ?? 2010,
                 fuel: fuel ?? EFuel.Gasoline,
                 color: color ?? EColor.Brown,
                 modelId: model.Id,
@@ -70,16 +71,18 @@ namespace Vehicle.UnitTests
 
         public BuilderFactory<Announcement> NewAnnouncement(
             string id = null,
-            string vehicleId = null
+            string vehicleId = null,
+            DateTime? dateSale = null,
+            Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Vehicle vehicle = null
         ) {
-            var vehicle = NewVehicle(id: vehicleId).Get();
+            var vehicleData = vehicle ?? NewVehicle(id: vehicleId).Get();
             var announcement = new Announcement(
                 id: id,
                 pricePurchase: StaticRandom.Next(10000, 50000),
                 priceSale: StaticRandom.Next(50000, 80000),
-                dateSale: null,
-                vehicleId: vehicle.Id,
-                vehicle: vehicle
+                dateSale: dateSale,
+                vehicleId: vehicleData.Id,
+                vehicle: vehicleData
             );
 
             return new BuilderFactory<Announcement>(announcement, DbContext);
