@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Questor.Vehicle.Domain.Mutations;
+using Questor.Vehicle.Domain.Mutations.Announcements.Entities;
 using Questor.Vehicle.Domain.Mutations.Brands.Entities;
 using Questor.Vehicle.Domain.Mutations.Models.Entities;
 using Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Enums;
@@ -65,6 +66,20 @@ namespace Vehicle.UnitTests
             );
 
             return new BuilderFactory<Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Vehicle>(vehicle, DbContext);
+        }
+
+        public BuilderFactory<Announcement> NewAnnouncement(string id = null) {
+            var vehicle = NewVehicle().Get();
+            var announcement = new Announcement(
+                id: id,
+                pricePurchase: StaticRandom.Next(10000, 50000),
+                priceSale: StaticRandom.Next(50000, 80000),
+                dateSale: null,
+                vehicleId: vehicle.Id,
+                vehicle: vehicle
+            );
+
+            return new BuilderFactory<Announcement>(announcement, DbContext);
         }
     }
 
