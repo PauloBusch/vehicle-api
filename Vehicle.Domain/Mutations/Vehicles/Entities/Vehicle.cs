@@ -40,7 +40,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
             string modelId,
             Brand brand = null,
             Model model = null
-        ) {
+        ) : this() {
             this.Id = string.IsNullOrWhiteSpace(id) ? RandomId.NewId() : id;
             this.SetData(
                 year: year,

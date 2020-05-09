@@ -18,14 +18,11 @@ namespace Questor.Vehicle.Domain.Mutations.Models.Entities
 
         public Model() { }
 
-        public Model(string id) { 
-            this.Id = string.IsNullOrWhiteSpace(id) ? RandomId.NewId() : id;
-        }
-
         public Model(
             string id,
             string name
-        ) : this(id) {
+        ) : this() {
+            this.Id = string.IsNullOrWhiteSpace(id) ? RandomId.NewId() : id;
             this.SetData(name: name);
         }
 
