@@ -1,4 +1,5 @@
-﻿using Questor.Vehicle.Domain.Queries.Vehicles.ViewModels;
+﻿using Dapper;
+using Questor.Vehicle.Domain.Queries.Vehicles.ViewModels;
 using Questor.Vehicle.Domain.Utils.Interfaces;
 using Questor.Vehicle.Domain.Utils.Results;
 using System;
@@ -13,9 +14,16 @@ namespace Questor.Vehicle.Domain.Queries.Vehicles
             return await Task.FromResult<QueryResultList<ColorList>>(null);
         }
 
-        public Task<QueryResultList<ColorList>> ExecuteAsync(VehicleQueriesHandler handler)
+        public async Task<QueryResultList<ColorList>> ExecuteAsync(VehicleQueriesHandler handler)
         {
-            throw new NotImplementedException();
+            var sql = @"
+                select 
+                    c.id, c.name, c.hex as color_hex
+                from colors c
+                order by c.name asc;
+            ";
+            var colors = await handler.DbConnection.QueryAsync<ColorList>(sql);
+            return new QueryResultList<ColorList>(colors);
         }
     }
 }

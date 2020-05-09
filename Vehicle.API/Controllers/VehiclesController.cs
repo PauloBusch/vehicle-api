@@ -29,6 +29,12 @@ namespace Questor.Vehicle.API.Controllers
             return GetResult(await _queriesHanlder.Handle(query));
         }
 
+        [HttpGet("colors")]
+        public async Task<ActionResult<QueryResultList<ColorList>>> ListColorsAsync([FromQuery] ListColors query)
+        {
+            return GetResult(await _queriesHanlder.Handle(query));
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<QueryResultOne<VehicleDetail>>> GetAsync(string id, [FromQuery] GetVehicle query)
         {
