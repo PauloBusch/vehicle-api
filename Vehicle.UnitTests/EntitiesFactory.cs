@@ -2,6 +2,7 @@
 using Questor.Vehicle.Domain.Mutations;
 using Questor.Vehicle.Domain.Mutations.Brands.Entities;
 using Questor.Vehicle.Domain.Mutations.Models.Entities;
+using Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Enums;
 using Questor.Vehicle.Domain.Utils.Random;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,23 @@ namespace Vehicle.UnitTests
             );
 
             return new BuilderFactory<Model>(model, DbContext);
+        }
+
+        public BuilderFactory<Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Vehicle> NewVehicle(
+            string id    
+        ) {
+            var model = NewModel();
+            var brand = NewBrand();
+            var vehicle = new Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Vehicle(
+                id: id ?? RandomId.NewId(),
+                year: 2010,
+                fuel: EFuel.Flex,
+                color: EColor.Blue,
+                modelId: model.Id,
+                brandId: brand.Id
+            );
+
+            return new BuilderFactory<Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Vehicle>(vehicle, DbContext);
         }
     }
 
