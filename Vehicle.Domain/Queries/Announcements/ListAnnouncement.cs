@@ -43,6 +43,7 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
                     join vehicles v on v.id=a.id_vehicle
                     join models m on m.id=v.id_model
                     join brands b on b.id=v.id_brand
+                    join colors c on c.id=v.id_color
                 where 1=1
                     {(OnlyUnsold ? $" and a.date_sale is null" : null)}
                     {(DataSale != null && !OnlyUnsold ? $" and date_format(a.date_sale,'%Y-%m-%d')=@DataSale" : null)}
@@ -55,7 +56,8 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
                 -- paginate rows
                 select
                     a.id, a.date_sale, a.price_purchase, a.price_sale,
-                    v.year as vehicle_year, m.name as vehicle_model, b.name as vehicle_brand
+                    v.year as vehicle_year, m.name as vehicle_model, b.name as vehicle_brand,
+                    c.name as vehicle_color_name, c.hex as vehicle_color_hex
                 {sqlBody}
                 order by {sortColumnIndex} {sortOrderStr}
                 limit @Offset, @Limit;
