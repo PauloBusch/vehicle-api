@@ -60,5 +60,9 @@ namespace Questor.Vehicle.Domain.Mutations.Reservations.Entities
             this.Contact = contact;
             this.Announcement = announcement;
         }
+
+        public void SetDateSale(DateTime dateSale) { 
+            this.DateSale = dateSale;
+        }
     }
 }
