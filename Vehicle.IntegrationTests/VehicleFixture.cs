@@ -52,7 +52,7 @@ namespace Vehicle.IntegrationTests
             Server = new TestServer(webHostBuilder);
 
             Client = Server.CreateClient();
-            Client.BaseAddress = new Uri("https://localhost:44349/api/vehicle");
+            Client.BaseAddress = new Uri("https://localhost:44349/api");
             Client.DefaultRequestHeaders.Accept.Clear();
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTokenStr());
             Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

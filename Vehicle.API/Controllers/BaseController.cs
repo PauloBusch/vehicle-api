@@ -8,7 +8,7 @@ namespace Questor.Vehicle.API.Controllers
 {
     [ApiController]
     [Authorize("RequireAuthentication")]
-    [Route("api/vehicle/[controller]")]
+    [Route("api/[controller]")]
     public abstract class BaseController : ControllerBase
     {
         protected ActionResult<MutationResult> GetResult(MutationResult result) => GetResult(result, result.Status);
