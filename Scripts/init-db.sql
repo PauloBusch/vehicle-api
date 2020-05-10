@@ -92,6 +92,27 @@ create table announcements(
 );
 alter table announcements add index IDX_announcements_date_sale(date_sale);
 
+create table contacts (
+	id char(8) not null,
+    name varchar(150) not null,
+    phone varchar(15) not null,
+    
+    constraint PK_contacts primary key(id)
+);
+alter table contacts add constraint unique index UQ_contacts_name name;
+alter table contacts add constraint unique index UQ_contacts_phone phone;
+
+create table reservations (
+	id char(8) not null,
+    id_announcement char(8) not null,
+    id_contact char(8) not null,
+    date_creation datetime default current_timestamp,
+    
+    constraint PK_reservations primary key(id),
+    constraint FK_reservations_id_announcement foreign key (id_announcement) references announcements(id),
+    constraint FK_reservations_id_contact foreign key (id_contact) references contacts(id)
+);
+
 -- DEFAULT VALUES ------------------------------------
 insert into users(id, login, name, password) values
 (new_id(), 'joão', 'João', 'goviAebTZ16ecrxAN3pG+g==');
