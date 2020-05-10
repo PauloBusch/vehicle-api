@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using Vehicle.IntegrationTests.Utils.Results;
 using Xunit;
 
 namespace Vehicle.IntegrationTests.Tests.Brands
@@ -27,7 +28,7 @@ namespace Vehicle.IntegrationTests.Tests.Brands
             ListBrands query
         ) {
             var brand = EntitiesFactory.NewBrand().Save();
-            var (status, result) = await Request.Get<QueryResultList<Brand>>(Uri, query);
+            var (status, result) = await Request.Get<QueryResultListTest<Brand>>(Uri, query);
             Assert.Equal(expectedStatus, status);
             if (expectedStatus == EStatusCode.Success) { 
                 Assert.NotEmpty(result.Data);

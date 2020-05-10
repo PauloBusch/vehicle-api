@@ -7,6 +7,7 @@ using Questor.Vehicle.Domain.Utils.Results;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Vehicle.IntegrationTests.Utils;
 using Xunit;
 
 namespace Vehicle.IntegrationTests.Tests.Users
@@ -30,23 +31,23 @@ namespace Vehicle.IntegrationTests.Tests.Users
         public async void LoginUser(
             EStatusCode expectedStatus,
             LoginUser mutation,
-            bool? withUser,
-            bool? equalPassword
+            bool? withUser = false,
+            bool? equalPassword = false
         ) { 
             var user = null as User;
-            if (withUser.Value) { 
-                EntitiesFactory.NewUser(
+            if (withUser.Value) {
+                user = EntitiesFactory.NewUser(
                     login: mutation.Login, 
                     password: equalPassword.Value ? mutation.Password : null
                 ).Save();
             }
-            var (status, result) = await Request.Post<MutationResult>(Uri, mutation);
+            var (status, result) = await Request.Post<MutationResultTest<LoginResult>>(Uri, mutation);
             Assert.Equal(expectedStatus, status);
             if (expectedStatus == EStatusCode.Success) { 
-                var loginResult = result.Data as LoginResult;
+                var loginResult = result.Data;
                 Assert.NotNull(loginResult);
                 Assert.NotNull(loginResult.Token);
-                Assert.StartsWith("Bearer ", loginResult.Token);
+                Assert.False(string.IsNullOrWhiteSpace(loginResult.Token));
                 Assert.Equal(user.Id, loginResult.Id);
                 Assert.Equal(user.Name, loginResult.Name);
             }

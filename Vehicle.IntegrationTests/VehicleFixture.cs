@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Questor.Vehicle.Domain.Mutations;
 using Questor.Vehicle.Domain.Queries;
+using Questor.Vehicle.Domain.Utils.Metadata;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -53,6 +54,7 @@ namespace Vehicle.IntegrationTests
             Client = Server.CreateClient();
             Client.BaseAddress = new Uri("https://localhost:44349/api/vehicle");
             Client.DefaultRequestHeaders.Accept.Clear();
+            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GenerateTokenStr());
             Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             Request = new Request(Client);
         }
@@ -119,6 +121,12 @@ namespace Vehicle.IntegrationTests
             }
             while (directoryInfo.Parent != null);
             throw new Exception($"Project root could not be located using the application root {applicationBasePath}.");
+        }
+
+        private string GenerateTokenStr()
+        {
+            var defaultUser = EntitiesFactory.NewUser().Save();
+            return new TokenData(defaultUser.Id).Generate();
         }
     }
 }

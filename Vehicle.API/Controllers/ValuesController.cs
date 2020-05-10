@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Questor.Vehicle.API.Controllers
 {
@@ -23,6 +24,7 @@ namespace Questor.Vehicle.API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<string>> GetAsync()
         {
             var serverId = await GetPublicIpAsync();

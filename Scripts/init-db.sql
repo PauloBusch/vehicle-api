@@ -69,6 +69,7 @@ create table vehicles(
 	id_color int not null,
 	id_brand char(8) not null,
 	id_model char(8) not null,
+    date_creation datetime default current_timestamp,
 	
 	constraint PK_vehicles primary key(id),
 	constraint FK_vehicles_id_brand foreign key(id_brand) references brands(id),
@@ -84,6 +85,7 @@ create table announcements(
 	price_sale decimal(8, 2) not null,
 	date_sale date null,
 	id_vehicle char(8) not null,
+    date_creation datetime default current_timestamp,
 	
 	constraint PK_announcements primary key(id),
 	constraint FK_announcements_id_vehicle foreign key(id_vehicle) references vehicles(id)
@@ -91,10 +93,8 @@ create table announcements(
 alter table announcements add index IDX_announcements_date_sale(date_sale);
 
 -- DEFAULT VALUES ------------------------------------
-/*
 insert into users(id, login, name, password) values
 (new_id(), 'joão', 'João', 'goviAebTZ16ecrxAN3pG+g==');
-*/
 
 insert into colors(id, name, hex) values
 (1, 'Branco', '#ffffff'),

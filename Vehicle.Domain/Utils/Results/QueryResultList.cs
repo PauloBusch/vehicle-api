@@ -10,10 +10,8 @@ namespace Questor.Vehicle.Domain.Utils.Results
     public class QueryResultList<T> : QueryResult
         where T : IViewModel
     {
-        public T[] Data { get; set; }
-        public Int64 TotalRows { get; set; }
-
-        public QueryResultList() : base() { }
+        public T[] Data { get; private set; }
+        public Int64 TotalRows { get; private set; }
 
         public QueryResultList(IEnumerable<T> data, Int64? totalRows = null)
         {

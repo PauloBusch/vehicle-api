@@ -6,6 +6,7 @@ using Questor.Vehicle.Domain.Utils.Results;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Vehicle.IntegrationTests.Utils.Results;
 using Xunit;
 
 namespace Vehicle.IntegrationTests.Tests.Vehicles
@@ -25,7 +26,7 @@ namespace Vehicle.IntegrationTests.Tests.Vehicles
             EStatusCode expectedStatus,
             ListFuels query
         ) {
-            var (status, result) = await Request.Get<QueryResultList<FuelList>>(Uri, query);
+            var (status, result) = await Request.Get<QueryResultListTest<FuelList>>(Uri, query);
             Assert.Equal(expectedStatus, status);
             if (expectedStatus == EStatusCode.Success) { 
                 Assert.NotEmpty(result.Data);

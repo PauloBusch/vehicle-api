@@ -7,6 +7,7 @@ using Questor.Vehicle.Domain.Utils.Results;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Vehicle.IntegrationTests.Utils.Results;
 using Xunit;
 
 namespace Vehicle.IntegrationTests.Tests.Announcements
@@ -31,7 +32,7 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
             if (expectedStatus != EStatusCode.NotFound)
                 announcement = EntitiesFactory.NewAnnouncement(id: query.Id).Save();
 
-            var (status, result) = await Request.Get<QueryResultOne<AnnouncementDetail>>(new Uri($"{Uri}/{query.Id}"), query);
+            var (status, result) = await Request.Get<QueryResultOneTest<AnnouncementDetail>>(new Uri($"{Uri}/{query.Id}"), query);
             Assert.Equal(expectedStatus, status);
             if (expectedStatus == EStatusCode.Success) { 
                 var announcementResult = result.Data;

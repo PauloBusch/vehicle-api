@@ -26,7 +26,7 @@ namespace Questor.Vehicle.Domain.Mutations.Users.Entities
         public string Login { get; private set; }
 
         [Required] [MaxLength(80)]
-        private string Password;
+        public string Password { get; private set; }
 
         public User() { }
 
@@ -57,24 +57,6 @@ namespace Questor.Vehicle.Domain.Mutations.Users.Entities
             if (string.IsNullOrWhiteSpace(password)) return false;
             var hash = MD5Crypto.Encode(VehicleStartup.Secret + password);
             return hash.Equals(Password);
-        }
-
-        public string GenerateToken()
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(VehicleStartup.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, Id),
-                    new Claim(ClaimTypes.Name, Name)
-                }),
-                Expires = DateTime.UtcNow.AddHours(12),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
         }
     }
 }

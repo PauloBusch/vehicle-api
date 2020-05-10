@@ -4,6 +4,7 @@ using Questor.Vehicle.Domain.Utils.Results;
 using Questor.Vehicle.Domain.Utils.Enums;
 using Xunit;
 using System.Collections.Generic;
+using Vehicle.IntegrationTests.Utils.Results;
 
 namespace Vehicle.IntegrationTests.Tests.Models
 {
@@ -23,7 +24,7 @@ namespace Vehicle.IntegrationTests.Tests.Models
             ListModels query
         ) {
             var model = EntitiesFactory.NewModel().Save();
-            var (status, result) = await Request.Get<QueryResultList<Model>>(Uri, query);
+            var (status, result) = await Request.Get<QueryResultListTest<Model>>(Uri, query);
             Assert.Equal(expectedStatus, status);
             if (expectedStatus == EStatusCode.Success) { 
                 Assert.NotEmpty(result.Data);

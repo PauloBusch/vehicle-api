@@ -1,5 +1,6 @@
 ﻿using Questor.Vehicle.Domain.Utils.Enums;
 using Questor.Vehicle.Domain.Utils.Interfaces;
+using Questor.Vehicle.Domain.Utils.Metadata;
 using Questor.Vehicle.Domain.Utils.Results;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace Questor.Vehicle.Domain.Mutations
 {
     public class VehicleMutationsHandler
     {
+        public TokenData RequestData;
         public readonly VehicleMutationsDbContext DbContext;
 
         public VehicleMutationsHandler(VehicleMutationsDbContext dbContext) { 

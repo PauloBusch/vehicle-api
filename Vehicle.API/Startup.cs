@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Questor.Vehicle.API.Authentication;
 using Questor.Vehicle.Domain;
 using Questor.Vehicle.Domain.Mutations;
 using Questor.Vehicle.Domain.Queries;
@@ -59,24 +61,12 @@ namespace Vehicle.API
                        .AllowAnyHeader();
             }));
 
-            var key = Encoding.ASCII.GetBytes(Configuration.GetValue<string>("Secret"));
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.SaveToken = true;
-                x.RequireHttpsMetadata = false;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+            services.AddAuthentication("Authentication")
+                .AddScheme<AuthenticationSchemeOptions, AuthenticationHandler>("Authentication", null);
+
+            services.AddAuthorization(options =>
+                options.AddPolicy("RequireAuthentication", policy => policy.RequireAuthenticatedUser().Build())
+            );
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -92,6 +82,10 @@ namespace Vehicle.API
 
             app.UseCors("AllowOrigin");
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

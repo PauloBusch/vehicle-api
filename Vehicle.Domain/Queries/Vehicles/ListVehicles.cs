@@ -40,7 +40,7 @@ namespace Questor.Vehicle.Domain.Queries.Vehicles
                     {(ColorId != null ? "and v.id_color=@ColorId " : null)}
                     {(ModelId != null ? "and v.id_model=@ModelId " : null)}
                     {(BrandId != null ? "and v.id_brand=@BrandId " : null)}
-                order by v.id desc;
+                order by v.date_creation desc;
             ";
             var parameters = new
             {

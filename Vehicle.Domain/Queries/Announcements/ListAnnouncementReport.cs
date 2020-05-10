@@ -34,7 +34,7 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
                 where 1=1
                     {(StartDate != null ? " and a.date_sale>=@StartDate" : null)}
                     {(EndDate != null ? " and a.date_sale<=@EndDate" : null)}
-                order by a.id asc;
+                order by a.date_creation desc;
             ";
 
             var parameters = new {

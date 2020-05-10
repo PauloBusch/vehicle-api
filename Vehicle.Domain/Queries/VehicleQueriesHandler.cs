@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Questor.Vehicle.Domain.Utils.Enums;
 using Questor.Vehicle.Domain.Utils.Interfaces;
+using Questor.Vehicle.Domain.Utils.Metadata;
 using Questor.Vehicle.Domain.Utils.Results;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Questor.Vehicle.Domain.Queries
 {
     public class VehicleQueriesHandler
     {
+        public TokenData RequestData;
         public readonly VehicleQueriesDbContext DbContext;
         public readonly DbConnection DbConnection;
         public VehicleQueriesHandler(VehicleQueriesDbContext dbContext)

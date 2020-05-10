@@ -35,7 +35,7 @@ namespace Vehicle.IntegrationTests.Utils
         }
 
         public async Task<(EStatusCode status, TResult result)> Post<TResult>(Uri uri, dynamic data) where TResult : class {
-            var content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.Default, "application/json");
+            var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.Default, "application/json");
 
             try
             {

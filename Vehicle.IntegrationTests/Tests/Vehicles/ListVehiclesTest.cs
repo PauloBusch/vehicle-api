@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Vehicle.IntegrationTests.Utils.Results;
 using Xunit;
 
 namespace Vehicle.IntegrationTests.Tests.Vehicles
@@ -34,7 +35,7 @@ namespace Vehicle.IntegrationTests.Tests.Vehicles
                 fuel: query.FuelId,
                 color: query.ColorId
             ).Save();
-            var (status, result) = await Request.Get<QueryResultList<VechicleList>>(Uri, query);
+            var (status, result) = await Request.Get<QueryResultListTest<VechicleList>>(Uri, query);
             Assert.Equal(expectedStatus, status);
             if (expectedStatus == EStatusCode.Success) { 
                 Assert.NotNull(result.Data);

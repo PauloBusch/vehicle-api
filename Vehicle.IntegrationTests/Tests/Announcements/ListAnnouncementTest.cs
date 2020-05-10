@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Vehicle.IntegrationTests.Utils.Results;
 using Xunit;
 
 namespace Vehicle.IntegrationTests.Tests.Announcements
@@ -44,7 +45,7 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
                 dateSale: query.OnlyUnsold ? null : query.DataSale
             ).Save();
                 
-            var (status, result) = await Request.Get<QueryResultList<AnnouncementList>>(Uri, query);
+            var (status, result) = await Request.Get<QueryResultListTest<AnnouncementList>>(Uri, query);
             Assert.Equal(expectedStatus, status);
             if (expectedStatus == EStatusCode.Success) { 
                 Assert.True(result.TotalRows > 0); 
