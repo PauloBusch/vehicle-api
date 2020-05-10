@@ -44,7 +44,7 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
                     join models m on m.id=v.id_model
                     join brands b on b.id=v.id_brand
                     join colors c on c.id=v.id_color
-                where 1=1
+                where not exists(select r.id from reservations r where r.id_announcement=a.id and r.date_sale is not null)
                     {(OnlyUnsold ? $" and a.date_sale is null" : null)}
                     {(DataSale != null && !OnlyUnsold ? $" and date_format(a.date_sale,'%Y-%m-%d')=@DataSale" : null)}
                     {(Year != null ? $" and v.year=@Year" : null)}

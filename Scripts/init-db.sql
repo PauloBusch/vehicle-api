@@ -99,8 +99,8 @@ create table contacts (
     
     constraint PK_contacts primary key(id)
 );
-alter table contacts add constraint unique index UQ_contacts_name name;
-alter table contacts add constraint unique index UQ_contacts_phone phone;
+alter table contacts add constraint unique index UQ_contacts_name(name);
+alter table contacts add constraint unique index UQ_contacts_phone(phone);
 
 create table reservations (
 	id char(8) not null,
@@ -113,7 +113,7 @@ create table reservations (
     constraint FK_reservations_id_announcement foreign key (id_announcement) references announcements(id),
     constraint FK_reservations_id_contact foreign key (id_contact) references contacts(id)
 );
-alter table reservations add index IDX_reservations_date_sale;
+alter table reservations add index IDX_reservations_date_sale(date_sale);
 
 -- DEFAULT VALUES ------------------------------------
 insert into users(id, login, name, password) values

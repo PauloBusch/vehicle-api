@@ -31,7 +31,7 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
                     join vehicles v on v.id=a.id_vehicle
                     join models m on m.id=v.id_model
                     join brands b on b.id=v.id_brand
-                where 1=1
+                where a.date_sale is not null
                     {(StartDate != null ? " and a.date_sale>=@StartDate" : null)}
                     {(EndDate != null ? " and a.date_sale<=@EndDate" : null)}
                 order by a.date_creation desc;
