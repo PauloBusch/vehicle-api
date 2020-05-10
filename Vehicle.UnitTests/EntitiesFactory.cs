@@ -3,6 +3,7 @@ using Questor.Vehicle.Domain.Mutations;
 using Questor.Vehicle.Domain.Mutations.Announcements.Entities;
 using Questor.Vehicle.Domain.Mutations.Brands.Entities;
 using Questor.Vehicle.Domain.Mutations.Models.Entities;
+using Questor.Vehicle.Domain.Mutations.Reservations.Entities;
 using Questor.Vehicle.Domain.Mutations.Users.Entities;
 using Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Enums;
 using Questor.Vehicle.Domain.Utils.Metadata;
@@ -102,6 +103,32 @@ namespace Vehicle.UnitTests
             );
 
             return new BuilderFactory<User>(user, DbContext);
+        }
+
+        public BuilderFactory<Contact> NewContact(string id = null)
+        {
+            var contact = new Contact(
+                id: RandomId.NewId(),
+                name: RandomId.NewId(150),
+                phone: RandomId.NewId(15)
+            );
+
+            return new BuilderFactory<Contact>(contact, DbContext);
+        }
+
+        public BuilderFactory<Reservation> NewReservation(string id = null)
+        {
+            var contact = NewContact().Get();
+            var announcement = NewAnnouncement().Get();
+            var reservation = new Reservation(
+                id: id,
+                contactId: contact.Id,
+                announcementId: announcement.Id,
+                contact: contact,
+                announcement: announcement
+            );
+
+            return new BuilderFactory<Reservation>(reservation, DbContext);
         }
     }
 
