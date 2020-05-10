@@ -14,7 +14,7 @@ namespace Vehicle.UnitTests.Tests.Reservations
     {
         public DeleteReservationTest(VehicleFixture fixture) : base(fixture) { }
 
-        public static IEnumerable<object[]> IgnoreReservationData()
+        public static IEnumerable<object[]> DeleteReservationData()
         {
             yield return new object[] { EStatusCode.InvalidData, new DeleteReservation { } };
             yield return new object[] { EStatusCode.NotFound, new DeleteReservation { Id = RandomId.NewId() } };
@@ -22,8 +22,8 @@ namespace Vehicle.UnitTests.Tests.Reservations
         }
 
         [Theory]
-        [MemberData(nameof(IgnoreReservationData))]
-        public async void IgnoreReservation(
+        [MemberData(nameof(DeleteReservationData))]
+        public async void DeleteReservation(
             EStatusCode expectedStatus,
             DeleteReservation mutation
         ) {
