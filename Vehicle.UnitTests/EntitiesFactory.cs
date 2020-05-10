@@ -122,6 +122,7 @@ namespace Vehicle.UnitTests
             var announcement = NewAnnouncement().Get();
             var reservation = new Reservation(
                 id: id,
+                dateSale: null,
                 contactId: contact.Id,
                 announcementId: announcement.Id,
                 contact: contact,

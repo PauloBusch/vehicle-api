@@ -14,6 +14,10 @@ namespace Questor.Vehicle.Domain.Mutations.Reservations.Entities
         [Required] [Key]
         public string Id { get; private set; }
 
+        [Column("date_sale")]
+        [Index("IDX_reservations_date_sale")]
+        public DateTime? DateSale { get; private set; }
+
         [Required] [Column("id_contact")] [ForeignKey("Contact")]
         public string ContactId { get; private set; }
         public virtual Contact Contact { get; private set; }
@@ -28,12 +32,14 @@ namespace Questor.Vehicle.Domain.Mutations.Reservations.Entities
             string id,
             string contactId,
             string announcementId,
+            DateTime? dateSale = null,
             Contact contact = null,
             Announcement announcement = null
         ) : this()
         {
             this.Id = string.IsNullOrWhiteSpace(id) ? RandomId.NewId() : id;
             this.SetData(
+                dateSale: dateSale,
                 contactId: contactId,
                 announcementId: announcementId,
                 contact: contact,
@@ -44,9 +50,11 @@ namespace Questor.Vehicle.Domain.Mutations.Reservations.Entities
         public void SetData(
             string contactId,
             string announcementId,
+            DateTime? dateSale = null,
             Contact contact = null,
             Announcement announcement = null
         ) {
+            this.DateSale = dateSale;
             this.ContactId = contactId;
             this.AnnouncementId = announcementId;
             this.Contact = contact;
