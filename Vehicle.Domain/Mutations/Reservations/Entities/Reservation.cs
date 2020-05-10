@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace Questor.Vehicle.Domain.Mutations.Reservations.Entties
+namespace Questor.Vehicle.Domain.Mutations.Reservations.Entities
 {
     public class Reservation
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Questor.Vehicle.Domain.Mutations.Reservations.Entties
+namespace Questor.Vehicle.Domain.Mutations.Reservations.Entities
 {
     public class Contact
     {
