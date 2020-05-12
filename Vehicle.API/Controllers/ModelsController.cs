@@ -29,6 +29,12 @@ namespace Questor.Vehicle.API.Controllers
             return GetResult(await _queriesHanlder.Handle(query));
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<QueryResultOne<ModelDetail>>> GetAsync(string id, [FromQuery] GetModel query) { 
+            query.Id = id;
+            return GetResult(await _queriesHanlder.Handle(query));
+        } 
+
         [HttpPost]
         public async Task<ActionResult<MutationResult>> CreateAsync([FromBody] CreateModel mutation) { 
             return GetResult(await _mutationsHanlder.Handle(mutation));    

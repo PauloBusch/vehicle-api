@@ -1,4 +1,6 @@
-﻿using Questor.Vehicle.Domain.Queries.Models.ViewModels;
+﻿using Dapper;
+using Questor.Vehicle.Domain.Queries.Models.ViewModels;
+using Questor.Vehicle.Domain.Utils.Enums;
 using Questor.Vehicle.Domain.Utils.Interfaces;
 using Questor.Vehicle.Domain.Utils.Results;
 using System;
@@ -12,14 +14,22 @@ namespace Questor.Vehicle.Domain.Queries.Models
     {
         public string Id { get; set; }
 
-        public Task<QueryResultOne<ModelDetail>> ValidateAsync(VehicleQueriesHandler handler)
+        public async Task<QueryResultOne<ModelDetail>> ValidateAsync(VehicleQueriesHandler handler)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(Id)) return new QueryResultOne<ModelDetail>(EStatusCode.InvalidData, $"Parameter {nameof(Id)} is required");
+            return await Task.FromResult<QueryResultOne<ModelDetail>>(null);
         }
 
-        public Task<QueryResultOne<ModelDetail>> ExecuteAsync(VehicleQueriesHandler handler)
+        public async Task<QueryResultOne<ModelDetail>> ExecuteAsync(VehicleQueriesHandler handler)
         {
-            throw new NotImplementedException();
+            var sql = @"
+                select m.id, m.name
+                from models m
+                where m.id=@Id;
+            ";
+            var model = await handler.DbConnection.QueryFirstOrDefaultAsync<ModelDetail>(sql, new { Id });
+            if (model == null) return new QueryResultOne<ModelDetail>(EStatusCode.NotFound, $"Model with id: {Id} is not found");
+            return new QueryResultOne<ModelDetail>(model);
         }
     }
 }

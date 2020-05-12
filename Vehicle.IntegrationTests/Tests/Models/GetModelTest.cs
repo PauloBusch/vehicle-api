@@ -16,7 +16,6 @@ namespace Vehicle.IntegrationTests.Tests.Models
         public GetModelTest(VehicleFixture fixture) : base(fixture, "/models") { }
 
         public static IEnumerable<object[]> GetModelData() { 
-            yield return new object[] { EStatusCode.InvalidData, new GetModel { } };
             yield return new object[] { EStatusCode.NotFound, new GetModel { Id = RandomId.NewId() } };
             yield return new object[] { EStatusCode.Success, new GetModel { Id = RandomId.NewId() } };
         }
@@ -30,7 +29,7 @@ namespace Vehicle.IntegrationTests.Tests.Models
             var model = null as Model;
             if (expectedStatus != EStatusCode.NotFound)
                 model = EntitiesFactory.NewModel(id: query.Id).Save();
-            var (status, result) = await Request.Get<QueryResultOneTest<ModelDetail>>(Uri, query);
+            var (status, result) = await Request.Get<QueryResultOneTest<ModelDetail>>(new Uri($"{Uri}/{query.Id}"), query);
             Assert.Equal(expectedStatus, status);
             if (expectedStatus == EStatusCode.Success) { 
                 var modelResult = result.Data;
