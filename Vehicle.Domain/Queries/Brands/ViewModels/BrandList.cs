@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Questor.Vehicle.Domain.Queries.Brands.ViewModels
 {
-    public class Brand : IViewModel
+    public class BrandList : IViewModel
     {
         public string Id { get; set; }
         public string Name { get; set; }

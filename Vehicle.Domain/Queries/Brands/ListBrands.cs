@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace Questor.Vehicle.Domain.Queries.Brands
 {
-    public class ListBrands : IQueryList<Brand>
+    public class ListBrands : IQueryList<BrandList>
     {
 
-        public async Task<QueryResultList<Brand>> ValidateAsync(VehicleQueriesHandler handler)
+        public async Task<QueryResultList<BrandList>> ValidateAsync(VehicleQueriesHandler handler)
         {
-            return await Task.FromResult<QueryResultList<Brand>>(null);
+            return await Task.FromResult<QueryResultList<BrandList>>(null);
         }
 
-        public async Task<QueryResultList<Brand>> ExecuteAsync(VehicleQueriesHandler handler)
+        public async Task<QueryResultList<BrandList>> ExecuteAsync(VehicleQueriesHandler handler)
         {
             var sql = @"
                 select id, name
                 from brands
                 order by name;
             ";
-            var brands = await handler.DbConnection.QueryAsync<Brand>(sql);
-            return new QueryResultList<Brand>(brands);
+            var brands = await handler.DbConnection.QueryAsync<BrandList>(sql);
+            return new QueryResultList<BrandList>(brands);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Vehicle.IntegrationTests.Tests.Brands
             ListBrands query
         ) {
             var brand = EntitiesFactory.NewBrand().Save();
-            var (status, result) = await Request.Get<QueryResultListTest<Brand>>(Uri, query);
+            var (status, result) = await Request.Get<QueryResultListTest<BrandList>>(Uri, query);
             Assert.Equal(expectedStatus, status);
             if (expectedStatus == EStatusCode.Success) { 
                 Assert.NotEmpty(result.Data);
