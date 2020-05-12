@@ -1,4 +1,6 @@
-﻿using Questor.Vehicle.Domain.Queries.Brands.ViewModels;
+﻿using Dapper;
+using Questor.Vehicle.Domain.Queries.Brands.ViewModels;
+using Questor.Vehicle.Domain.Utils.Enums;
 using Questor.Vehicle.Domain.Utils.Interfaces;
 using Questor.Vehicle.Domain.Utils.Results;
 using System;
@@ -12,14 +14,22 @@ namespace Questor.Vehicle.Domain.Queries.Brands
     {
         public string Id { get; set; }
 
-        public Task<QueryResultOne<BrandDetail>> ValidateAsync(VehicleQueriesHandler handler)
+        public async Task<QueryResultOne<BrandDetail>> ValidateAsync(VehicleQueriesHandler handler)
         {
-            throw new NotImplementedException();
+            if(string.IsNullOrWhiteSpace(Id)) return new QueryResultOne<BrandDetail>(EStatusCode.InvalidData, $"Parameter {nameof(Id)} is required");
+            return await Task.FromResult<QueryResultOne<BrandDetail>>(null);
         }
 
-        public Task<QueryResultOne<BrandDetail>> ExecuteAsync(VehicleQueriesHandler handler)
+        public async Task<QueryResultOne<BrandDetail>> ExecuteAsync(VehicleQueriesHandler handler)
         {
-            throw new NotImplementedException();
+            var sql = @"
+                select b.id, b.name 
+                from brands b
+                where b.id=@Id;
+            ";
+            var brand = await handler.DbConnection.QueryFirstOrDefaultAsync<BrandDetail>(sql, new { Id });
+            if (brand == null) return new QueryResultOne<BrandDetail>(EStatusCode.NotFound, $"Brand with id: {Id} does not exists");
+            return new QueryResultOne<BrandDetail>(brand);
         }
     }
 }

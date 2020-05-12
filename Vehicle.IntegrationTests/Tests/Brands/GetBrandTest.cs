@@ -7,6 +7,7 @@ using Questor.Vehicle.Domain.Utils.Results;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Vehicle.IntegrationTests.Utils.Results;
 using Xunit;
 
 namespace Vehicle.IntegrationTests.Tests.Brands
@@ -30,7 +31,7 @@ namespace Vehicle.IntegrationTests.Tests.Brands
             var brand = null as Brand;
             if (expectedStatus != EStatusCode.NotFound)
                 brand = EntitiesFactory.NewBrand(id: query.Id).Save();
-            var (status, result) = await Request.Get<QueryResultOne<BrandDetail>>(new Uri($"{Uri}/{query.Id}"), query);
+            var (status, result) = await Request.Get<QueryResultOneTest<BrandDetail>>(new Uri($"{Uri}/{query.Id}"), query);
             Assert.Equal(expectedStatus, status);
             if (expectedStatus == EStatusCode.Success) { 
                 var brandResult = result.Data;
