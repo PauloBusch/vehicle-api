@@ -72,10 +72,10 @@ create table vehicles(
     date_creation datetime default current_timestamp,
 	
 	constraint PK_vehicles primary key(id),
-	constraint FK_vehicles_id_brand foreign key(id_brand) references brands(id),
-	constraint FK_vehicles_id_model foreign key(id_model) references models(id),
-	constraint FK_vehicles_id_color foreign key(id_color) references colors(id),
-	constraint FK_vehicles_id_fuel foreign key(id_fuel) references fuels(id)
+	constraint FK_vehicles_id_brand foreign key(id_brand) references brands(id) on delete cascade,
+	constraint FK_vehicles_id_model foreign key(id_model) references models(id) on delete cascade,
+	constraint FK_vehicles_id_color foreign key(id_color) references colors(id) on delete cascade,
+	constraint FK_vehicles_id_fuel foreign key(id_fuel) references fuels(id) on delete cascade
 );
 
 -- Anuncios
@@ -88,7 +88,7 @@ create table announcements(
     date_creation datetime default current_timestamp,
 	
 	constraint PK_announcements primary key(id),
-	constraint FK_announcements_id_vehicle foreign key(id_vehicle) references vehicles(id)
+	constraint FK_announcements_id_vehicle foreign key(id_vehicle) references vehicles(id) on delete cascade
 );
 alter table announcements add index IDX_announcements_date_sale(date_sale);
 
@@ -110,14 +110,14 @@ create table reservations (
     date_creation datetime default current_timestamp,
     
     constraint PK_reservations primary key(id),
-    constraint FK_reservations_id_announcement foreign key (id_announcement) references announcements(id),
-    constraint FK_reservations_id_contact foreign key (id_contact) references contacts(id)
+    constraint FK_reservations_id_announcement foreign key (id_announcement) references announcements(id) on delete cascade,
+    constraint FK_reservations_id_contact foreign key (id_contact) references contacts(id) on delete cascade
 );
 alter table reservations add index IDX_reservations_date_sale(date_sale);
 
 -- DEFAULT VALUES ------------------------------------
 insert into users(id, login, name, password) values
-(new_id(), 'joão', 'João', 'goviAebTZ16ecrxAN3pG+g==');
+(new_id(), 'joão', 'João', 'InddsksGcJidlvfsjkvTdg==');
 
 insert into colors(id, name, hex) values
 (1, 'Branco', '#ffffff'),

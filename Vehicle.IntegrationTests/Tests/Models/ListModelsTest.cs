@@ -24,7 +24,7 @@ namespace Vehicle.IntegrationTests.Tests.Models
             ListModels query
         ) {
             var model = EntitiesFactory.NewModel().Save();
-            var (status, result) = await Request.Get<QueryResultListTest<Model>>(Uri, query);
+            var (status, result) = await Request.Get<QueryResultListTest<ModelList>>(Uri, query);
             Assert.Equal(expectedStatus, status);
             if (expectedStatus == EStatusCode.Success) { 
                 Assert.NotEmpty(result.Data);

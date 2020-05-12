@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Questor.Vehicle.Domain.Mutations.Users.ViewModels;
 using Questor.Vehicle.Domain.Utils.Enums;
+using Questor.Vehicle.Domain.Utils.Hash;
 using Questor.Vehicle.Domain.Utils.Interfaces;
 using Questor.Vehicle.Domain.Utils.Metadata;
 using Questor.Vehicle.Domain.Utils.Results;

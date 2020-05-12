@@ -9,22 +9,22 @@ using Dapper;
 
 namespace Questor.Vehicle.Domain.Queries.Models
 {
-    public class ListModels : IQueryList<Model>
+    public class ListModels : IQueryList<ModelList>
     {
-        public async Task<QueryResultList<Model>> ValidateAsync(VehicleQueriesHandler handler)
+        public async Task<QueryResultList<ModelList>> ValidateAsync(VehicleQueriesHandler handler)
         {
-            return await Task.FromResult<QueryResultList<Model>>(null);
+            return await Task.FromResult<QueryResultList<ModelList>>(null);
         }
 
-        public async Task<QueryResultList<Model>> ExecuteAsync(VehicleQueriesHandler handler)
+        public async Task<QueryResultList<ModelList>> ExecuteAsync(VehicleQueriesHandler handler)
         {
             var sql = @"
                 select id, name
                 from models
                 order by name asc;
             ";
-            var models = await handler.DbConnection.QueryAsync<Model>(sql);
-            return new QueryResultList<Model>(models);
+            var models = await handler.DbConnection.QueryAsync<ModelList>(sql);
+            return new QueryResultList<ModelList>(models);
         }
     }
 }
