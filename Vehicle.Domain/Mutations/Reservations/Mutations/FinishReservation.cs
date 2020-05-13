@@ -4,6 +4,7 @@ using Questor.Vehicle.Domain.Utils.Interfaces;
 using Questor.Vehicle.Domain.Utils.Results;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,7 +26,10 @@ namespace Questor.Vehicle.Domain.Mutations.Reservations.Mutations
 
         public async Task<MutationResult> ExecuteAsync(VehicleMutationsHandler handler)
         {
-            var reservation = await handler.DbContext.Reservations.FindAsync(Id);
+            var reservation = await handler.DbContext.Reservations
+                .Include(i => i.Announcement)
+                .Where(r => r.Id == Id)
+                .FirstOrDefaultAsync();
             reservation.SetDateSale(DateSale.Value);
             reservation.Announcement.SetDateSale(DateSale.Value);
             handler.DbContext.Update(reservation);
