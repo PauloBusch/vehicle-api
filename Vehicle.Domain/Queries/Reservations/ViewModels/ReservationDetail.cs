@@ -10,6 +10,7 @@ namespace Questor.Vehicle.Domain.Queries.Reservations.ViewModels
         public string Id { get; set; }
         public string ContactName { get; set; }
         public string ContactPhone { get; set; }
+        public string AnnouncementId { get; set; }
         public string AnnouncementName { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace Vehicle.IntegrationTests.Tests.Reservations
             if (expectedStatus != EStatusCode.NotFound)
                 reservation = EntitiesFactory.NewReservation(id: query.Id).Save();
 
-            var (status, result) = await Request.Get<QueryResultOneTest<ReservationDetail>>(Uri, query);
+            var (status, result) = await Request.Get<QueryResultOneTest<ReservationDetail>>(new Uri($"{Uri}/{query.Id}"), query);
             Assert.Equal(expectedStatus, status);
             if (expectedStatus == EStatusCode.Success) { 
                 var reservationResult = result.Data;
@@ -41,6 +41,7 @@ namespace Vehicle.IntegrationTests.Tests.Reservations
                 Assert.Equal(reservation.Id, reservationResult.Id);
                 Assert.Equal(reservation.Contact.Name, reservationResult.ContactName);
                 Assert.Equal(reservation.Contact.Phone, reservationResult.ContactPhone);
+                Assert.Equal(reservation.AnnouncementId, reservationResult.AnnouncementId);
                 Assert.Equal(expectedName, reservationResult.AnnouncementName);
             }
         }
