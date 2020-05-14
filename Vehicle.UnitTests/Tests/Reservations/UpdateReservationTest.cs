@@ -1,8 +1,8 @@
-﻿using Questor.Vehicle.Domain.Mutations.Reservations.Mutations;
+﻿using Microsoft.EntityFrameworkCore;
+using Questor.Vehicle.Domain.Mutations.Reservations.Mutations;
 using Questor.Vehicle.Domain.Utils.Enums;
 using Questor.Vehicle.Domain.Utils.Random;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using Xunit;
 

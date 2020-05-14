@@ -24,7 +24,7 @@ namespace Questor.Vehicle.Domain.Mutations.Reservations.Entities
 
         [Required] [Column("id_announcement")] [ForeignKey("Announcement")]
         public string AnnouncementId { get; private set; }
-        public Announcement Announcement { get; private set; }
+        public virtual Announcement Announcement { get; private set; }
 
         public Reservation() { }
 
@@ -38,9 +38,9 @@ namespace Questor.Vehicle.Domain.Mutations.Reservations.Entities
         ) : this()
         {
             this.Id = string.IsNullOrWhiteSpace(id) ? RandomId.NewId() : id;
+            this.ContactId = contactId; 
             this.SetData(
                 dateSale: dateSale,
-                contactId: contactId,
                 announcementId: announcementId,
                 contact: contact,
                 announcement: announcement
@@ -48,14 +48,12 @@ namespace Questor.Vehicle.Domain.Mutations.Reservations.Entities
         }
 
         public void SetData(
-            string contactId,
             string announcementId,
             DateTime? dateSale = null,
             Contact contact = null,
             Announcement announcement = null
         ) {
             this.DateSale = dateSale;
-            this.ContactId = contactId;
             this.AnnouncementId = announcementId;
             this.Contact = contact;
             this.Announcement = announcement;
