@@ -25,12 +25,8 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
             var sql = @"
                 select
                     a.id, a.price_purchase, a.price_sale, a.date_sale,
-                    v.id as vehicle_id, v.year as vehicle_year,
-                    m.name as vehicle_model, b.name as vehicle_brand
-                from announcements a
-                    join vehicles v on v.id=a.id_vehicle
-                    join models m on m.id=v.id_model
-                    join brands b on b.id=v.id_brand
+                    a.vehicle_id, a.vehicle_year, a.vehicle_model_name, a.vehicle_brand_name
+                from view_announcements_list a
                 where a.id=@Id
             ";
             var announcement = await handler.DbConnection.QueryFirstOrDefaultAsync<AnnouncementDetail>(sql, new { Id });

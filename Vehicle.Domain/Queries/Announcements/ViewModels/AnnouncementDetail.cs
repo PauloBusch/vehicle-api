@@ -13,7 +13,7 @@ namespace Questor.Vehicle.Domain.Queries.Announcements.ViewModels
         public DateTime? DateSale { get; set; }
         public string VehicleId { get; set; }
         public int VehicleYear { get; set; }
-        public string VehicleModel { get; set; }
-        public string VehicleBrand { get; set; }
+        public string VehicleModelName { get; set; }
+        public string VehicleBrandName { get; set; }
     }
 }

@@ -21,14 +21,9 @@ namespace Questor.Vehicle.Domain.Queries.Vehicles
         {
             var sql = @"
                 select 
-                    v.id, v.year, c.id as color_id, c.name as color_name, c.hex as color_hex,
-                    f.id as fuel_id, f.name as fuel_name, b.id as brand_id, b.name as brand_name,
-                    m.id as model_id, m.name as model_name
-                from vehicles v
-                    join fuels f on f.id=v.id_fuel
-                    join colors c on c.id=v.id_color
-                    join brands b on b.id=v.id_brand
-                    join models m on m.id=v.id_model
+                    v.id, v.year, v.color_id, v.color_name, v.color_hex,
+                    v.fuel_id, v.fuel_name, v.brand_id, v.brand_name, v.model_id, v.model_name
+                from view_vehicles_list v
                 where v.id=@Id
             ";
             var vehicle = await handler.DbConnection.QueryFirstOrDefaultAsync<VehicleDetail>(sql, new { Id });

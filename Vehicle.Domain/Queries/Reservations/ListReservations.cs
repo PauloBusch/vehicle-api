@@ -20,14 +20,9 @@ namespace Questor.Vehicle.Domain.Queries.Reservations
         {
             var sql = @"
                 select 
-                    r.id, c.name as contact_name, c.phone as contact_phone,
-                    m.name as vehicle_model_name, b.name as vehicle_brand_name
-                from reservations r
-                    join contacts c on c.id=r.id_contact
-                    join announcements a on a.id=r.id_announcement
-                    join vehicles v on v.id=a.id_vehicle
-                    join models m on m.id=v.id_model
-                    join brands b on b.id=v.id_brand
+                    r.id, r.contact_name, r.contact_phone,
+                    r.vehicle_model_name, r.vehicle_brand_name
+                from view_reservations_list r
                 where r.date_sale is null
                 order by r.date_creation asc;
             ";

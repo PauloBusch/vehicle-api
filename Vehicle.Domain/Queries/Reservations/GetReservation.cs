@@ -24,15 +24,9 @@ namespace Questor.Vehicle.Domain.Queries.Reservations
         {
             var sql = @"
                 select 
-                    r.id, c.name as contact_name, c.phone as contact_phone,
-                    a.id as announcement_id,
-                    concat(b.name, ' - ', m.name) as announcement_name
-                from reservations r 
-                    join contacts c on c.id=r.id_contact
-                    join announcements a on a.id=r.id_announcement
-                    join vehicles v on v.id=a.id_vehicle
-                    join models m on m.id=v.id_model
-                    join brands b on b.id=v.id_brand
+                    r.id, r.contact_name, r.contact_phone,
+                    r.announcement_id, r.announcement_name
+                from view_reservations_list r 
                 where r.id=@Id
             ";
             var reservation = await handler.DbConnection.QueryFirstOrDefaultAsync<ReservationDetail>(sql, new { Id });

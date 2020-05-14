@@ -14,7 +14,7 @@ namespace Questor.Vehicle.Domain.Queries.Announcements.ViewModels
         public int VehicleYear { get; set; }
         public string VehicleColorName { get; set; }
         public string VehicleColorHex { get; set; }
-        public string VehicleModel { get; set; }
-        public string VehicleBrand { get; set; }
+        public string VehicleModelName { get; set; }
+        public string VehicleBrandName { get; set; }
     }
 }

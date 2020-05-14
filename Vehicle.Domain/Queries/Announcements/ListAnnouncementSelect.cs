@@ -19,12 +19,8 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
         public async Task<QueryResultList<AnnouncementSelectList>> ExecuteAsync(VehicleQueriesHandler handler)
         {
             var sql = @"
-                select 
-                    a.id, concat(b.name, ' - ', m.name) as name
-                from announcements a
-                    join vehicles v on v.id=a.id_vehicle
-                    join models m on m.id=v.id_model
-                    join brands b on b.id=v.id_brand
+                select a.id, a.name
+                from view_announcements_list a
                 where a.date_sale is null;
             ";
             var announcements = await handler.DbConnection.QueryAsync<AnnouncementSelectList>(sql);

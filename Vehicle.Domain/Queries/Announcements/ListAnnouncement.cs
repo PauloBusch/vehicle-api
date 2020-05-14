@@ -39,25 +39,21 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
             var sortColumnIndex = Array.IndexOf(columnsSort, SortColumn) + 1;
             var sortOrderStr = SortOrder == EOrder.Asc ? "asc" : "desc";
             var sqlBody = $@"
-                from announcements a
-                    join vehicles v on v.id=a.id_vehicle
-                    join models m on m.id=v.id_model
-                    join brands b on b.id=v.id_brand
-                    join colors c on c.id=v.id_color
+                from view_announcements_list a
                 where not exists(select r.id from reservations r where r.id_announcement=a.id and r.date_sale is not null)
                     {(OnlyUnsold ? $" and a.date_sale is null" : null)}
                     {(DataSale != null && !OnlyUnsold ? $" and date_format(a.date_sale,'%Y-%m-%d')=@DataSale" : null)}
-                    {(Year != null ? $" and v.year=@Year" : null)}
-                    {(BrandId != null ? $" and v.id_brand=@BrandId" : null)}
-                    {(ModelId != null ? $" and v.id_model=@ModelId" : null)}
+                    {(Year != null ? $" and a.vehicle_year=@Year" : null)}
+                    {(BrandId != null ? $" and a.brand_id=@BrandId" : null)}
+                    {(ModelId != null ? $" and a.model_id=@ModelId" : null)}
             ";
 
             var sqlResult = $@"
                 -- paginate rows
                 select
                     a.id, a.date_sale, a.price_purchase, a.price_sale,
-                    v.year as vehicle_year, m.name as vehicle_model, b.name as vehicle_brand,
-                    c.name as vehicle_color_name, c.hex as vehicle_color_hex
+                    a.vehicle_year, a.vehicle_model_name, a.vehicle_brand_name,
+                    a.vehicle_color_name, a.vehicle_color_hex
                 {sqlBody}
                 order by {sortColumnIndex} {sortOrderStr}
                 limit @Offset, @Limit;

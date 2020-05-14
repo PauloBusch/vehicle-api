@@ -27,19 +27,15 @@ namespace Questor.Vehicle.Domain.Queries.Vehicles
         {
             var sql = $@"
                 select 
-                    v.id, v.year, c.name as color_name, c.hex as color_hex,
-                    b.name as brand_name, m.name as model_name, f.name as fuel_name
-                from vehicles v
-                    join fuels f on f.id=v.id_fuel
-                    join colors c on c.id=v.id_color
-                    join brands b on b.id=v.id_brand
-                    join models m on m.id=v.id_model
+                    v.id, v.year, v.color_name, v.color_hex,
+                    v.brand_name, v.model_name, v.fuel_name
+                from view_vehicles_list v
                 where 1=1
                     {(Year    != null ? "and v.year=@Year "        : null)}
-                    {(FuelId  != null ? "and v.id_fuel=@FuelId "   : null)}
-                    {(ColorId != null ? "and v.id_color=@ColorId " : null)}
-                    {(ModelId != null ? "and v.id_model=@ModelId " : null)}
-                    {(BrandId != null ? "and v.id_brand=@BrandId " : null)}
+                    {(FuelId  != null ? "and v.fuel_id=@FuelId "   : null)}
+                    {(ColorId != null ? "and v.color_id=@ColorId " : null)}
+                    {(ModelId != null ? "and v.model_id=@ModelId " : null)}
+                    {(BrandId != null ? "and v.brand_id=@BrandId " : null)}
                 order by v.date_creation desc;
             ";
             var parameters = new

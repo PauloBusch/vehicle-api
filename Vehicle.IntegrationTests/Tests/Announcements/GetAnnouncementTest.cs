@@ -42,8 +42,8 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
                 Assert.Equal(announcement.DateSale, announcementResult.DateSale);
                 Assert.Equal(announcement.VehicleId, announcementResult.VehicleId);
                 Assert.Equal(announcement.Vehicle.Year, announcementResult.VehicleYear);
-                Assert.Equal(announcement.Vehicle.Model.Name, announcementResult.VehicleModel);
-                Assert.Equal(announcement.Vehicle.Brand.Name, announcementResult.VehicleBrand);
+                Assert.Equal(announcement.Vehicle.Model.Name, announcementResult.VehicleModelName);
+                Assert.Equal(announcement.Vehicle.Brand.Name, announcementResult.VehicleBrandName);
             }
         }
     }

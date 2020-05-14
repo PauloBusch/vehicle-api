@@ -135,5 +135,41 @@ insert into fuels(id, name) values
 (3, 'Álcool / Gasolina');
 
 -- VIEWS ---------------------------------------------
+-- Não materializadas
+create view view_vehicles_list as 
+select 
+	v.id, v.year, v.date_creation, c.id as color_id, c.name as color_name, c.hex as color_hex,
+	f.id as fuel_id, f.name as fuel_name, b.id as brand_id, b.name as brand_name,
+	m.id as model_id, m.name as model_name
+from vehicles v
+	join fuels f on f.id=v.id_fuel
+	join colors c on c.id=v.id_color
+	join brands b on b.id=v.id_brand
+	join models m on m.id=v.id_model;
+    
+create view view_announcements_list as 
+select
+	a.id, concat(b.name, ' - ', m.name) as name, a.date_sale, a.date_creation, a.price_purchase, a.price_sale, b.id as brand_id, m.id as model_id,
+	v.id as vehicle_id, v.year as vehicle_year, m.name as vehicle_model_name, b.name as vehicle_brand_name,
+	c.name as vehicle_color_name, c.hex as vehicle_color_hex, (a.price_sale - a.price_purchase) as profit
+from announcements a
+	join vehicles v on v.id=a.id_vehicle
+	join models m on m.id=v.id_model
+	join brands b on b.id=v.id_brand
+	join colors c on c.id=v.id_color;
+    
+create view view_reservations_list as 
+select 
+	r.id, r.date_sale, r.date_creation, c.name as contact_name, c.phone as contact_phone,
+	m.name as vehicle_model_name, b.name as vehicle_brand_name,
+    a.id as announcement_id, concat(b.name, ' - ', m.name) as announcement_name
+from reservations r
+	join contacts c on c.id=r.id_contact
+	join announcements a on a.id=r.id_announcement
+	join vehicles v on v.id=a.id_vehicle
+	join models m on m.id=v.id_model
+	join brands b on b.id=v.id_brand;
+    
+-- Materializadas (Não é suportado nativamente pelo MYSQL)
 
 -- TRIGGERS ------------------------------------------

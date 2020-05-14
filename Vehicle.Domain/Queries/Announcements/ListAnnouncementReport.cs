@@ -25,12 +25,9 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
         {
             var sql = $@"
                 select 
-                    a.id, a.date_sale, m.name as vehicle_model, b.name as vehicle_brand,
-                    (a.price_sale - a.price_purchase) as profit
-                from announcements a
-                    join vehicles v on v.id=a.id_vehicle
-                    join models m on m.id=v.id_model
-                    join brands b on b.id=v.id_brand
+                    a.id, a.date_sale, a.vehicle_model_name, 
+                    a.vehicle_brand_name, a.profit
+                from view_announcements_list a
                 where a.date_sale is not null
                     {(StartDate != null ? " and a.date_sale>=@StartDate" : null)}
                     {(EndDate != null ? " and a.date_sale<=@EndDate" : null)}
