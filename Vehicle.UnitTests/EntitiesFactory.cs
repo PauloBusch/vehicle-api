@@ -105,12 +105,14 @@ namespace Vehicle.UnitTests
             return new BuilderFactory<User>(user, DbContext);
         }
 
-        public BuilderFactory<Contact> NewContact(string id = null)
-        {
+        public BuilderFactory<Contact> NewContact(
+            string id = null,
+            string phone = null
+        ) {
             var contact = new Contact(
                 id: RandomId.NewId(),
                 name: RandomId.NewId(150),
-                phone: RandomId.NewId(15)
+                phone: phone ?? RandomId.NewId(15)
             );
 
             return new BuilderFactory<Contact>(contact, DbContext);

@@ -25,6 +25,8 @@ namespace Questor.Vehicle.Domain.Mutations.Reservations.Mutations
             if (string.IsNullOrWhiteSpace(ContactName) || ContactName.Length > 150) return new MutationResult(EStatusCode.InvalidData, $"Parameter {ContactName} invalid");
             if (string.IsNullOrWhiteSpace(ContactPhone) || ContactPhone.Length > 15) return new MutationResult(EStatusCode.InvalidData, $"Parameter {ContactPhone} invalid");
             if (string.IsNullOrWhiteSpace(AnnouncementId)) return new MutationResult(EStatusCode.InvalidData, $"Parameter {nameof(AnnouncementId)} is required");
+            var existsPhone = await handler.DbContext.Contacts.AnyAsync(c => c.Name != ContactName && c.Phone == ContactPhone);
+            if (existsPhone) return new MutationResult(EStatusCode.Conflict, $"Contact with {nameof(ContactPhone)} already exists");
             var existsAnnouncement = await handler.DbContext.Announcements.AnyAsync(a => a.Id == AnnouncementId);
             if (!existsAnnouncement) return new MutationResult(EStatusCode.NotFound, $"Announcement with id: {AnnouncementId} does not exists");
             return null;

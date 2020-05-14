@@ -41,6 +41,13 @@ namespace Questor.Vehicle.API.Controllers
             return GetResult(await _mutationsHanlder.Handle(mutation));
         }
 
+        [HttpPut("{id}")]
+        public async Task<ActionResult<MutationResult>> PutAsync(string id, [FromBody] UpdateReservation mutation)
+        {
+            mutation.Id = id;
+            return GetResult(await _mutationsHanlder.Handle(mutation));
+        }
+
         [HttpPatch("{id}/finish")]
         public async Task<ActionResult<MutationResult>> FinshAsync(string id, [FromBody] FinishReservation mutation)
         {

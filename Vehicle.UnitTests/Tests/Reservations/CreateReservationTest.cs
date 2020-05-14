@@ -21,6 +21,7 @@ namespace Vehicle.UnitTests.Tests.Reservations
             yield return new object[] { EStatusCode.InvalidData, new CreateReservation { Id = RandomId.NewId(), ContactName = RandomId.NewId(150) } };
             yield return new object[] { EStatusCode.InvalidData, new CreateReservation { Id = RandomId.NewId(), ContactName = RandomId.NewId(150), ContactPhone = RandomId.NewId(15) } };
             yield return new object[] { EStatusCode.NotFound,    new CreateReservation { Id = RandomId.NewId(), ContactName = RandomId.NewId(150), ContactPhone = RandomId.NewId(15), AnnouncementId = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.Conflict,    new CreateReservation { Id = RandomId.NewId(), ContactName = RandomId.NewId(150), ContactPhone = RandomId.NewId(15), AnnouncementId = RandomId.NewId() } };
             yield return new object[] { EStatusCode.Success,     new CreateReservation { Id = RandomId.NewId(), ContactName = RandomId.NewId(150), ContactPhone = RandomId.NewId(15), AnnouncementId = RandomId.NewId() } };
             yield return new object[] { EStatusCode.InvalidData, new CreateReservation { Id = RandomId.NewId(), ContactName = RandomId.NewId(150), ContactPhone = RandomId.NewId(20), AnnouncementId = RandomId.NewId() } };
             yield return new object[] { EStatusCode.InvalidData, new CreateReservation { Id = RandomId.NewId(), ContactName = RandomId.NewId(160), ContactPhone = RandomId.NewId(15), AnnouncementId = RandomId.NewId() } };
@@ -34,6 +35,8 @@ namespace Vehicle.UnitTests.Tests.Reservations
         ) {
             if (expectedStatus != EStatusCode.NotFound)
                 EntitiesFactory.NewAnnouncement(id: mutation.AnnouncementId).Save();
+            if (expectedStatus == EStatusCode.Conflict)
+                EntitiesFactory.NewContact(phone: mutation.ContactPhone).Save();
 
             var result = await MutationsHandler.Handle(mutation);
             Assert.Equal(expectedStatus, result.Status);

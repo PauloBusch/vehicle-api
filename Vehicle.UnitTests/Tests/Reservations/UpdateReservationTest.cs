@@ -18,8 +18,9 @@ namespace Vehicle.UnitTests.Tests.Reservations
             yield return new object[] { EStatusCode.InvalidData, new UpdateReservation { Id = RandomId.NewId(), ContactName = RandomId.NewId(150) } };
             yield return new object[] { EStatusCode.InvalidData, new UpdateReservation { Id = RandomId.NewId(), ContactName = RandomId.NewId(150) } };
             yield return new object[] { EStatusCode.InvalidData, new UpdateReservation { Id = RandomId.NewId(), ContactName = RandomId.NewId(150), ContactPhone = RandomId.NewId(15) } };
-            yield return new object[] { EStatusCode.NotFound, new UpdateReservation { Id = RandomId.NewId(), ContactName = RandomId.NewId(150), ContactPhone = RandomId.NewId(15), AnnouncementId = RandomId.NewId() } };
-            yield return new object[] { EStatusCode.Success, new UpdateReservation { Id = RandomId.NewId(), ContactName = RandomId.NewId(150), ContactPhone = RandomId.NewId(15), AnnouncementId = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.NotFound,    new UpdateReservation { Id = RandomId.NewId(), ContactName = RandomId.NewId(150), ContactPhone = RandomId.NewId(15), AnnouncementId = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.Conflict,    new UpdateReservation { Id = RandomId.NewId(), ContactName = RandomId.NewId(150), ContactPhone = RandomId.NewId(15), AnnouncementId = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.Success,     new UpdateReservation { Id = RandomId.NewId(), ContactName = RandomId.NewId(150), ContactPhone = RandomId.NewId(15), AnnouncementId = RandomId.NewId() } };
             yield return new object[] { EStatusCode.InvalidData, new UpdateReservation { Id = RandomId.NewId(), ContactName = RandomId.NewId(150), ContactPhone = RandomId.NewId(20), AnnouncementId = RandomId.NewId() } };
             yield return new object[] { EStatusCode.InvalidData, new UpdateReservation { Id = RandomId.NewId(), ContactName = RandomId.NewId(160), ContactPhone = RandomId.NewId(15), AnnouncementId = RandomId.NewId() } };
         }
@@ -34,6 +35,9 @@ namespace Vehicle.UnitTests.Tests.Reservations
             EntitiesFactory.NewAnnouncement(id: mutation.AnnouncementId).Save();
             if (expectedStatus != EStatusCode.NotFound)
                 EntitiesFactory.NewReservation(id: mutation.Id).Save();
+            if (expectedStatus == EStatusCode.Conflict)
+                EntitiesFactory.NewContact(phone: mutation.ContactPhone).Save();
+            
             var result = await MutationsHandler.Handle(mutation);
             Assert.Equal(expectedStatus, result.Status);
             if (expectedStatus == EStatusCode.Success) {
