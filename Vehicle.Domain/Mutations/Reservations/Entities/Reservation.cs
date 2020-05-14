@@ -14,8 +14,7 @@ namespace Questor.Vehicle.Domain.Mutations.Reservations.Entities
         [Required] [Key]
         public string Id { get; private set; }
 
-        [Column("date_sale")]
-        [Index("IDX_reservations_date_sale")]
+        [Column("date_sale")] [Index("IDX_reservations_date_sale")]
         public DateTime? DateSale { get; private set; }
 
         [Required] [Column("id_contact")] [ForeignKey("Contact")]

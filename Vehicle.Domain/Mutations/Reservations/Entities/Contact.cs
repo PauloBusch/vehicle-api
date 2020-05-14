@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Questor.Vehicle.Domain.Mutations.Reservations.Entities
@@ -11,10 +12,10 @@ namespace Questor.Vehicle.Domain.Mutations.Reservations.Entities
         [Required] [Key]
         public string Id { get; private set; }
         
-        [Required] [MaxLength(150)]
+        [Required] [MaxLength(150)] [Index("IDX_contacts_name")]
         public string Name { get; private set; }
 
-        [Required] [MaxLength(15)]
+        [Required] [MaxLength(15)] [Index("UQ_contacts_phone", IsUnique = true)]
         public string Phone { get; private set; }
 
         public Contact() { }
