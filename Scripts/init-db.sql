@@ -149,8 +149,8 @@ from vehicles v
     
 create view view_announcements_list as 
 select
-	a.id, concat(b.name, ' - ', m.name) as name, a.date_sale, a.date_creation, a.price_purchase, a.price_sale, b.id as brand_id, m.id as model_id,
-	v.id as vehicle_id, v.year as vehicle_year, m.name as vehicle_model_name, b.name as vehicle_brand_name,
+	a.id, a.date_sale, a.date_creation, a.price_purchase, a.price_sale, b.id as brand_id, m.id as model_id,
+	v.id as vehicle_id, concat(b.name, ' - ', m.name) as vehicle_name, v.year as vehicle_year, m.name as vehicle_model_name, b.name as vehicle_brand_name,
 	c.name as vehicle_color_name, c.hex as vehicle_color_hex, (a.price_sale - a.price_purchase) as profit
 from announcements a
 	join vehicles v on v.id=a.id_vehicle

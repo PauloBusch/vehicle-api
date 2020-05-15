@@ -18,7 +18,7 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
         public string SortColumn { get; set; } = "id";
         public EOrder SortOrder { get; set; } = EOrder.Desc;
         public int? Year { get; set; }
-        public bool OnlyUnsold { get; set; }
+        public bool WithSold { get; set; }
         public DateTime? DataSale { get; set; }
         public string BrandId { get; set; }
         public string ModelId { get; set; }
@@ -41,8 +41,8 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
             var sqlBody = $@"
                 from view_announcements_list a
                 where not exists(select r.id from reservations r where r.id_announcement=a.id and r.date_sale is not null)
-                    {(OnlyUnsold ? $" and a.date_sale is null" : null)}
-                    {(DataSale != null && !OnlyUnsold ? $" and date_format(a.date_sale,'%Y-%m-%d')=@DataSale" : null)}
+                    {(!WithSold && DataSale == null ? $" and a.date_sale is null" : null)}
+                    {(DataSale != null ? $" and date_format(a.date_sale,'%Y-%m-%d')=@DataSale" : null)}
                     {(Year != null ? $" and a.vehicle_year=@Year" : null)}
                     {(BrandId != null ? $" and a.brand_id=@BrandId" : null)}
                     {(ModelId != null ? $" and a.model_id=@ModelId" : null)}

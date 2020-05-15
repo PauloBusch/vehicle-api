@@ -24,8 +24,8 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
         {
             var sql = @"
                 select
-                    a.id, a.price_purchase, a.price_sale, a.date_sale,
-                    a.vehicle_id, a.vehicle_year, a.vehicle_model_name, a.vehicle_brand_name
+                    a.id, a.price_purchase, a.price_sale, 
+                    a.date_sale, a.vehicle_id, a.vehicle_name 
                 from view_announcements_list a
                 where a.id=@Id
             ";

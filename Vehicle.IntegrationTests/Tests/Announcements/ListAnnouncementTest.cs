@@ -24,8 +24,8 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
             yield return new object[] { EStatusCode.InvalidData, new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Desc, SortColumn = RandomId.NewId() } };
             yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale" } };
             yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010 } };
-            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, OnlyUnsold = true } };
-            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, OnlyUnsold = true }, true };
+            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, WithSold = true } };
+            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, WithSold = true }, true };
         }
 
         [Theory]
@@ -42,7 +42,7 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
             ).Save();
             var announcement = EntitiesFactory.NewAnnouncement(
                 vehicle: vehicle, 
-                dateSale: query.OnlyUnsold ? null : query.DataSale
+                dateSale: query.DataSale
             ).Save();
                 
             var (status, result) = await Request.Get<QueryResultListTest<AnnouncementList>>(Uri, query);
@@ -60,7 +60,7 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
                 Assert.NotNull(announcementResult);
                 Assert.Equal(announcement.PricePurchase, announcementResult.PricePurchase);
                 Assert.Equal(announcement.PriceSale, announcementResult.PriceSale);
-                Assert.Equal(announcement.DateSale, announcementResult.DateSale);
+                Assert.Equal(announcement.DateSale.Value.Date, announcementResult.DateSale.Value.Date);
                 Assert.Equal(announcement.Vehicle.Year, announcementResult.VehicleYear);
                 Assert.Equal(announcement.Vehicle.Brand.Name, announcementResult.VehicleBrandName);
                 Assert.Equal(announcement.Vehicle.Model.Name, announcementResult.VehicleModelName);
