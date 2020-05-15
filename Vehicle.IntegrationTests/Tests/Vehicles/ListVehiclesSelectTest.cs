@@ -1,4 +1,5 @@
-﻿using Questor.Vehicle.Domain.Queries.Vehicles.ViewModels;
+﻿using Questor.Vehicle.Domain.Queries.Vehicles;
+using Questor.Vehicle.Domain.Queries.Vehicles.ViewModels;
 using Questor.Vehicle.Domain.Utils.Enums;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,9 @@ using Xunit;
 
 namespace Vehicle.IntegrationTests.Tests.Vehicles
 {
-    public class ListVehiclesSelect : BaseTests
+    public class ListVehiclesSelectTest : BaseTests
     {
-        public ListVehiclesSelect(VehicleFixture fixture) : base(fixture, "/vehicles/select") { }
+        public ListVehiclesSelectTest(VehicleFixture fixture) : base(fixture, "/vehicles/select") { }
     
         public static IEnumerable<object[]> ListVehiclesSelectData()
         {
@@ -28,10 +29,10 @@ namespace Vehicle.IntegrationTests.Tests.Vehicles
             var (status, result) = await Request.Get<QueryResultListTest<VehicleSelectList>>(Uri, query);
             Assert.Equal(expectedStatus, status);
             if(expectedStatus == EStatusCode.Success) { 
-                var announcementResult = result.Data.FirstOrDefault(a => a.Id == announcement.Id);
-                Assert.NotNull(announcementResult); 
                 var vehicle = announcement.Vehicle;
                 var expectedName = $"{vehicle.Brand.Name} - {vehicle.Model.Name}";
+                var announcementResult = result.Data.FirstOrDefault(a => a.Id == vehicle.Id);
+                Assert.NotNull(announcementResult); 
                 Assert.Equal(expectedName, announcementResult.Name); 
             }
 

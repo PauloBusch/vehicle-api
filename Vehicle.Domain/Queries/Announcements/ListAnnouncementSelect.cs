@@ -19,7 +19,7 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
         public async Task<QueryResultList<AnnouncementSelectList>> ExecuteAsync(VehicleQueriesHandler handler)
         {
             var sql = @"
-                select a.id, a.name
+                select a.id, a.vehicle_name as name
                 from view_announcements_list a
                 where a.date_sale is null;
             ";

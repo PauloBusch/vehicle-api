@@ -5,9 +5,6 @@ using Questor.Vehicle.Domain.Queries;
 using Questor.Vehicle.Domain.Queries.Vehicles;
 using Questor.Vehicle.Domain.Queries.Vehicles.ViewModels;
 using Questor.Vehicle.Domain.Utils.Results;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Questor.Vehicle.API.Controllers
@@ -25,6 +22,12 @@ namespace Questor.Vehicle.API.Controllers
 
         [HttpGet]
         public async Task<ActionResult<QueryResultList<VechicleList>>> ListAsync([FromQuery] ListVehicles query)
+        {
+            return GetResult(await _queriesHanlder.Handle(query));
+        }
+
+        [HttpGet("select")]
+        public async Task<ActionResult<QueryResultList<VehicleSelectList>>> ListSelectAsync([FromQuery] ListVehiclesSelect query)
         {
             return GetResult(await _queriesHanlder.Handle(query));
         }

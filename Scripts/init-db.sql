@@ -138,7 +138,7 @@ insert into fuels(id, name) values
 -- Não materializadas
 create view view_vehicles_list as 
 select 
-	v.id, v.year, v.date_creation, c.id as color_id, c.name as color_name, c.hex as color_hex,
+	v.id, concat(b.name, ' - ', m.name) as name, v.year, v.date_creation, c.id as color_id, c.name as color_name, c.hex as color_hex,
 	f.id as fuel_id, f.name as fuel_name, b.id as brand_id, b.name as brand_name,
 	m.id as model_id, m.name as model_name
 from vehicles v

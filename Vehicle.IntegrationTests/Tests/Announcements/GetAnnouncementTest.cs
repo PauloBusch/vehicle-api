@@ -36,14 +36,14 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
             Assert.Equal(expectedStatus, status);
             if (expectedStatus == EStatusCode.Success) { 
                 var announcementResult = result.Data;
-                Assert.NotNull(announcementResult);
+                Assert.NotNull(announcementResult); 
+                var vehicle = announcement.Vehicle;
+                var expectedName = $"{vehicle.Brand.Name} - {vehicle.Model.Name}";
                 Assert.Equal(announcement.PricePurchase, announcementResult.PricePurchase);
                 Assert.Equal(announcement.PriceSale, announcementResult.PriceSale);
                 Assert.Equal(announcement.DateSale, announcementResult.DateSale);
                 Assert.Equal(announcement.VehicleId, announcementResult.VehicleId);
-                Assert.Equal(announcement.Vehicle.Year, announcementResult.VehicleYear);
-                Assert.Equal(announcement.Vehicle.Model.Name, announcementResult.VehicleModelName);
-                Assert.Equal(announcement.Vehicle.Brand.Name, announcementResult.VehicleBrandName);
+                Assert.Equal(expectedName, announcementResult.VehicleName);
             }
         }
     }
