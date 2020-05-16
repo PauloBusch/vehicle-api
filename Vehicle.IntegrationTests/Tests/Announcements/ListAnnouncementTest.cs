@@ -24,10 +24,10 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
             yield return new object[] { EStatusCode.InvalidData, new ListAnnouncement { Page = 0, Limit = 0 } };
             yield return new object[] { EStatusCode.InvalidData, new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Desc, SortColumn = RandomId.NewId() } };
             yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale" } };
-            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, ColorId = EColor.Blue } };
-            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, IncludeSold = true } };
-            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, IncludeSold = true, IncludeReserved = true } };
-            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, IncludeSold = true }, true };
+            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DateSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, ColorId = EColor.Blue } };
+            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DateSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, IncludeSold = true } };
+            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DateSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, IncludeSold = true, IncludeReserved = true } };
+            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DateSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, IncludeSold = true }, true };
         }
 
         [Theory]
@@ -45,7 +45,7 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
             ).Save();
             var announcement = EntitiesFactory.NewAnnouncement(
                 vehicle: vehicle, 
-                dateSale: query.DataSale
+                dateSale: query.DateSale
             ).Save();
                 
             var (status, result) = await Request.Get<QueryResultListTest<AnnouncementList>>(Uri, query);

@@ -19,7 +19,7 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
         public int? Year { get; set; }
         public bool IncludeReserved { get; set; }
         public bool IncludeSold { get; set; }
-        public DateTime? DataSale { get; set; }
+        public DateTimeOffset? DateSale { get; set; }
         public EColor? ColorId { get; set; }
         public string BrandId { get; set; }
         public string ModelId { get; set; }
@@ -43,8 +43,8 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
                 from view_announcements_list a
                 where 1=1
                     {(!IncludeReserved? $" and not exists(select r.id from reservations r where r.id_announcement=a.id)" : null)}
-                    {(!IncludeSold && DataSale == null ? $" and a.date_sale is null" : null)}
-                    {(DataSale != null ? $" and date_format(a.date_sale,'%Y-%m-%d')=@DataSale" : null)}
+                    {(!IncludeSold && DateSale == null ? $" and a.date_sale is null" : null)}
+                    {(DateSale != null ? $" and date_format(a.date_sale,'%Y-%m-%d')=@DataSale" : null)}
                     {(Year != null ? $" and a.vehicle_year=@Year" : null)}
                     {(ColorId != null ? $" and a.color_id=@ColorId" : null)}
                     {(BrandId != null ? $" and a.brand_id=@BrandId" : null)}
@@ -70,7 +70,7 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
                 ColorId,
                 BrandId,
                 ModelId,
-                DataSale = DataSale?.ToString("yyyy-MM-dd"),
+                DataSale = DateSale?.ToString("yyyy-MM-dd"),
                 Offset = (Page - 1) * Limit,
                 Limit,
             };
