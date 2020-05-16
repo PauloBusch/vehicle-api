@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Questor.Vehicle.Domain.Mutations;
 using Questor.Vehicle.Domain.Mutations.Reservations.Mutations;
 using Questor.Vehicle.Domain.Queries;
@@ -36,6 +37,7 @@ namespace Questor.Vehicle.API.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<MutationResult>> CreateAsync([FromBody] CreateReservation mutation)
         {
             return GetResult(await _mutationsHanlder.Handle(mutation));

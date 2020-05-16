@@ -29,6 +29,7 @@ namespace Questor.Vehicle.API.Controllers
         }
 
         [HttpGet("select")]
+        [AllowAnonymous]
         public async Task<ActionResult<QueryResultList<AnnouncementSelectList>>> ListSelectAsync([FromQuery] ListAnnouncementSelect query)
         {
             return GetResult(await _queriesHanlder.Handle(query));

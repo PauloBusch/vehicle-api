@@ -17,6 +17,7 @@ namespace Vehicle.IntegrationTests.Tests.Vehicles
         public static IEnumerable<object[]> ListVehiclesSelectData()
         {
             yield return new object[] { EStatusCode.Success, new ListVehiclesSelect { } };
+            yield return new object[] { EStatusCode.Success, new ListVehiclesSelect { IncludeAnnouncements = true } };
         }
 
         [Theory]
@@ -25,17 +26,15 @@ namespace Vehicle.IntegrationTests.Tests.Vehicles
               EStatusCode expectedStatus,
               ListVehiclesSelect query
         ) { 
-            var announcement = EntitiesFactory.NewAnnouncement().Save();
+            var vehicle = EntitiesFactory.NewVehicle().Save();
             var (status, result) = await Request.Get<QueryResultListTest<VehicleSelectList>>(Uri, query);
             Assert.Equal(expectedStatus, status);
             if(expectedStatus == EStatusCode.Success) { 
-                var vehicle = announcement.Vehicle;
                 var expectedName = $"{vehicle.Brand.Name} - {vehicle.Model.Name}";
                 var announcementResult = result.Data.FirstOrDefault(a => a.Id == vehicle.Id);
                 Assert.NotNull(announcementResult); 
                 Assert.Equal(expectedName, announcementResult.Name); 
             }
-
         }
     }
 }
