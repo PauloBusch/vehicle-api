@@ -5,9 +5,7 @@ using Questor.Vehicle.Domain.Utils.Enums;
 using Questor.Vehicle.Domain.Utils.Interfaces;
 using Questor.Vehicle.Domain.Utils.Results;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Questor.Vehicle.Domain.Queries.Announcements
@@ -19,7 +17,8 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
         public string SortColumn { get; set; } = "date_creation";
         public EOrder SortOrder { get; set; } = EOrder.Desc;
         public int? Year { get; set; }
-        public bool WithSold { get; set; }
+        public bool IncludeReserved { get; set; }
+        public bool IncludeSold { get; set; }
         public DateTime? DataSale { get; set; }
         public EColor? ColorId { get; set; }
         public string BrandId { get; set; }
@@ -42,8 +41,9 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
             var sortOrderStr = SortOrder == EOrder.Asc ? "asc" : "desc";
             var sqlBody = $@"
                 from view_announcements_list a
-                where not exists(select r.id from reservations r where r.id_announcement=a.id and r.date_sale is not null)
-                    {(!WithSold && DataSale == null ? $" and a.date_sale is null" : null)}
+                where 1=1
+                    {(!IncludeReserved? $" and not exists(select r.id from reservations r where r.id_announcement=a.id)" : null)}
+                    {(!IncludeSold && DataSale == null ? $" and a.date_sale is null" : null)}
                     {(DataSale != null ? $" and date_format(a.date_sale,'%Y-%m-%d')=@DataSale" : null)}
                     {(Year != null ? $" and a.vehicle_year=@Year" : null)}
                     {(ColorId != null ? $" and a.color_id=@ColorId" : null)}

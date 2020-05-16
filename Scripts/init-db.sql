@@ -100,7 +100,7 @@ create table contacts (
     
     constraint PK_contacts primary key(id)
 );
-alter table contacts add constraint unique index UQ_contacts_name(name);
+alter table contacts add constraint index IDX_contacts_name(name);
 alter table contacts add constraint unique index UQ_contacts_phone(phone);
 
 create table reservations (

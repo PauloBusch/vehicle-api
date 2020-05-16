@@ -17,6 +17,7 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
         public static IEnumerable<object[]> ListAnnouncementSelectData()
         {
             yield return new object[] { EStatusCode.Success, new ListAnnouncementSelect{ } };
+            yield return new object[] { EStatusCode.Success, new ListAnnouncementSelect{ IncludeReserved=true } };
         }
 
         [Theory]
