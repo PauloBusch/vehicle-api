@@ -1,15 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Questor.Vehicle.Domain.Queries.Models.ViewModels;
-using Questor.Vehicle.Domain.Queries;
-using Questor.Vehicle.Domain.Utils.Results;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Questor.Vehicle.Domain.Queries.Models;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Questor.Vehicle.Domain.Mutations;
 using Questor.Vehicle.Domain.Mutations.Models.Mutations;
-using Microsoft.AspNetCore.Authorization;
+using Questor.Vehicle.Domain.Queries;
+using Questor.Vehicle.Domain.Queries.Models;
+using Questor.Vehicle.Domain.Queries.Models.ViewModels;
+using Questor.Vehicle.Domain.Utils.Results;
+using System.Threading.Tasks;
 
 namespace Questor.Vehicle.API.Controllers
 {
@@ -35,7 +32,13 @@ namespace Questor.Vehicle.API.Controllers
         public async Task<ActionResult<QueryResultOne<ModelDetail>>> GetAsync(string id, [FromQuery] GetModel query) { 
             query.Id = id;
             return GetResult(await _queriesHanlder.Handle(query));
-        } 
+        }
+
+        [HttpGet("select")]
+        public async Task<ActionResult<QueryResultList<ModelSelectList>>> GetSelectListAsync([FromQuery] ListModelsSelect query)
+        {
+            return GetResult(await _queriesHanlder.Handle(query));
+        }
 
         [HttpPost]
         public async Task<ActionResult<MutationResult>> CreateAsync([FromBody] CreateModel mutation) { 

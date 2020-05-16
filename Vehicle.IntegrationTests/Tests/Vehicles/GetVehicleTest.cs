@@ -37,8 +37,8 @@ namespace Vehicle.IntegrationTests.Tests.Vehicles
                 Assert.NotNull(result.Data);
                 var vehicleResult = result.Data;
                 Assert.Equal(vehicle.Year, vehicleResult.Year);
-                Assert.Equal(vehicle.BrandId, vehicleResult.BrandId);
-                Assert.Equal(vehicle.Brand.Name, vehicleResult.BrandName);
+                Assert.Equal(vehicle.Model.BrandId, vehicleResult.BrandId);
+                Assert.Equal(vehicle.Model.Brand.Name, vehicleResult.BrandName);
                 Assert.Equal(vehicle.ModelId, vehicleResult.ModelId);
                 Assert.Equal(vehicle.Model.Name, vehicleResult.ModelName);
                 Assert.Equal(vehicle.Fuel, vehicleResult.FuelId);

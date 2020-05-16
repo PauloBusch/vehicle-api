@@ -22,10 +22,9 @@ namespace Vehicle.UnitTests.Tests.Vehicles
             yield return new object[] { EStatusCode.InvalidData, new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex } };
             yield return new object[] { EStatusCode.InvalidData, new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black } };
             yield return new object[] { EStatusCode.InvalidData, new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010 } };
-            yield return new object[] { EStatusCode.NotFound,    new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, BrandId = RandomId.NewId(), ModelId = RandomId.NewId() } };
-            yield return new object[] { EStatusCode.NotFound,    new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, BrandId = RandomId.NewId(), ModelId = RandomId.NewId() }, true, false };
-            yield return new object[] { EStatusCode.NotFound,    new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, BrandId = RandomId.NewId(), ModelId = RandomId.NewId() }, false, true };
-            yield return new object[] { EStatusCode.Success,     new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, BrandId = RandomId.NewId(), ModelId = RandomId.NewId() }, true, true };
+            yield return new object[] { EStatusCode.NotFound,    new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, ModelId = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.NotFound,    new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, ModelId = RandomId.NewId() }, false };
+            yield return new object[] { EStatusCode.Success,     new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, ModelId = RandomId.NewId() }, true  };
         }
 
         [Theory]
@@ -33,15 +32,12 @@ namespace Vehicle.UnitTests.Tests.Vehicles
         public async void UpdateVehicle(
             EStatusCode expectedStatus,
             UpdateVehicle mutation,
-            bool? withModel = false,
-            bool? withBrand = false
+            bool? withModel = false
         ) {
             if (expectedStatus != EStatusCode.NotFound)
                 EntitiesFactory.NewVehicle(id: mutation.Id).Save();
             if (withModel.Value)
                 EntitiesFactory.NewModel(id: mutation.ModelId).Save();
-            if (withBrand.Value)
-                EntitiesFactory.NewBrand(id: mutation.BrandId).Save();    
 
             var result = await MutationsHandler.Handle(mutation);
             Assert.Equal(expectedStatus, result.Status);
@@ -54,7 +50,6 @@ namespace Vehicle.UnitTests.Tests.Vehicles
                 Assert.Equal(mutation.ColorId, vehicleDb.Color);
                 Assert.Equal(mutation.FuelId, vehicleDb.Fuel);
                 Assert.Equal(mutation.ModelId, vehicleDb.Model.Id);
-                Assert.Equal(mutation.BrandId, vehicleDb.Brand.Id);
             }
         }
     }

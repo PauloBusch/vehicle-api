@@ -36,7 +36,7 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
                 var announcementResult = result.Data.FirstOrDefault(a => a.Id == announcement.Id);
                 Assert.NotNull(announcementResult);
                 Assert.Equal(announcement.PriceSale - announcement.PricePurchase, announcementResult.Profit);
-                Assert.Equal(announcement.Vehicle.Brand.Name, announcementResult.VehicleBrandName);
+                Assert.Equal(announcement.Vehicle.Model.Brand.Name, announcementResult.VehicleBrandName);
                 Assert.Equal(announcement.Vehicle.Model.Name, announcementResult.VehicleModelName);
             }
         }

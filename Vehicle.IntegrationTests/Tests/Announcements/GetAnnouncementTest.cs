@@ -38,7 +38,7 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
                 var announcementResult = result.Data;
                 Assert.NotNull(announcementResult); 
                 var vehicle = announcement.Vehicle;
-                var expectedName = $"{vehicle.Brand.Name} - {vehicle.Model.Name}";
+                var expectedName = $"{vehicle.Model.Brand.Name} - {vehicle.Model.Name}";
                 Assert.Equal(announcement.PricePurchase, announcementResult.PricePurchase);
                 Assert.Equal(announcement.PriceSale, announcementResult.PriceSale);
                 Assert.Equal(announcement.DateSale, announcementResult.DateSale);

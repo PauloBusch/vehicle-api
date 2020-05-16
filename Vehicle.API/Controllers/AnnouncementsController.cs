@@ -35,7 +35,14 @@ namespace Questor.Vehicle.API.Controllers
             return GetResult(await _queriesHanlder.Handle(query));
         }
 
+        [HttpGet("report")]
+        public async Task<ActionResult<QueryResultList<AnnouncementReportList>>> AnnouncementReportAsync([FromQuery] ListAnnouncementReport query)
+        {
+            return GetResult(await _queriesHanlder.Handle(query));
+        }
+
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<QueryResultOne<AnnouncementDetail>>> GetAsync(string id, [FromQuery] GetAnnouncement query) { 
             query.Id = id;
             return GetResult(await _queriesHanlder.Handle(query));

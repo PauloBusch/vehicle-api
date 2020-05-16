@@ -34,7 +34,7 @@ namespace Vehicle.IntegrationTests.Tests.Reservations
                 Assert.Equal(reservation.Id, reservationResult.Id);
                 Assert.Equal(reservation.Contact.Name, reservationResult.ContactName);
                 Assert.Equal(reservation.Contact.Phone, reservationResult.ContactPhone);
-                Assert.Equal(reservation.Announcement.Vehicle.Brand.Name, reservationResult.VehicleBrandName);
+                Assert.Equal(reservation.Announcement.Vehicle.Model.Brand.Name, reservationResult.VehicleBrandName);
                 Assert.Equal(reservation.Announcement.Vehicle.Model.Name, reservationResult.VehicleModelName);
             }
         }

@@ -45,7 +45,7 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
             ).Save();
             var announcement = EntitiesFactory.NewAnnouncement(
                 vehicle: vehicle, 
-                dateSale: query.DateSale
+                dateSale: query.DateSale?.DateTime
             ).Save();
                 
             var (status, result) = await Request.Get<QueryResultListTest<AnnouncementList>>(Uri, query);
@@ -65,7 +65,7 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
                 Assert.Equal(announcement.PriceSale, announcementResult.PriceSale);
                 Assert.Equal(announcement.DateSale.Value.Date, announcementResult.DateSale.Value.Date);
                 Assert.Equal(announcement.Vehicle.Year, announcementResult.VehicleYear);
-                Assert.Equal(announcement.Vehicle.Brand.Name, announcementResult.VehicleBrandName);
+                Assert.Equal(announcement.Vehicle.Model.Brand.Name, announcementResult.VehicleBrandName);
                 Assert.Equal(announcement.Vehicle.Model.Name, announcementResult.VehicleModelName);
             }
         }

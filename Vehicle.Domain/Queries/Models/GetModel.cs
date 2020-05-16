@@ -23,8 +23,9 @@ namespace Questor.Vehicle.Domain.Queries.Models
         public async Task<QueryResultOne<ModelDetail>> ExecuteAsync(VehicleQueriesHandler handler)
         {
             var sql = @"
-                select m.id, m.name
+                select m.id, m.name, b.id as brand_id, b.name as brand_name
                 from models m
+                join brands b on b.id=m.id_brand
                 where m.id=@Id;
             ";
             var model = await handler.DbConnection.QueryFirstOrDefaultAsync<ModelDetail>(sql, new { Id });

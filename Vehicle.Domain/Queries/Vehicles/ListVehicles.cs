@@ -30,12 +30,13 @@ namespace Questor.Vehicle.Domain.Queries.Vehicles
                     v.id, v.year, v.color_name, v.color_hex,
                     v.brand_name, v.model_name, v.fuel_name
                 from view_vehicles_list v
-                where 1=1
-                    {(Year    != null ? "and v.year=@Year "        : null)}
+                left join announcements a on a.id_vehicle=v.id
+                where a.date_sale is null
+                    {(Year != null    ? "and v.year=@Year " : null)}
                     {(FuelId  != null ? "and v.fuel_id=@FuelId "   : null)}
                     {(ColorId != null ? "and v.color_id=@ColorId " : null)}
-                    {(ModelId != null ? "and v.model_id=@ModelId " : null)}
-                    {(BrandId != null ? "and v.brand_id=@BrandId " : null)}
+                    {(!string.IsNullOrWhiteSpace(ModelId) ? "and v.model_id=@ModelId " : null)}
+                    {(!string.IsNullOrWhiteSpace(BrandId) ? "and v.brand_id=@BrandId " : null)}
                 order by v.date_creation desc;
             ";
             var parameters = new

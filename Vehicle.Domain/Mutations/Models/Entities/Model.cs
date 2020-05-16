@@ -1,4 +1,5 @@
-﻿using Questor.Vehicle.Domain.Utils.Random;
+﻿using Questor.Vehicle.Domain.Mutations.Brands.Entities;
+using Questor.Vehicle.Domain.Utils.Random;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,19 +17,34 @@ namespace Questor.Vehicle.Domain.Mutations.Models.Entities
         [Required] [MaxLength(200)] [Index("UQ_models_name", IsUnique = true)]
         public string Name { get; private set; }
 
+        [Required] [Column("id_brand")] [ForeignKey("Brand")]
+        public string BrandId { get; private set; }
+        public virtual Brand Brand { get; private set; }
+
         public Model() { }
 
         public Model(
             string id,
-            string name
+            string name,
+            string brandId,
+            Brand brand = null
         ) : this() {
             this.Id = string.IsNullOrWhiteSpace(id) ? RandomId.NewId() : id;
-            this.SetData(name: name);
+            this.SetData(
+                name: name,
+                brandId: brandId,
+                brand: brand
+            );
         }
 
-        public void SetData(string name)
-        {
+        public void SetData(
+            string name,
+            string brandId,
+            Brand brand = null
+        ) {
             this.Name = name;
+            this.Brand = brand;
+            this.BrandId = brandId;
         }
     }
 }

@@ -9,5 +9,7 @@ namespace Questor.Vehicle.Domain.Queries.Models.ViewModels
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        public string BrandId { get; set; }
+        public string BrandName { get; set; }
     }
 }

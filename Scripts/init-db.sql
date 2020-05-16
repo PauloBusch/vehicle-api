@@ -36,10 +36,12 @@ alter table brands add unique index UQ_brands_name(name);
 
 -- Modelos
 create table models (
-	id char(8) not null,
+	id char(8) not null,	
+    id_brand char(8) not null,
 	name varchar(200) not null,
 	
-	constraint PK_models primary key(id)
+	constraint PK_models primary key(id),
+	constraint FK_models_id_brand foreign key(id_brand) references brands(id) on delete cascade
 );
 alter table models add unique index UQ_models_name(name);
 
@@ -68,12 +70,10 @@ create table vehicles(
 	year int not null,   
 	id_fuel int not null,
 	id_color int not null,
-	id_brand char(8) not null,
 	id_model char(8) not null,
     date_creation datetime default current_timestamp,
 	
 	constraint PK_vehicles primary key(id),
-	constraint FK_vehicles_id_brand foreign key(id_brand) references brands(id) on delete cascade,
 	constraint FK_vehicles_id_model foreign key(id_model) references models(id) on delete cascade,
 	constraint FK_vehicles_id_color foreign key(id_color) references colors(id) on delete cascade,
 	constraint FK_vehicles_id_fuel foreign key(id_fuel) references fuels(id) on delete cascade
@@ -100,7 +100,7 @@ create table contacts (
     
     constraint PK_contacts primary key(id)
 );
-alter table contacts add constraint index IDX_contacts_name(name);
+alter table contacts add index IDX_contacts_name(name);
 alter table contacts add constraint unique index UQ_contacts_phone(phone);
 
 create table reservations (
@@ -145,8 +145,8 @@ select
 from vehicles v
 	join fuels f on f.id=v.id_fuel
 	join colors c on c.id=v.id_color
-	join brands b on b.id=v.id_brand
-	join models m on m.id=v.id_model;
+	join models m on m.id=v.id_model
+	join brands b on b.id=m.id_brand;
     
 create view view_announcements_list as 
 select
@@ -156,7 +156,7 @@ select
 from announcements a
 	join vehicles v on v.id=a.id_vehicle
 	join models m on m.id=v.id_model
-	join brands b on b.id=v.id_brand
+	join brands b on b.id=m.id_brand
 	join colors c on c.id=v.id_color
     join fuels f on f.id=v.id_fuel;
     
@@ -170,7 +170,7 @@ from reservations r
 	join announcements a on a.id=r.id_announcement
 	join vehicles v on v.id=a.id_vehicle
 	join models m on m.id=v.id_model
-	join brands b on b.id=v.id_brand;
+	join brands b on b.id=m.id_brand;
     
 -- Materializadas (Não é suportado nativamente pelo MYSQL)
 

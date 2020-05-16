@@ -12,8 +12,8 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
 {
     public class ListAnnouncementReport : IQueryList<AnnouncementReportList>
     {
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateTimeOffset? StartDate { get; set; }
+        public DateTimeOffset? EndDate { get; set; }
 
         public async Task<QueryResultList<AnnouncementReportList>> ValidateAsync(VehicleQueriesHandler handler)
         {

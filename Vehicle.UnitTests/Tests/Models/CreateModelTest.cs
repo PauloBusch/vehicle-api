@@ -22,8 +22,9 @@ namespace Vehicle.UnitTests.Tests.Models
             yield return new object[] { EStatusCode.InvalidData, new CreateModel { } };
             yield return new object[] { EStatusCode.InvalidData, new CreateModel { Id = RandomId.NewId() } };
             yield return new object[] { EStatusCode.InvalidData, new CreateModel { Id = RandomId.NewId(), Name = RandomId.NewId(250) } };
-            yield return new object[] { EStatusCode.Conflict,    new CreateModel { Id = RandomId.NewId(), Name = RandomId.NewId(200) } };
-            yield return new object[] { EStatusCode.Success,     new CreateModel { Id = RandomId.NewId(), Name = RandomId.NewId(200) } };
+            yield return new object[] { EStatusCode.Conflict,    new CreateModel { Id = RandomId.NewId(), Name = RandomId.NewId(200), BrandId = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.NotFound,    new CreateModel { Id = RandomId.NewId(), Name = RandomId.NewId(200), BrandId = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.Success,     new CreateModel { Id = RandomId.NewId(), Name = RandomId.NewId(200), BrandId = RandomId.NewId() } };
         }
 
         [Theory]
@@ -32,6 +33,8 @@ namespace Vehicle.UnitTests.Tests.Models
             EStatusCode expectedStatus,
             CreateModel mutation
         ) { 
+            if (expectedStatus != EStatusCode.NotFound)
+                EntitiesFactory.NewBrand(id: mutation.BrandId).Save();
             if (expectedStatus == EStatusCode.Conflict) 
                 EntitiesFactory.NewModel(name: mutation.Name).Save();
 

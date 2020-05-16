@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Questor.Vehicle.API.Authentication;
 using Questor.Vehicle.Domain;
 using Questor.Vehicle.Domain.Mutations;
@@ -49,10 +50,7 @@ namespace Vehicle.API
             services.AddMvcCore(c => c.EnableEndpointRouting = false)
               .AddApiExplorer()
               .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-              .AddJsonOptions(options =>
-              {
-                  options.JsonSerializerOptions.IgnoreNullValues = true;
-              });
+              .AddNewtonsoftJson(options => options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore);
 
             services.AddCors(o => o.AddPolicy("AllowOrigin", builder =>
             {

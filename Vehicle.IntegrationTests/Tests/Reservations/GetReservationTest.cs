@@ -37,7 +37,7 @@ namespace Vehicle.IntegrationTests.Tests.Reservations
                 var reservationResult = result.Data;
                 Assert.NotNull(reservationResult);
                 var vehicle = reservation.Announcement.Vehicle;
-                var expectedName = $"{vehicle.Brand.Name} - {vehicle.Model.Name}";
+                var expectedName = $"{vehicle.Model.Brand.Name} - {vehicle.Model.Name}";
                 Assert.Equal(reservation.Id, reservationResult.Id);
                 Assert.Equal(reservation.Contact.Name, reservationResult.ContactName);
                 Assert.Equal(reservation.Contact.Phone, reservationResult.ContactPhone);

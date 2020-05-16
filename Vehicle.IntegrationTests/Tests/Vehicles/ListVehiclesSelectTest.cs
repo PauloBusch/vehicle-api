@@ -30,7 +30,7 @@ namespace Vehicle.IntegrationTests.Tests.Vehicles
             var (status, result) = await Request.Get<QueryResultListTest<VehicleSelectList>>(Uri, query);
             Assert.Equal(expectedStatus, status);
             if(expectedStatus == EStatusCode.Success) { 
-                var expectedName = $"{vehicle.Brand.Name} - {vehicle.Model.Name}";
+                var expectedName = $"{vehicle.Model.Brand.Name} - {vehicle.Model.Name}";
                 var announcementResult = result.Data.FirstOrDefault(a => a.Id == vehicle.Id);
                 Assert.NotNull(announcementResult); 
                 Assert.Equal(expectedName, announcementResult.Name); 

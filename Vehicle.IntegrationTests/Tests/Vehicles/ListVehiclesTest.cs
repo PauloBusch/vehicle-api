@@ -42,7 +42,7 @@ namespace Vehicle.IntegrationTests.Tests.Vehicles
                 var vehicleResult = result.Data.FirstOrDefault(v => v.Id == vehicle.Id);
                 Assert.NotNull(vehicleResult);
                 Assert.Equal(vehicle.Year, vehicleResult.Year);
-                Assert.Equal(vehicle.Brand.Name, vehicleResult.BrandName);
+                Assert.Equal(vehicle.Model.Brand.Name, vehicleResult.BrandName);
                 Assert.Equal(vehicle.Model.Name, vehicleResult.ModelName);
                 Assert.NotNull(vehicleResult.ColorHex);
                 Assert.NotNull(vehicleResult.ColorName);
