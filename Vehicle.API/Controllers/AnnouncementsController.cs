@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Questor.Vehicle.Domain.Mutations;
 using Questor.Vehicle.Domain.Mutations.Announcements.Mutations;
 using Questor.Vehicle.Domain.Queries;
 using Questor.Vehicle.Domain.Queries.Announcements;
 using Questor.Vehicle.Domain.Queries.Announcements.ViewModels;
 using Questor.Vehicle.Domain.Utils.Results;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Questor.Vehicle.API.Controllers
@@ -24,6 +22,7 @@ namespace Questor.Vehicle.API.Controllers
         }
         
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<QueryResultList<AnnouncementList>>> ListAsync([FromQuery] ListAnnouncement query)
         {
             return GetResult(await _queriesHanlder.Handle(query));

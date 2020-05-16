@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Questor.Vehicle.Domain.Mutations;
 using Questor.Vehicle.Domain.Mutations.Vehicles.Mutations;
 using Questor.Vehicle.Domain.Queries;
@@ -26,18 +27,21 @@ namespace Questor.Vehicle.API.Controllers
             return GetResult(await _queriesHanlder.Handle(query));
         }
 
+        [AllowAnonymous]
         [HttpGet("select")]
         public async Task<ActionResult<QueryResultList<VehicleSelectList>>> ListSelectAsync([FromQuery] ListVehiclesSelect query)
         {
             return GetResult(await _queriesHanlder.Handle(query));
         }
 
+        [AllowAnonymous]
         [HttpGet("colors")]
         public async Task<ActionResult<QueryResultList<ColorList>>> ListColorsAsync([FromQuery] ListColors query)
         {
             return GetResult(await _queriesHanlder.Handle(query));
         }
 
+        [AllowAnonymous]
         [HttpGet("fuels")]
         public async Task<ActionResult<QueryResultList<FuelList>>> ListFuelsAsync([FromQuery] ListFuels query)
         {

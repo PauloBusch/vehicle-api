@@ -1,4 +1,5 @@
-﻿using Questor.Vehicle.Domain.Queries.Announcements;
+﻿using Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Enums;
+using Questor.Vehicle.Domain.Queries.Announcements;
 using Questor.Vehicle.Domain.Queries.Announcements.ViewModels;
 using Questor.Vehicle.Domain.Utils.Enums;
 using Questor.Vehicle.Domain.Utils.Random;
@@ -23,7 +24,7 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
             yield return new object[] { EStatusCode.InvalidData, new ListAnnouncement { Page = 0, Limit = 0 } };
             yield return new object[] { EStatusCode.InvalidData, new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Desc, SortColumn = RandomId.NewId() } };
             yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale" } };
-            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010 } };
+            yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, ColorId = EColor.Blue } };
             yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, WithSold = true } };
             yield return new object[] { EStatusCode.Success,     new ListAnnouncement { Page = 1, Limit = 10, SortOrder = EOrder.Asc, SortColumn = "date_sale", BrandId = RandomId.NewId(), DataSale = DateTime.Now, ModelId = RandomId.NewId(), Year = 2010, WithSold = true }, true };
         }
@@ -37,7 +38,8 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
         ) {
             var vehicle = EntitiesFactory.NewVehicle(
                 brandId: query.BrandId, 
-                modelId: query.ModelId, 
+                modelId: query.ModelId,
+                color: query.ColorId,
                 year: query.Year
             ).Save();
             var announcement = EntitiesFactory.NewAnnouncement(

@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Enums;
 using Questor.Vehicle.Domain.Queries.Announcements.ViewModels;
 using Questor.Vehicle.Domain.Utils.Enums;
 using Questor.Vehicle.Domain.Utils.Interfaces;
@@ -15,15 +16,16 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
     {
         public int Page { get; set; } = 1;
         public int Limit { get; set; } = 10;
-        public string SortColumn { get; set; } = "id";
+        public string SortColumn { get; set; } = "date_creation";
         public EOrder SortOrder { get; set; } = EOrder.Desc;
         public int? Year { get; set; }
         public bool WithSold { get; set; }
         public DateTime? DataSale { get; set; }
+        public EColor? ColorId { get; set; }
         public string BrandId { get; set; }
         public string ModelId { get; set; }
 
-        private static string[] columnsSort = new [] { "id", "date_sale", "price_purchase", "price_sale", "year", "vehicle_model", "vehicle_brand" };
+        private static string[] columnsSort = new [] { "id", "date_creation", "date_sale", "price_purchase", "price_sale", "year", "vehicle_model", "vehicle_brand" };
     
         public async Task<QueryResultList<AnnouncementList>> ValidateAsync(VehicleQueriesHandler handler)
         {
@@ -44,6 +46,7 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
                     {(!WithSold && DataSale == null ? $" and a.date_sale is null" : null)}
                     {(DataSale != null ? $" and date_format(a.date_sale,'%Y-%m-%d')=@DataSale" : null)}
                     {(Year != null ? $" and a.vehicle_year=@Year" : null)}
+                    {(ColorId != null ? $" and a.color_id=@ColorId" : null)}
                     {(BrandId != null ? $" and a.brand_id=@BrandId" : null)}
                     {(ModelId != null ? $" and a.model_id=@ModelId" : null)}
             ";
@@ -51,8 +54,8 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
             var sqlResult = $@"
                 -- paginate rows
                 select
-                    a.id, a.date_sale, a.price_purchase, a.price_sale,
-                    a.vehicle_year, a.vehicle_model_name, a.vehicle_brand_name,
+                    a.id, a.date_creation, a.date_sale, a.price_purchase, a.price_sale,
+                    a.vehicle_year, a.vehicle_model_name, a.vehicle_brand_name, a.vehicle_fuel_name,
                     a.vehicle_color_name, a.vehicle_color_hex
                 {sqlBody}
                 order by {sortColumnIndex} {sortOrderStr}
@@ -64,6 +67,7 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
 
             var parameters = new {
                 Year,
+                ColorId,
                 BrandId,
                 ModelId,
                 DataSale = DataSale?.ToString("yyyy-MM-dd"),

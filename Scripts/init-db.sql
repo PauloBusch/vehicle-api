@@ -149,7 +149,7 @@ from vehicles v
     
 create view view_announcements_list as 
 select
-	a.id, a.date_sale, a.date_creation, a.price_purchase, a.price_sale, b.id as brand_id, m.id as model_id,
+	a.id, a.date_sale, a.date_creation, a.price_purchase, a.price_sale, c.id as color_id, b.id as brand_id, m.id as model_id,
 	v.id as vehicle_id, concat(b.name, ' - ', m.name) as vehicle_name, v.year as vehicle_year, m.name as vehicle_model_name, b.name as vehicle_brand_name,
 	c.name as vehicle_color_name, c.hex as vehicle_color_hex, (a.price_sale - a.price_purchase) as profit
 from announcements a
@@ -161,14 +161,15 @@ from announcements a
 create view view_reservations_list as 
 select 
 	r.id, r.date_sale, r.date_creation, c.name as contact_name, c.phone as contact_phone,
-	m.name as vehicle_model_name, b.name as vehicle_brand_name,
+	m.name as vehicle_model_name, b.name as vehicle_brand_name, f.name as vehicle_fuel_name,
     a.id as announcement_id, concat(b.name, ' - ', m.name) as announcement_name
 from reservations r
 	join contacts c on c.id=r.id_contact
 	join announcements a on a.id=r.id_announcement
 	join vehicles v on v.id=a.id_vehicle
 	join models m on m.id=v.id_model
-	join brands b on b.id=v.id_brand;
+	join brands b on b.id=v.id_brand
+    join fuels f on f.id=v.id_fuel;
     
 -- Materializadas (Não é suportado nativamente pelo MYSQL)
 

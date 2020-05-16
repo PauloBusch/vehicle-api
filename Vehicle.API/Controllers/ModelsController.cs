@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Questor.Vehicle.Domain.Queries.Models;
 using Questor.Vehicle.Domain.Mutations;
 using Questor.Vehicle.Domain.Mutations.Models.Mutations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Questor.Vehicle.API.Controllers
 {
@@ -24,6 +25,7 @@ namespace Questor.Vehicle.API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<QueryResultList<ModelList>>> ListAsync([FromQuery] ListModels query)
         {
             return GetResult(await _queriesHanlder.Handle(query));

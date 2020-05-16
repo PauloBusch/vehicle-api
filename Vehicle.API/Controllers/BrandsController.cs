@@ -22,6 +22,7 @@ namespace Questor.Vehicle.API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<QueryResultList<BrandList>>> ListAsync([FromQuery] ListBrands query) {
             return GetResult(await _queriesHanlder.Handle(query));
         }
