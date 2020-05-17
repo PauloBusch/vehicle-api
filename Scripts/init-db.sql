@@ -71,6 +71,7 @@ create table vehicles(
 	id_fuel int not null,
 	id_color int not null,
 	id_model char(8) not null,
+    photo_date datetime null,
     date_creation datetime default current_timestamp,
 	
 	constraint PK_vehicles primary key(id),
@@ -152,7 +153,7 @@ create view view_announcements_list as
 select
 	a.id, a.date_sale, a.date_creation, a.price_purchase, a.price_sale, c.id as color_id, b.id as brand_id, m.id as model_id, f.name as vehicle_fuel_name,
 	v.id as vehicle_id, concat(v.year, ' | ', c.name, ' | ', f.name) as vehicle_name, v.year as vehicle_year, m.name as vehicle_model_name, b.name as vehicle_brand_name,
-	c.name as vehicle_color_name, c.hex as vehicle_color_hex, (a.price_sale - a.price_purchase) as profit
+	c.name as vehicle_color_name, c.hex as vehicle_color_hex, (a.price_sale - a.price_purchase) as profit, v.photo_date
 from announcements a
 	join vehicles v on v.id=a.id_vehicle
 	join models m on m.id=v.id_model

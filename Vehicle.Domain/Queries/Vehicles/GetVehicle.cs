@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Questor.Vehicle.Domain.Queries.Vehicles.ViewModels;
 using Questor.Vehicle.Domain.Utils.Enums;
+using Questor.Vehicle.Domain.Utils.Files;
 using Questor.Vehicle.Domain.Utils.Interfaces;
 using Questor.Vehicle.Domain.Utils.Results;
 using System.Threading.Tasks;
@@ -28,6 +29,7 @@ namespace Questor.Vehicle.Domain.Queries.Vehicles
             ";
             var vehicle = await handler.DbConnection.QueryFirstOrDefaultAsync<VehicleDetail>(sql, new { Id });
             if (vehicle == null) return new QueryResultOne<VehicleDetail>(EStatusCode.NotFound, $"Vehicle with {nameof(Id)} does not exists");
+            vehicle.ImageBase64 = await Base64.LoadBase64Async(EPath.Photos, $"{vehicle.Id}.jpg");
             return new QueryResultOne<VehicleDetail>(vehicle);
         }
     }

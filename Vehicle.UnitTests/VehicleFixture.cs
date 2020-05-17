@@ -21,7 +21,8 @@ namespace Vehicle.UnitTests
             MutationsHandler = new VehicleMutationsHandler(mutationsDbContext);
 
             VehicleStartup.Configure(
-                secret: String.Empty
+                secret: string.Empty,
+                pathFiles: string.Empty
             );
         }
 

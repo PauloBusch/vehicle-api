@@ -1,25 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Questor.Vehicle.API.Authentication;
 using Questor.Vehicle.Domain;
 using Questor.Vehicle.Domain.Mutations;
 using Questor.Vehicle.Domain.Queries;
-using Questor.Vehicle.Domain.Utils.Hash;
+using System.IO;
 
 namespace Vehicle.API
 {
@@ -71,7 +63,8 @@ namespace Vehicle.API
         {
             Environment = env.EnvironmentName;
             VehicleStartup.Configure(
-                secret: Configuration.GetValue<string>("Secret")    
+                secret: Configuration.GetValue<string>("Secret"),   
+                pathFiles: Path.Combine(env.ContentRootPath, Configuration.GetValue<string>("PathFiles")) 
             );
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();

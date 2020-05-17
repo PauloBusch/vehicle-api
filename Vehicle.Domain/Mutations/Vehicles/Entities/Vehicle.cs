@@ -24,6 +24,9 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
         [Required] [Column("id_color")] [ForeignKey("Color")]
         public EColor Color { get; private set; }
 
+        [Column("photo_date")]
+        public DateTime? PhotoDate { get; private set; }
+
         [Required] [Column("id_model")] [ForeignKey("Model")]
         public string ModelId { get; private set; }
         public virtual Model Model { get; private set; }
@@ -37,6 +40,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
             EFuel fuel,
             EColor color,
             string modelId,
+            DateTime? photoDate,
             Model model = null
         ) : this() {
             this.Id = string.IsNullOrWhiteSpace(id) ? RandomId.NewId() : id;
@@ -45,6 +49,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
                 fuel: fuel,
                 color: color,
                 modelId: modelId,
+                photoDate: photoDate,
                 model: model
             );
         }
@@ -54,12 +59,14 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
             EFuel fuel,
             EColor color,
             string modelId,
+            DateTime? photoDate,
             Model model = null
         ) {
             this.Year = year;
             this.Fuel = fuel;
             this.Color = color;
             this.ModelId = modelId;
+            this.PhotoDate = photoDate;
             this.Model = model;
         }
 

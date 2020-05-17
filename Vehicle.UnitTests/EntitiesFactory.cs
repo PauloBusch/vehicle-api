@@ -1,17 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Questor.Vehicle.Domain.Mutations;
+﻿using Questor.Vehicle.Domain.Mutations;
 using Questor.Vehicle.Domain.Mutations.Announcements.Entities;
 using Questor.Vehicle.Domain.Mutations.Brands.Entities;
 using Questor.Vehicle.Domain.Mutations.Models.Entities;
 using Questor.Vehicle.Domain.Mutations.Reservations.Entities;
 using Questor.Vehicle.Domain.Mutations.Users.Entities;
 using Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Enums;
-using Questor.Vehicle.Domain.Utils.Metadata;
 using Questor.Vehicle.Domain.Utils.Random;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Vehicle.UnitTests
 {
@@ -67,6 +62,7 @@ namespace Vehicle.UnitTests
                 fuel: fuel ?? EFuel.Gasoline,
                 color: color ?? EColor.Brown,
                 modelId: model.Id,
+                photoDate: null,
                 model: model
             );
 

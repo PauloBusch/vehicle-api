@@ -9,6 +9,7 @@ namespace Questor.Vehicle.Domain.Queries.Announcements.ViewModels
     {
         public string Id { get; set; }
         public DateTimeOffset? DateSale { get; set; }
+        public DateTimeOffset? PhotoDate { get; set; }
         public decimal PricePurchase { get; set; }
         public decimal PriceSale { get; set; }
         public int VehicleYear { get; set; }

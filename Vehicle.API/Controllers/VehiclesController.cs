@@ -5,6 +5,7 @@ using Questor.Vehicle.Domain.Mutations.Vehicles.Mutations;
 using Questor.Vehicle.Domain.Queries;
 using Questor.Vehicle.Domain.Queries.Vehicles;
 using Questor.Vehicle.Domain.Queries.Vehicles.ViewModels;
+using Questor.Vehicle.Domain.Utils.Enums;
 using Questor.Vehicle.Domain.Utils.Results;
 using System.Threading.Tasks;
 
@@ -53,6 +54,16 @@ namespace Questor.Vehicle.API.Controllers
         {
             query.Id = id;
             return GetResult(await _queriesHanlder.Handle(query));
+        }
+        
+        [AllowAnonymous]
+        [HttpGet("{id}/photo")]
+        public async Task<ActionResult> GetPhotoAsync(string id, [FromQuery] GetVehiclePhoto query)
+        {
+            query.Id = id;
+            var result = await _queriesHanlder.Handle(query);
+            if (result.Status != EStatusCode.Success) return NotFound(result);
+            return File(result.Data.Bytes, "image/jpeg", result.Data.FileName);
         }
 
         [HttpPost]

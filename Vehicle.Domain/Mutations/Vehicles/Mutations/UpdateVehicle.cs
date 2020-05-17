@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Enums;
 using Questor.Vehicle.Domain.Utils.Enums;
+using Questor.Vehicle.Domain.Utils.Files;
 using Questor.Vehicle.Domain.Utils.Interfaces;
 using Questor.Vehicle.Domain.Utils.Results;
 using System;
@@ -17,6 +18,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
         public EColor ColorId { get; set; }
         public EFuel FuelId { get; set; }
         public string ModelId { get; set; }
+        public string ImageBase64 { get; set; }
         
         public async Task<MutationResult> ValidateAsync(VehicleMutationsHandler handler)
         {
@@ -39,8 +41,16 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
                 year: Year,
                 color: ColorId,
                 fuel: FuelId,
-                modelId: ModelId
-            );
+                modelId: ModelId,
+                photoDate: string.IsNullOrWhiteSpace(ImageBase64)
+                    ? null
+                    : (Nullable<DateTime>)DateTime.Now
+            ); 
+            var fileName = $"{vehicle.Id}.jpg";
+            if (!string.IsNullOrWhiteSpace(ImageBase64))
+                await Base64.SaveAsync(ImageBase64, EPath.Photos, fileName);
+            else 
+                Base64.Remove(EPath.Photos, fileName);
             handler.DbContext.Update(vehicle);
             var rows = await handler.DbContext.SaveChangesAsync();
             return new MutationResult(rows);

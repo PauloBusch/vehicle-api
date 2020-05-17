@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Questor.Vehicle.Domain.Utils.Enums;
+using Questor.Vehicle.Domain.Utils.Files;
 using Questor.Vehicle.Domain.Utils.Interfaces;
 using Questor.Vehicle.Domain.Utils.Results;
 using System.Threading.Tasks;
@@ -22,6 +23,8 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
         {
             var vehicle = await handler.DbContext.Vehicles.FindAsync(Id);
             handler.DbContext.Remove(vehicle);
+            var fileName = $"{vehicle.Id}.jpg";
+            Base64.Remove(EPath.Photos, fileName);
             var rows = await handler.DbContext.SaveChangesAsync();
             return new MutationResult(rows);
         }
