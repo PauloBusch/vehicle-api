@@ -1,10 +1,15 @@
+-- USERS DATABASE -------------------------------------
+create user 'questor'@'%' identified by '123';
+grant all privileges on *.* to 'questor'@'%' with grant option;
+
 -- DATABASES ------------------------------------------
 create database questor_vehicle;
 use questor_vehicle;
 
--- USERS DATABASE -------------------------------------
-create user 'questor'@'%' identified by '123';
-grant all privileges on *.* to 'questor'@'%' with grant option;
+/*
+create database questor_vehicle_test;
+use questor_vehicle_test;
+*/
 
 -- FUNCTIONS -----------------------------------------
 DELIMITER $$
