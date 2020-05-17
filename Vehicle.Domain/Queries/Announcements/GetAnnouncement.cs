@@ -3,9 +3,6 @@ using Questor.Vehicle.Domain.Queries.Announcements.ViewModels;
 using Questor.Vehicle.Domain.Utils.Enums;
 using Questor.Vehicle.Domain.Utils.Interfaces;
 using Questor.Vehicle.Domain.Utils.Results;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Questor.Vehicle.Domain.Queries.Announcements
@@ -25,7 +22,9 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
             var sql = @"
                 select
                     a.id, a.price_purchase, a.price_sale, 
-                    a.date_sale, a.vehicle_id, a.vehicle_name 
+                    a.date_sale, a.vehicle_id, a.vehicle_name,
+                    a.brand_id, a.vehicle_brand_name as brand_name, 
+                    a.model_id, a.vehicle_model_name as model_name
                 from view_announcements_list a
                 where a.id=@Id
             ";

@@ -31,10 +31,7 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
             Assert.Equal(expectedStatus, status);
             if (expectedStatus == EStatusCode.Success) { 
                 var announcementResult = result.Data.FirstOrDefault(f => f.Id == announcement.Id);
-                var expectedName = $"{announcement.Vehicle.Model.Brand.Name} - {announcement.Vehicle.Model.Name}";
                 Assert.NotNull(announcementResult);
-                Assert.Equal(announcement.Id, announcementResult.Id);
-                Assert.Equal(expectedName, announcementResult.Name);
             }
         }
     }

@@ -139,7 +139,7 @@ insert into fuels(id, name) values
 -- Não materializadas
 create view view_vehicles_list as 
 select 
-	v.id, concat(b.name, ' - ', m.name) as name, v.year, v.date_creation, c.id as color_id, c.name as color_name, c.hex as color_hex,
+	v.id, concat(v.year, ' | ', c.name, ' | ', f.name) as name, v.year, v.date_creation, c.id as color_id, c.name as color_name, c.hex as color_hex,
 	f.id as fuel_id, f.name as fuel_name, b.id as brand_id, b.name as brand_name,
 	m.id as model_id, m.name as model_name
 from vehicles v
@@ -151,7 +151,7 @@ from vehicles v
 create view view_announcements_list as 
 select
 	a.id, a.date_sale, a.date_creation, a.price_purchase, a.price_sale, c.id as color_id, b.id as brand_id, m.id as model_id, f.name as vehicle_fuel_name,
-	v.id as vehicle_id, concat(b.name, ' - ', m.name) as vehicle_name, v.year as vehicle_year, m.name as vehicle_model_name, b.name as vehicle_brand_name,
+	v.id as vehicle_id, concat(v.year, ' | ', c.name, ' | ', f.name) as vehicle_name, v.year as vehicle_year, m.name as vehicle_model_name, b.name as vehicle_brand_name,
 	c.name as vehicle_color_name, c.hex as vehicle_color_hex, (a.price_sale - a.price_purchase) as profit
 from announcements a
 	join vehicles v on v.id=a.id_vehicle
@@ -164,14 +164,16 @@ create view view_reservations_list as
 select 
 	r.id, r.date_sale, r.date_creation, c.name as contact_name, c.phone as contact_phone,
 	m.name as vehicle_model_name, b.name as vehicle_brand_name,
-    a.id as announcement_id, concat(b.name, ' - ', m.name) as announcement_name
+    a.id as announcement_id, concat(v.year, ' | ', co.name, ' | ', f.name) as announcement_name
 from reservations r
 	join contacts c on c.id=r.id_contact
 	join announcements a on a.id=r.id_announcement
 	join vehicles v on v.id=a.id_vehicle
 	join models m on m.id=v.id_model
-	join brands b on b.id=m.id_brand;
-    
+	join brands b on b.id=m.id_brand
+	join colors co on co.id=v.id_color
+    join fuels f on f.id=v.id_fuel;
+        
 -- Materializadas (Não é suportado nativamente pelo MYSQL)
 
 -- TRIGGERS ------------------------------------------

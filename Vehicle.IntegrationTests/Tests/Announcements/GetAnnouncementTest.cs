@@ -37,13 +37,10 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
             if (expectedStatus == EStatusCode.Success) { 
                 var announcementResult = result.Data;
                 Assert.NotNull(announcementResult); 
-                var vehicle = announcement.Vehicle;
-                var expectedName = $"{vehicle.Model.Brand.Name} - {vehicle.Model.Name}";
                 Assert.Equal(announcement.PricePurchase, announcementResult.PricePurchase);
                 Assert.Equal(announcement.PriceSale, announcementResult.PriceSale);
                 Assert.Equal(announcement.DateSale, announcementResult.DateSale);
                 Assert.Equal(announcement.VehicleId, announcementResult.VehicleId);
-                Assert.Equal(expectedName, announcementResult.VehicleName);
             }
         }
     }
