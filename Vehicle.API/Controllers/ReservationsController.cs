@@ -6,9 +6,6 @@ using Questor.Vehicle.Domain.Queries;
 using Questor.Vehicle.Domain.Queries.Reservations;
 using Questor.Vehicle.Domain.Queries.Reservations.ViewModels;
 using Questor.Vehicle.Domain.Utils.Results;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Questor.Vehicle.API.Controllers

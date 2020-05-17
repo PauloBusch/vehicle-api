@@ -13,7 +13,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
     public class SellVehicle : IMutation
     {
         public string Id { get; set; }
-        public DateTime? DateSale { get; set; }
+        public DateTimeOffset? DateSale { get; set; }
 
         public async Task<MutationResult> ValidateAsync(VehicleMutationsHandler handler)
         {
@@ -29,7 +29,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
         public async Task<MutationResult> ExecuteAsync(VehicleMutationsHandler handler)
         {
             var vehicle = await handler.DbContext.Vehicles.FindAsync(Id);
-            vehicle.Sell(DateSale.Value);
+            vehicle.Sell(DateSale.Value.Date);
             handler.DbContext.Update(vehicle);
             var rows = await handler.DbContext.SaveChangesAsync();
             return new MutationResult(rows);

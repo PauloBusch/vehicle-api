@@ -22,7 +22,6 @@ namespace Questor.Vehicle.API.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public async Task<ActionResult<QueryResultList<ModelList>>> ListAsync([FromQuery] ListModels query)
         {
             return GetResult(await _queriesHanlder.Handle(query));
@@ -35,6 +34,7 @@ namespace Questor.Vehicle.API.Controllers
         }
 
         [HttpGet("select")]
+        [AllowAnonymous]
         public async Task<ActionResult<QueryResultList<ModelSelectList>>> GetSelectListAsync([FromQuery] ListModelsSelect query)
         {
             return GetResult(await _queriesHanlder.Handle(query));

@@ -107,7 +107,7 @@ create table reservations (
 	id char(8) not null,
     id_announcement char(8) not null,
     id_contact char(8) not null,
-    date_sale datetime null,
+    date_sale date null,
     date_creation datetime default current_timestamp,
     
     constraint PK_reservations primary key(id),

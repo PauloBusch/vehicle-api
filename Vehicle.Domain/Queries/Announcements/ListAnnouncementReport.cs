@@ -3,10 +3,8 @@ using Questor.Vehicle.Domain.Queries.Announcements.ViewModels;
 using Questor.Vehicle.Domain.Utils.Enums;
 using Questor.Vehicle.Domain.Utils.Interfaces;
 using Questor.Vehicle.Domain.Utils.Results;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using System;
 
 namespace Questor.Vehicle.Domain.Queries.Announcements
 {

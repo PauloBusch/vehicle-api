@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Questor.Vehicle.Domain.Mutations;
-using Questor.Vehicle.Domain.Mutations.Announcements.Mutations;
-using Questor.Vehicle.Domain.Queries;
+﻿using Questor.Vehicle.Domain.Mutations;
+using Microsoft.AspNetCore.Authorization;
 using Questor.Vehicle.Domain.Queries.Announcements;
+using Questor.Vehicle.Domain.Mutations.Announcements.Mutations;
 using Questor.Vehicle.Domain.Queries.Announcements.ViewModels;
 using Questor.Vehicle.Domain.Utils.Results;
+using Questor.Vehicle.Domain.Queries;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Questor.Vehicle.API.Controllers

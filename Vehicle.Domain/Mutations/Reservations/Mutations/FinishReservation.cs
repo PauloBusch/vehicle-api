@@ -2,18 +2,16 @@
 using Questor.Vehicle.Domain.Utils.Enums;
 using Questor.Vehicle.Domain.Utils.Interfaces;
 using Questor.Vehicle.Domain.Utils.Results;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
+using System;
 
 namespace Questor.Vehicle.Domain.Mutations.Reservations.Mutations
 {
     public class FinishReservation : IMutation
     {
         public string Id { get; set; }
-        public DateTime? DateSale { get; set; }
+        public DateTimeOffset? DateSale { get; set; }
 
         public async Task<MutationResult> ValidateAsync(VehicleMutationsHandler handler)
         {
@@ -30,8 +28,8 @@ namespace Questor.Vehicle.Domain.Mutations.Reservations.Mutations
                 .Include(i => i.Announcement)
                 .Where(r => r.Id == Id)
                 .FirstOrDefaultAsync();
-            reservation.SetDateSale(DateSale.Value);
-            reservation.Announcement.SetDateSale(DateSale.Value);
+            reservation.SetDateSale(DateSale.Value.Date);
+            reservation.Announcement.SetDateSale(DateSale.Value.Date);
             handler.DbContext.Update(reservation);
             var rows = await handler.DbContext.SaveChangesAsync();
             return new MutationResult(rows);
