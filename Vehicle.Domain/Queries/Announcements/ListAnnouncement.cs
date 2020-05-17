@@ -55,8 +55,8 @@ namespace Questor.Vehicle.Domain.Queries.Announcements
                 -- paginate rows
                 select
                     a.id, a.date_creation, a.date_sale, a.price_purchase, a.price_sale,
-                    a.vehicle_year, a.vehicle_model_name, a.vehicle_brand_name, a.vehicle_fuel_name,
-                    a.vehicle_color_name, a.vehicle_color_hex, a.photo_date
+                    a.vehicle_id, a.vehicle_year, a.vehicle_model_name, a.vehicle_brand_name, a.vehicle_fuel_name,
+                    a.vehicle_color_name, a.vehicle_color_hex, a.photo_date as vehicle_photo_date
                 {sqlBody}
                 order by {sortColumnIndex} {sortOrderStr}
                 limit @Offset, @Limit;

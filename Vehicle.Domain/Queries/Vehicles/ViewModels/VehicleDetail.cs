@@ -10,6 +10,7 @@ namespace Questor.Vehicle.Domain.Queries.Vehicles.ViewModels
     {
         public string Id { get; set; }
         public int Year { get; set; }
+        public DateTime? PhotoDate { get; set; }
         public string ImageBase64 { get; set; }
         public EColor ColorId { get; set; }
         public string ColorName { get; set; }

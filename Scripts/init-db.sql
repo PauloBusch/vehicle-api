@@ -142,7 +142,7 @@ create view view_vehicles_list as
 select 
 	v.id, concat(v.year, ' | ', c.name, ' | ', f.name) as name, v.year, v.date_creation, c.id as color_id, c.name as color_name, c.hex as color_hex,
 	f.id as fuel_id, f.name as fuel_name, b.id as brand_id, b.name as brand_name,
-	m.id as model_id, m.name as model_name
+	m.id as model_id, m.name as model_name, v.photo_date
 from vehicles v
 	join fuels f on f.id=v.id_fuel
 	join colors c on c.id=v.id_color

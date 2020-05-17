@@ -22,14 +22,14 @@ namespace Questor.Vehicle.Domain.Queries.Vehicles
         {
             var sql = @"
                 select 
-                    v.id, v.year, v.color_id, v.color_name, v.color_hex,
+                    v.id, v.year, v.color_id, v.color_name, v.color_hex, photo_date,
                     v.fuel_id, v.fuel_name, v.brand_id, v.brand_name, v.model_id, v.model_name
                 from view_vehicles_list v
                 where v.id=@Id
             ";
             var vehicle = await handler.DbConnection.QueryFirstOrDefaultAsync<VehicleDetail>(sql, new { Id });
             if (vehicle == null) return new QueryResultOne<VehicleDetail>(EStatusCode.NotFound, $"Vehicle with {nameof(Id)} does not exists");
-            vehicle.ImageBase64 = await Base64.LoadBase64Async(EPath.Photos, $"{vehicle.Id}.jpg");
+            if (vehicle.PhotoDate != null) vehicle.ImageBase64 = await Base64.LoadBase64Async(EPath.Photos, $"{vehicle.Id}.jpg");
             return new QueryResultOne<VehicleDetail>(vehicle);
         }
     }
