@@ -7,6 +7,9 @@
  - Buildar a Solution
  - Iniciar a Vehicle.API
 
+## Documentação
+ - https://localhost:44349/index.html
+
 ## Arquitetura
 Utiliza uma estrutura baseada em CQRS:
 - Queries: Consultas utilizando o dapper para queries mais limpas
