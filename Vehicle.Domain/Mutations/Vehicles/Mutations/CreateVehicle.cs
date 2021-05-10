@@ -1,14 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Questor.Vehicle.Domain.Mutations.Brands.Entities;
-using Questor.Vehicle.Domain.Mutations.Models.Entities;
 using Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Enums;
 using Questor.Vehicle.Domain.Utils.Enums;
 using Questor.Vehicle.Domain.Utils.Files;
 using Questor.Vehicle.Domain.Utils.Interfaces;
 using Questor.Vehicle.Domain.Utils.Results;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
@@ -17,6 +13,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
     {
         public string Id { get; set; }
         public int Year { get; set; }
+        public int? Amount { get; set; }
         public EFuel FuelId { get; set; }
         public EColor ColorId { get; set; }
         public string ModelId { get; set; }
@@ -39,6 +36,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
             var vehicle = new Entities.Vehicle(
                 id: Id,
                 year: Year,
+                amount: Amount,
                 fuel: FuelId,
                 color: ColorId,
                 modelId: ModelId,

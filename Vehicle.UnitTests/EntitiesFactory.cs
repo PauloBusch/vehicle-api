@@ -58,6 +58,7 @@ namespace Vehicle.UnitTests
             var model = NewModel(id: modelId, brandId: brandId).Get();
             var vehicle = new Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Vehicle(
                 id: id ?? RandomId.NewId(),
+                amount: 1,
                 year: year ?? 2010,
                 fuel: fuel ?? EFuel.Gasoline,
                 color: color ?? EColor.Brown,

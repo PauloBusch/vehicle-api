@@ -5,8 +5,6 @@ using Questor.Vehicle.Domain.Utils.Files;
 using Questor.Vehicle.Domain.Utils.Interfaces;
 using Questor.Vehicle.Domain.Utils.Results;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
@@ -15,6 +13,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
     {
         public string Id { get; set; }
         public int Year { get; set; }
+        public int? Amount { get; set; }
         public EColor ColorId { get; set; }
         public EFuel FuelId { get; set; }
         public string ModelId { get; set; }
@@ -39,6 +38,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
             var vehicle = await handler.DbContext.Vehicles.FindAsync(Id);
             vehicle.SetData(
                 year: Year,
+                amount: Amount,
                 color: ColorId,
                 fuel: FuelId,
                 modelId: ModelId,

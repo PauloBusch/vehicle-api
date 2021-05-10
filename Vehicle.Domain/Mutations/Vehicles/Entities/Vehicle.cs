@@ -1,11 +1,10 @@
-﻿using Questor.Vehicle.Domain.Mutations.Brands.Entities;
+﻿using Questor.Vehicle.Domain.Mutations.Announcements.Entities;
 using Questor.Vehicle.Domain.Mutations.Models.Entities;
 using Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Enums;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 using Questor.Vehicle.Domain.Utils.Random;
-using Questor.Vehicle.Domain.Mutations.Announcements.Entities;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
 {
@@ -17,6 +16,8 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
         
         [Required]
         public int Year { get; private set; }
+
+        public int? Amount { get; private set; }
 
         [Required] [Column("id_fuel")] [ForeignKey("Fuel")]
         public EFuel Fuel { get; private set; }
@@ -37,6 +38,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
         public Vehicle(
             string id,
             int year,
+            int? amount,
             EFuel fuel,
             EColor color,
             string modelId,
@@ -46,6 +48,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
             this.Id = string.IsNullOrWhiteSpace(id) ? RandomId.NewId() : id;
             this.SetData(
                 year: year,
+                amount: amount,
                 fuel: fuel,
                 color: color,
                 modelId: modelId,
@@ -56,6 +59,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
 
         public void SetData(
             int year,
+            int? amount,
             EFuel fuel,
             EColor color,
             string modelId,
@@ -63,6 +67,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Entities
             Model model = null
         ) {
             this.Year = year;
+            this.Amount = amount;
             this.Fuel = fuel;
             this.Color = color;
             this.ModelId = modelId;
