@@ -2,8 +2,8 @@
 ## Framework
 - NetCore 3.1
 
-## Como iniciar
- - Rodar o scripts Scripts/init-db.sql em um banco MySql
+## Procedimentos
+ - Rodar o script Scripts/init-db.sql em um banco MySql
  - Buildar a Solution
  - Iniciar a Vehicle.API
 
