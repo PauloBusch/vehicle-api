@@ -124,7 +124,7 @@ alter table reservations add index IDX_reservations_date_sale(date_sale);
 
 -- DEFAULT VALUES ------------------------------------
 insert into users(id, login, name, password) values
-(new_id(), 'joão', 'João', 'InddsksGcJidlvfsjkvTdg==');
+(new_id(), 'joão', 'João', 'a+miRvERjdKWfb576v0gzw==');
 
 insert into colors(id, name, hex) values
 (1, 'Branco', '#ffffff'),
