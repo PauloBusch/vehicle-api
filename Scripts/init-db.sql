@@ -90,7 +90,7 @@ create table announcements(
 	id char(8) not null,
 	price_purchase decimal(8, 2) not null,
 	price_sale decimal(8, 2) not null,
-	date_sale date null,
+	date_sale datetime null,
 	id_vehicle char(8) not null,
     date_creation datetime default current_timestamp,
 	
@@ -113,7 +113,7 @@ create table reservations (
 	id char(8) not null,
     id_announcement char(8) not null,
     id_contact char(8) not null,
-    date_sale date null,
+    date_sale datetime null,
     date_creation datetime default current_timestamp,
     
     constraint PK_reservations primary key(id),
