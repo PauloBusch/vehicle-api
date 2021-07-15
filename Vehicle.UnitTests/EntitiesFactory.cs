@@ -52,6 +52,7 @@ namespace Vehicle.UnitTests
             string modelId = null,
             string brandId = null,
             int? year = null,
+            string board = null,
             EFuel? fuel = null,
             EColor? color = null
         ) {
@@ -59,6 +60,7 @@ namespace Vehicle.UnitTests
             var vehicle = new Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Vehicle(
                 id: id ?? RandomId.NewId(),
                 year: year ?? 2010,
+                board: board ?? RandomId.NewId(),
                 fuel: fuel ?? EFuel.Gasoline,
                 color: color ?? EColor.Brown,
                 modelId: model.Id,

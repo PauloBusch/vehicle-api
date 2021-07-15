@@ -22,9 +22,9 @@ namespace Vehicle.UnitTests.Tests.Vehicles
             yield return new object[] { EStatusCode.InvalidData, new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex } };
             yield return new object[] { EStatusCode.InvalidData, new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black } };
             yield return new object[] { EStatusCode.InvalidData, new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010 } };
-            yield return new object[] { EStatusCode.NotFound,    new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, ModelId = RandomId.NewId() } };
-            yield return new object[] { EStatusCode.NotFound,    new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, ModelId = RandomId.NewId() }, false };
-            yield return new object[] { EStatusCode.Success,     new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, ModelId = RandomId.NewId() }, true  };
+            yield return new object[] { EStatusCode.NotFound,    new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, ModelId = RandomId.NewId(), Board = RandomId.NewId() } };
+            yield return new object[] { EStatusCode.NotFound,    new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, ModelId = RandomId.NewId(), Board = RandomId.NewId() }, false };
+            yield return new object[] { EStatusCode.Success,     new UpdateVehicle { Id = RandomId.NewId(), FuelId = EFuel.Flex, ColorId = EColor.Black, Year = 2010, ModelId = RandomId.NewId(), Board = RandomId.NewId() }, true  };
         }
 
         [Theory]
@@ -47,6 +47,7 @@ namespace Vehicle.UnitTests.Tests.Vehicles
                     .FirstOrDefaultAsync();
                 Assert.NotNull(vehicleDb);
                 Assert.Equal(mutation.Year, vehicleDb.Year);
+                Assert.Equal(mutation.Board, vehicleDb.Board);
                 Assert.Equal(mutation.ColorId, vehicleDb.Color);
                 Assert.Equal(mutation.FuelId, vehicleDb.Fuel);
                 Assert.Equal(mutation.ModelId, vehicleDb.Model.Id);

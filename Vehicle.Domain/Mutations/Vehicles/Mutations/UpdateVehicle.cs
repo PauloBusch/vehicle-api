@@ -5,8 +5,6 @@ using Questor.Vehicle.Domain.Utils.Files;
 using Questor.Vehicle.Domain.Utils.Interfaces;
 using Questor.Vehicle.Domain.Utils.Results;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
@@ -15,6 +13,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
     {
         public string Id { get; set; }
         public int Year { get; set; }
+        public string Board { get; set; }
         public EColor ColorId { get; set; }
         public EFuel FuelId { get; set; }
         public string ModelId { get; set; }
@@ -24,6 +23,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
         {
             if (string.IsNullOrWhiteSpace(Id)) return new MutationResult(EStatusCode.InvalidData, $"Parameter {nameof(Id)} is required");
             if (Year <= 1950) return new MutationResult(EStatusCode.InvalidData, $"Paramter {nameof(Year)} require upper 150");
+            if (string.IsNullOrWhiteSpace(Board)) return new MutationResult(EStatusCode.InvalidData, $"Parameter {nameof(Board)} is required");
             if (!Enum.IsDefined(typeof(EFuel), FuelId)) return new MutationResult(EStatusCode.InvalidData, $"Parameter {nameof(FuelId)} is required");
             if (!Enum.IsDefined(typeof(EColor), ColorId)) return new MutationResult(EStatusCode.InvalidData, $"Parameter {nameof(ColorId)} is required");
             if (string.IsNullOrWhiteSpace(ModelId)) return new MutationResult(EStatusCode.InvalidData, $"Parameter {nameof(ModelId)} is required");
@@ -39,12 +39,13 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
             var vehicle = await handler.DbContext.Vehicles.FindAsync(Id);
             vehicle.SetData(
                 year: Year,
+                board: Board,
                 color: ColorId,
                 fuel: FuelId,
                 modelId: ModelId,
                 photoDate: string.IsNullOrWhiteSpace(ImageBase64)
                     ? null
-                    : (Nullable<DateTime>)DateTime.Now
+                    : (DateTime?)DateTime.Now
             ); 
             var fileName = $"{vehicle.Id}.jpg";
             if (!string.IsNullOrWhiteSpace(ImageBase64))

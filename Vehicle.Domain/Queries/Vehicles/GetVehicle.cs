@@ -22,7 +22,7 @@ namespace Questor.Vehicle.Domain.Queries.Vehicles
         {
             var sql = @"
                 select 
-                    v.id, v.year, v.color_id, v.color_name, v.color_hex, photo_date,
+                    v.id, v.year, v.color_id, v.color_name, v.color_hex, photo_date, v.board,
                     v.fuel_id, v.fuel_name, v.brand_id, v.brand_name, v.model_id, v.model_name
                 from view_vehicles_list v
                 where v.id=@Id

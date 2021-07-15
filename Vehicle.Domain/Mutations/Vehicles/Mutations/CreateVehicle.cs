@@ -1,14 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Questor.Vehicle.Domain.Mutations.Brands.Entities;
-using Questor.Vehicle.Domain.Mutations.Models.Entities;
 using Questor.Vehicle.Domain.Mutations.Vehicles.Entities.Enums;
 using Questor.Vehicle.Domain.Utils.Enums;
 using Questor.Vehicle.Domain.Utils.Files;
 using Questor.Vehicle.Domain.Utils.Interfaces;
 using Questor.Vehicle.Domain.Utils.Results;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
@@ -17,6 +13,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
     {
         public string Id { get; set; }
         public int Year { get; set; }
+        public string Board { get; set; }
         public EFuel FuelId { get; set; }
         public EColor ColorId { get; set; }
         public string ModelId { get; set; }
@@ -26,6 +23,7 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
         {
             if (string.IsNullOrWhiteSpace(Id)) return new MutationResult(EStatusCode.InvalidData, $"Parameter {nameof(Id)} is required");
             if (Year <= 1950) return new MutationResult(EStatusCode.InvalidData, $"Paramter {nameof(Year)} require upper 150");
+            if (string.IsNullOrWhiteSpace(Board)) return new MutationResult(EStatusCode.InvalidData, $"Parameter {nameof(Board)} is required");
             if (!Enum.IsDefined(typeof(EFuel), FuelId)) return new MutationResult(EStatusCode.InvalidData, $"Parameter {nameof(FuelId)} is required");
             if (!Enum.IsDefined(typeof(EColor), ColorId)) return new MutationResult(EStatusCode.InvalidData, $"Parameter {nameof(ColorId)} is required");
             if (string.IsNullOrWhiteSpace(ModelId)) return new MutationResult(EStatusCode.InvalidData, $"Parameter {nameof(ModelId)} is required");
@@ -39,12 +37,13 @@ namespace Questor.Vehicle.Domain.Mutations.Vehicles.Mutations
             var vehicle = new Entities.Vehicle(
                 id: Id,
                 year: Year,
+                board: Board,
                 fuel: FuelId,
                 color: ColorId,
                 modelId: ModelId,
                 photoDate: string.IsNullOrWhiteSpace(ImageBase64) 
                     ? null 
-                    : (Nullable<DateTime>)DateTime.Now
+                    : (DateTime?)DateTime.Now
             );
 
             if (!string.IsNullOrWhiteSpace(ImageBase64))

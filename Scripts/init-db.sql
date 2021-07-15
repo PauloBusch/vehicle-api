@@ -73,6 +73,7 @@ alter table fuels add unique index UQ_fuels_name(name);
 create table vehicles(
 	id char(8) not null,
 	year int not null,   
+	board varchar(50) not null,
 	id_fuel int not null,
 	id_color int not null,
 	id_model char(8) not null,
@@ -145,9 +146,9 @@ insert into fuels(id, name) values
 -- Não materializadas
 create view view_vehicles_list as 
 select 
-	v.id, concat(v.year, ' | ', c.name, ' | ', f.name) as name, v.year, v.date_creation, c.id as color_id, c.name as color_name, c.hex as color_hex,
+	v.id, concat(v.board, ' - ', v.year, ' | ', c.name, ' | ', f.name) as name, v.year, v.date_creation, c.id as color_id, c.name as color_name, c.hex as color_hex,
 	f.id as fuel_id, f.name as fuel_name, b.id as brand_id, b.name as brand_name,
-	m.id as model_id, m.name as model_name, v.photo_date
+	m.id as model_id, m.name as model_name, v.photo_date, v.board
 from vehicles v
 	join fuels f on f.id=v.id_fuel
 	join colors c on c.id=v.id_color
