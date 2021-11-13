@@ -1,8 +1,5 @@
 ﻿using Questor.Vehicle.Domain.Utils.Enums;
 using Questor.Vehicle.Domain.Utils.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Questor.Vehicle.Domain.Utils.Results
 {
@@ -10,6 +7,8 @@ namespace Questor.Vehicle.Domain.Utils.Results
         where T : IViewModel
     {
         public T Data { get; private set; }
+
+        protected QueryResultOne() { }
 
         public QueryResultOne(T data)
         {

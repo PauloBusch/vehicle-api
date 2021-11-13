@@ -23,32 +23,32 @@ namespace Questor.Vehicle.API.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<QueryResultList<BrandList>>> ListAsync([FromQuery] ListBrands query) {
+        public async Task<QueryResultList<BrandList>> ListAsync([FromQuery] ListBrands query) {
             return GetResult(await _queriesHanlder.Handle(query));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<QueryResultOne<BrandDetail>>> GetAsync(string id, [FromQuery] GetBrand query)
+        public async Task<QueryResultOne<BrandDetail>> GetAsync(string id, [FromQuery] GetBrand query)
         {
             query.Id = id;
             return GetResult(await _queriesHanlder.Handle(query));
         }
 
         [HttpPost]
-        public async Task<ActionResult<MutationResult>> CreateAsync([FromBody] CreateBrand mutation)
+        public async Task<MutationResult> CreateAsync([FromBody] CreateBrand mutation)
         {
             return GetResult(await _mutationsHanlder.Handle(mutation));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<MutationResult>> CreateAsync(string id, [FromBody] UpdateBrand mutation)
+        public async Task<MutationResult> UpdateAsync(string id, [FromBody] UpdateBrand mutation)
         {
             mutation.Id = id;
             return GetResult(await _mutationsHanlder.Handle(mutation));
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<MutationResult>> CreateAsync(string id)
+        public async Task<MutationResult> DeleteAsync(string id)
         {
             var mutation = new DeleteBrand { Id = id };
             return GetResult(await _mutationsHanlder.Handle(mutation));

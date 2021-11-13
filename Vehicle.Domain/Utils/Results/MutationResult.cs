@@ -1,8 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Questor.Vehicle.Domain.Utils.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Questor.Vehicle.Domain.Utils.Results
 {
@@ -12,6 +9,8 @@ namespace Questor.Vehicle.Domain.Utils.Results
         public int TotalRows { get; private set; }
         public dynamic Data { get; private set; }
         public string Message { get; private set; }
+
+        protected MutationResult() { }
 
         public MutationResult (int totalRows)
         {

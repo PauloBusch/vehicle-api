@@ -28,8 +28,8 @@ namespace Questor.Vehicle.Domain.Mutations.Reservations.Mutations
                 .Include(i => i.Announcement)
                 .Where(r => r.Id == Id)
                 .FirstOrDefaultAsync();
-            reservation.SetDateSale(DateSale.Value.Date);
-            reservation.Announcement.SetDateSale(DateSale.Value.Date);
+            reservation.SetDateSale(DateSale.Value.LocalDateTime);
+            reservation.Announcement.SetDateSale(DateSale.Value.LocalDateTime);
             handler.DbContext.Update(reservation);
             var rows = await handler.DbContext.SaveChangesAsync();
             return new MutationResult(rows);

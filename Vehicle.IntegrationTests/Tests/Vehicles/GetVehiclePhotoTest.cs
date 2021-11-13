@@ -55,7 +55,8 @@ namespace Vehicle.IntegrationTests.Tests.Vehicles
                 FuelId = EFuel.Flex,
                 ColorId = EColor.Black,
                 Year = 2010,
-                ModelId = model.Id
+                ModelId = model.Id,
+                Board = RandomId.NewId()
             };
             createVehicle.ImageBase64 = Convert.ToBase64String(imageBytes);
             await MutationsHandler.Handle(createVehicle);

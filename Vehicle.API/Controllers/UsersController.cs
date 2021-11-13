@@ -24,7 +24,7 @@ namespace Questor.Vehicle.API.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult<MutationResult>> LoginAsync([FromBody] LoginUser mutation)
+        public async Task<MutationResult> LoginAsync([FromBody] LoginUser mutation)
         {
             return GetResult(await _mutationsHanlder.Handle(mutation));
         }

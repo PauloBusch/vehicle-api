@@ -22,38 +22,38 @@ namespace Questor.Vehicle.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<QueryResultList<ModelList>>> ListAsync([FromQuery] ListModels query)
+        public async Task<QueryResultList<ModelList>> ListAsync([FromQuery] ListModels query)
         {
             return GetResult(await _queriesHanlder.Handle(query));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<QueryResultOne<ModelDetail>>> GetAsync(string id, [FromQuery] GetModel query) { 
+        public async Task<QueryResultOne<ModelDetail>> GetAsync(string id, [FromQuery] GetModel query) { 
             query.Id = id;
             return GetResult(await _queriesHanlder.Handle(query));
         }
 
         [HttpGet("select")]
         [AllowAnonymous]
-        public async Task<ActionResult<QueryResultList<ModelSelectList>>> GetSelectListAsync([FromQuery] ListModelsSelect query)
+        public async Task<QueryResultList<ModelSelectList>> GetSelectListAsync([FromQuery] ListModelsSelect query)
         {
             return GetResult(await _queriesHanlder.Handle(query));
         }
 
         [HttpPost]
-        public async Task<ActionResult<MutationResult>> CreateAsync([FromBody] CreateModel mutation) { 
+        public async Task<MutationResult> CreateAsync([FromBody] CreateModel mutation) { 
             return GetResult(await _mutationsHanlder.Handle(mutation));    
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<MutationResult>> UpdateAsync(string id, [FromBody] UpdateModel mutation)
+        public async Task<MutationResult> UpdateAsync(string id, [FromBody] UpdateModel mutation)
         {
             mutation.Id = id;
             return GetResult(await _mutationsHanlder.Handle(mutation));
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<MutationResult>> DeleteAsync(string id) { 
+        public async Task<MutationResult> DeleteAsync(string id) { 
             var mutation = new DeleteModel{ Id = id };
             return GetResult(await _mutationsHanlder.Handle(mutation));
         }

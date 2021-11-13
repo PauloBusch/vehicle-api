@@ -15,10 +15,7 @@ namespace Vehicle.IntegrationTests.Tests.Announcements
         public static IEnumerable<object[]> ListAnnouncementReportData()
         {
             yield return new object[] { EStatusCode.Success,     new ListAnnouncementReport { } };
-            yield return new object[] { EStatusCode.InvalidData, new ListAnnouncementReport { StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(-1) } };
-            yield return new object[] { EStatusCode.Success,     new ListAnnouncementReport { StartDate = DateTime.Now } };
-            yield return new object[] { EStatusCode.Success,     new ListAnnouncementReport { EndDate = DateTime.Now } };
-            yield return new object[] { EStatusCode.Success,     new ListAnnouncementReport { StartDate = DateTime.Now, EndDate = DateTime.Now } };
+            yield return new object[] { EStatusCode.InvalidData, new ListAnnouncementReport { StartDate = DateTime.Now.Date, EndDate = DateTime.Now.AddDays(-1).Date } };
         }
 
         [Theory]

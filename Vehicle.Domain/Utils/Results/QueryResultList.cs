@@ -3,7 +3,6 @@ using Questor.Vehicle.Domain.Utils.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Questor.Vehicle.Domain.Utils.Results
 {
@@ -12,6 +11,8 @@ namespace Questor.Vehicle.Domain.Utils.Results
     {
         public T[] Data { get; private set; }
         public Int64 TotalRows { get; private set; }
+
+        protected QueryResultList() { }
 
         public QueryResultList(IEnumerable<T> data, Int64? totalRows = null)
         {

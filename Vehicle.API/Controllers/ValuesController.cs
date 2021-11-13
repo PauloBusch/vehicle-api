@@ -25,10 +25,10 @@ namespace Questor.Vehicle.API.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<string>> GetAsync()
+        public async Task<string> GetAsync()
         {
             var serverId = await GetPublicIpAsync();
-            var clientId = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+            var clientId = Request.HttpContext.Connection.RemoteIpAddress?.ToString();
             var mutationsDbResult = await _mutationsHanlder.DbContext.CheckConnectionAsync();
             var mutationsDbName = _mutationsHanlder.DbContext.Database.GetDbConnection().Database;
             var queriesDbResult = await _queriesHanlder.DbContext.CheckConnectionAsync();

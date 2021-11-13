@@ -23,34 +23,34 @@ namespace Questor.Vehicle.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<QueryResultList<VechicleList>>> ListAsync([FromQuery] ListVehicles query)
+        public async Task<QueryResultList<VechicleList>> ListAsync([FromQuery] ListVehicles query)
         {
             return GetResult(await _queriesHanlder.Handle(query));
         }
 
         [AllowAnonymous]
         [HttpGet("select")]
-        public async Task<ActionResult<QueryResultList<VehicleSelectList>>> ListSelectAsync([FromQuery] ListVehiclesSelect query)
+        public async Task<QueryResultList<VehicleSelectList>> ListSelectAsync([FromQuery] ListVehiclesSelect query)
         {
             return GetResult(await _queriesHanlder.Handle(query));
         }
 
         [AllowAnonymous]
         [HttpGet("colors")]
-        public async Task<ActionResult<QueryResultList<ColorList>>> ListColorsAsync([FromQuery] ListColors query)
+        public async Task<QueryResultList<ColorList>> ListColorsAsync([FromQuery] ListColors query)
         {
             return GetResult(await _queriesHanlder.Handle(query));
         }
 
         [AllowAnonymous]
         [HttpGet("fuels")]
-        public async Task<ActionResult<QueryResultList<FuelList>>> ListFuelsAsync([FromQuery] ListFuels query)
+        public async Task<QueryResultList<FuelList>> ListFuelsAsync([FromQuery] ListFuels query)
         {
             return GetResult(await _queriesHanlder.Handle(query));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<QueryResultOne<VehicleDetail>>> GetAsync(string id, [FromQuery] GetVehicle query)
+        public async Task<QueryResultOne<VehicleDetail>> GetAsync(string id, [FromQuery] GetVehicle query)
         {
             query.Id = id;
             return GetResult(await _queriesHanlder.Handle(query));
@@ -67,26 +67,26 @@ namespace Questor.Vehicle.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<MutationResult>> CreateAsync([FromBody] CreateVehicle mutation)
+        public async Task<MutationResult> CreateAsync([FromBody] CreateVehicle mutation)
         {
             return GetResult(await _mutationsHanlder.Handle(mutation));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<MutationResult>> UpdateAsync(string id, [FromBody] UpdateVehicle mutation) { 
+        public async Task<MutationResult> UpdateAsync(string id, [FromBody] UpdateVehicle mutation) { 
             mutation.Id = id;
             return GetResult(await _mutationsHanlder.Handle(mutation));
         }
 
         [HttpPatch("{id}/sell")]
-        public async Task<ActionResult<MutationResult>> SellAsync(string id, [FromBody] SellVehicle mutation)
+        public async Task<MutationResult> SellAsync(string id, [FromBody] SellVehicle mutation)
         {
             mutation.Id = id;
             return GetResult(await _mutationsHanlder.Handle(mutation));
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<MutationResult>> DeleteAsync(string id) { 
+        public async Task<MutationResult> DeleteAsync(string id) { 
             var mutation = new DeleteVehicle { Id = id };
             return GetResult(await _mutationsHanlder.Handle(mutation));
         }

@@ -22,12 +22,12 @@ namespace Questor.Vehicle.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<QueryResultList<ReservationList>>> ListAsync([FromQuery] ListReservations query) { 
+        public async Task<QueryResultList<ReservationList>> ListAsync([FromQuery] ListReservations query) { 
             return GetResult(await _queriesHanlder.Handle(query));    
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<QueryResultOne<ReservationDetail>>> GetAsync(string id, [FromQuery] GetReservation query)
+        public async Task<QueryResultOne<ReservationDetail>> GetAsync(string id, [FromQuery] GetReservation query)
         {
             query.Id = id;
             return GetResult(await _queriesHanlder.Handle(query));
@@ -35,27 +35,27 @@ namespace Questor.Vehicle.API.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult<MutationResult>> CreateAsync([FromBody] CreateReservation mutation)
+        public async Task<MutationResult> CreateAsync([FromBody] CreateReservation mutation)
         {
             return GetResult(await _mutationsHanlder.Handle(mutation));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<MutationResult>> PutAsync(string id, [FromBody] UpdateReservation mutation)
+        public async Task<MutationResult> PutAsync(string id, [FromBody] UpdateReservation mutation)
         {
             mutation.Id = id;
             return GetResult(await _mutationsHanlder.Handle(mutation));
         }
 
         [HttpPatch("{id}/finish")]
-        public async Task<ActionResult<MutationResult>> FinshAsync(string id, [FromBody] FinishReservation mutation)
+        public async Task<MutationResult> FinshAsync(string id, [FromBody] FinishReservation mutation)
         {
             mutation.Id = id;
             return GetResult(await _mutationsHanlder.Handle(mutation));
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<MutationResult>> DeleteAsync(string id) { 
+        public async Task<MutationResult> DeleteAsync(string id) { 
             var mutation = new DeleteReservation { Id = id };
             return GetResult(await _mutationsHanlder.Handle(mutation));
         }
